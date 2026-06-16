@@ -5,7 +5,11 @@ pub mod runtime;
 pub mod bayan_engine;
 pub mod interpreter;
 pub mod parser;
+pub mod server;
+pub mod ai;
+pub mod game;
+pub mod database;
 
-pub const BAYAN_VERSION: &str = "0.1.0";
+pub const BAYAN_VERSION: &str = "0.2.0";
 pub const BAYAN_NAME: &str = "البيان";
-pub const BAYAN_SLOGAN: &str = "الكود قرآن";
+pub const BAYAN_SLOGAN: &str = "الكود قرآن - لغة الأم";
