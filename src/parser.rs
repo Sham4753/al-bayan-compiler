@@ -142,3 +142,116 @@ mod tests {
     #[test]
     fn test_preposition() { assert!(!SentenceParser::parse("قَرَأَ محمدُ في").unwrap().errors.is_empty()); }
 }
+
+// ============================================
+// الإعراب التقديري - المرحلة الثانية
+// ============================================
+
+impl ArabicSentence {
+    /// كشف الإعراب التقديري (للأسماء المقصورة والمنقوصة والمبنية)
+    pub fn detect_taqdeeri(&self, word: &str) -> String {
+        // الأسماء المقصورة (تنتهي بألف لازمة)
+        if word.ends_with('ى') || word.ends_with("َى") || word.ends_with("َىٰ") {
+            return format!("📌 '{}': اسم مقصور - إعرابه تقديري (الحركات مقدرة على الألف)", word);
+        }
+
+        // الأسماء المنقوصة (تنتهي بياء لازمة)
+        if word.ends_with("ِي") || word.ends_with("ِيْ") {
+            return format!("📌 '{}': اسم منقوص - إعرابه تقديري (الضمة والكسرة مقدرتان على الياء)", word);
+        }
+
+        // الأسماء المبنية (لا تتغير حركتها)
+        let mabni = ["هذا", "هذه", "الذي", "التي", "أنا", "أنت", "هو", "هي", "نحن", "هم", "ما", "مَن"];
+        if mabni.contains(&word) {
+            return format!("📌 '{}': اسم مبني - لا محل له من الإعراب", word);
+        }
+
+        // الأسماء الخمسة (أب، أخ، حم، فو، ذو)
+        let asma_khamsa = ["أب", "أخ", "حم", "فو", "ذو"];
+        for name in &asma_khamsa {
+            if word.starts_with(name) {
+                return format!("📌 '{}': من الأسماء الخمسة - ترفع بالواو وتنصب بالألف وتجر بالياء", word);
+            }
+        }
+
+        // الممنوع من الصرف
+        let mamnu_min_sarf = ["أحمدُ", "عمرُ", "مصرُ", "دمشقُ", "بغدادُ"];
+        if mamnu_min_sarf.contains(&word) {
+            return format!("📌 '{}': ممنوع من الصرف - لا ينون", word);
+        }
+
+        "".to_string()
+    }
+
+    /// تحليل إعرابي كامل مع التقديري
+    pub fn full_irab(&self) -> String {
+        let mut result = String::from("📋 التحليل الإعرابي الكامل:\n");
+
+        if let Some(ref verb) = self.verb {
+            result.push_str(&format!("   🔍 '{}': فعل (جذر: {}, وزن: {})\n", verb.original, verb.jidhr, verb.wazn));
+        }
+
+        if let Some(ref subj) = self.subject {
+            result.push_str(&format!("   👤 '{}': فاعل مرفوع", subj));
+            let taqdeeri = self.detect_taqdeeri(subj);
+            if !taqdeeri.is_empty() {
+                result.push_str(&format!(" ({})", taqdeeri.split(": ").last().unwrap_or("")));
+            }
+            result.push_str("\n");
+        }
+
+        if let Some(ref obj) = self.object {
+            result.push_str(&format!("   📦 '{}': مفعول به منصوب", obj));
+            let taqdeeri = self.detect_taqdeeri(obj);
+            if !taqdeeri.is_empty() {
+                result.push_str(&format!(" ({})", taqdeeri.split(": ").last().unwrap_or("")));
+            }
+            result.push_str("\n");
+        }
+
+        if let (Some(ref prep), Some(ref gen)) = (&self.preposition, &self.genitive) {
+            result.push_str(&format!("   📍 '{}': مجرور بـ '{}'", gen, prep));
+            let taqdeeri = self.detect_taqdeeri(gen);
+            if !taqdeeri.is_empty() {
+                result.push_str(&format!(" ({})", taqdeeri.split(": ").last().unwrap_or("")));
+            }
+            result.push_str("\n");
+        }
+
+        result
+    }
+}
+
+#[cfg(test)]
+mod taqdeeri_tests {
+    use super::*;
+
+    #[test]
+    fn test_maqsour() {
+        let s = SentenceParser::parse("قَرَأَ الفتى الكتابَ").unwrap();
+        let analysis = s.detect_taqdeeri("الفتى");
+        assert!(analysis.contains("مقصور"));
+    }
+
+    #[test]
+    fn test_manqous() {
+        let s = SentenceParser::parse("جاءَ القاضي").unwrap();
+        let analysis = s.detect_taqdeeri("القاضي");
+        assert!(analysis.contains("منقوص"));
+    }
+
+    #[test]
+    fn test_mabni() {
+        let s = SentenceParser::parse("قَرَأَ هذا الكتابَ").unwrap();
+        let analysis = s.detect_taqdeeri("هذا");
+        assert!(analysis.contains("مبني"));
+    }
+
+    #[test]
+    fn test_full_irab() {
+        let s = SentenceParser::parse("قَرَأَ الفتى الكتابَ").unwrap();
+        let result = s.full_irab();
+        assert!(result.contains("مقصور"));
+        assert!(result.contains("الفتى"));
+    }
+}
