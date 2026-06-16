@@ -1,0 +1,18 @@
+[package]
+name = "al-bayan-compiler"
+version = "0.1.0"
+edition = "2021"
+description = "مترجم لغة البيان - أول لغة برمجة عربية أصلية"
+authors = ["Sham4753"]
+license = "MIT"
+repository = "https://github.com/Sham4753/al-bayan-compiler"
+
+[dependencies]
+
+[lib]
+name = "bayan_compiler"
+path = "src/lib.rs"
+
+[[bin]]
+name = "bayan"
+path = "src/main.rs"
