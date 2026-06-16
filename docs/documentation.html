@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توثيق لغة البيان</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Arial', sans-serif; background: #0a0a0f; color: #e0d5c1; line-height: 1.8; padding: 30px; max-width: 900px; margin: 0 auto; }
+        h1 { color: #d4af37; text-align: center; margin: 30px 0; font-size: 2.5em; }
+        h2 { color: #d4af37; margin: 30px 0 15px; border-bottom: 1px solid #2a2a3e; padding-bottom: 10px; }
+        h3 { color: #c4a027; margin: 20px 0 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #d4af37; color: #0a0a0f; padding: 12px; text-align: right; }
+        td { padding: 10px; border: 1px solid #2a2a3e; }
+        tr:nth-child(even) { background: #111; }
+        code { background: #0d1117; color: #d4af37; padding: 2px 8px; border-radius: 4px; }
+        pre { background: #0d1117; padding: 20px; border-radius: 10px; overflow-x: auto; margin: 15px 0; }
+        a { color: #d4af37; }
+        .back { text-align: center; margin: 30px 0; }
+    </style>
+</head>
+<body>
+
+<h1>📖 توثيق لغة البيان</h1>
+
+<p style="text-align:center"><a href="index.html">⬅ العودة للصفحة الرئيسية</a></p>
+
+<h2>١. البداية</h2>
+
+<p>كل برنامج في البيان يبدأ بـ:</p>
+<pre><code>بِسْمِ اللَّهِ</code></pre>
+
+<p>هذا يهيئ البيئة ويفعل الوضع الآمن.</p>
+
+<h2>٢. الأوزان البرمجية</h2>
+
+<table>
+    <tr><th>الوزن</th><th>المعنى</th><th>النمط البرمجي</th></tr>
+    <tr><td>فَعَلَ</td><td>الفعل الأساسي</td><td>تنفيذ متزامن</td></tr>
+    <tr><td>فَعَّلَ</td><td>التكثير والتكرار</td><td>معالجة متوازية</td></tr>
+    <tr><td>فَاعَلَ</td><td>المشاركة</td><td>غير متزامن (Async)</td></tr>
+    <tr><td>اِفتَعَلَ</td><td>المطاوعة</td><td>مراقبة ذاتية</td></tr>
+    <tr><td>اِستَفعَلَ</td><td>الطلب</td><td>استدعاء خارجي (API)</td></tr>
+    <tr><td>اِنفَعَلَ</td><td>الانفعال</td><td>استماع (Listener)</td></tr>
+</table>
+
+<h2>٣. الجذور الأساسية</h2>
+
+<table>
+    <tr><th>الجذر</th><th>المعنى</th><th>مثال</th></tr>
+    <tr><td>ق-ر-أ</td><td>القراءة والإدخال</td><td>قَرَأَ ("ملف.txt")</td></tr>
+    <tr><td>ك-ت-ب</td><td>الكتابة والإخراج</td><td>كَتَبَ ("ملف.txt"، "محتوى")</td></tr>
+    <tr><td>ح-س-ب</td><td>الحساب والمعالجة</td><td>حَسَّبَ (بيانات)</td></tr>
+    <tr><td>ح-ف-ظ</td><td>الأمان والتشفير</td><td>حَفِظَ (بيانات)</td></tr>
+    <tr><td>ب-ع-ث</td><td>الإرسال والشبكات</td><td>بَعَثَ (بيانات، عنوان)</td></tr>
+    <tr><td>ج-م-ع</td><td>التجميع والمصفوفات</td><td>جَمَعَ (عناصر)</td></tr>
+    <tr><td>ف-ص-ل</td><td>المنطق الشرطي</td><td>فَصَلَ (شرط، أ، ب)</td></tr>
+    <tr><td>ر-س-م</td><td>الواجهات</td><td>رَسَمَ (عنصر)</td></tr>
+    <tr><td>ع-ل-م</td><td>البحث والاستعلام</td><td>اِستَعلَمَ (استعلام)</td></tr>
+    <tr><td>خ-ز-ن</td><td>التخزين والذاكرة</td><td>خَزَنَ (مفتاح، قيمة)</td></tr>
+</table>
+
+<h2>٤. نظام الضمائر (إدارة الذاكرة)</h2>
+
+<table>
+    <tr><th>الضمير</th><th>المعنى</th><th>نموذج الذاكرة</th></tr>
+    <tr><td>ي (متكلم)</td><td>ملكية حصرية</td><td>Owned</td></tr>
+    <tr><td>ك (مخاطب)</td><td>ملكية منقولة</td><td>Moved</td></tr>
+    <tr><td>ه (غائب)</td><td>ملكية مشتركة</td><td>Shared</td></tr>
+</table>
+
+<h2>٥. أمثلة كاملة</h2>
+
+<h3>برنامج بسيط:</h3>
+<pre><code>بِسْمِ اللَّهِ
+محتوى = قَرَأَ ("كتاب.txt")
+اطبع (محتوى)</code></pre>
+
+<h3>معالجة متوازية:</h3>
+<pre><code>بِسْمِ اللَّهِ
+بيانات = [1، 2، 3، 4، 5]
+نتائج = حَسَّبَ (بيانات)</code></pre>
+
+<h3>الكلمة الواحدة:</h3>
+<pre><code>بِسْمِ اللَّهِ
+اِستَحفَظَ ("ملف.txt"، "الخادم")</code></pre>
+
+<div class="back">
+    <p><a href="index.html">⬅ العودة للصفحة الرئيسية</a></p>
+</div>
+
+</body>
+</html>

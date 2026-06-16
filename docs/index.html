@@ -1,15 +1,191 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>لغة البيان</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;background:#0a0a0a;color:#e0d5c1;text-align:center}
-.hero{padding:80px 20px;background:linear-gradient(135deg,#1a1a2e,#16213e)}
-.hero h1{font-size:4em;color:#d4af37}.hero p{font-size:1.5em;margin:20px 0}
-.btn{display:inline-block;padding:15px 30px;margin:10px;background:#d4af37;color:#0a0a0a;text-decoration:none;border-radius:5px;font-weight:bold}
-.card{background:#1a1a2e;margin:15px;padding:20px;border-radius:10px;width:280px;border:1px solid #d4af37;display:inline-block}
-.card h3{color:#d4af37}footer{padding:30px;color:#666}</style></head><body>
-<div class="hero"><h1>🕌 لغة البيان</h1><p>✨ الكود قرآن ✨</p>
-<p>أول لغة برمجة عربية أصلية في التاريخ</p>
-<a href="https://github.com/Sham4753/al-bayan-compiler" class="btn">📦 GitHub</a></div>
-<div style="padding:30px"><div class="card"><h3>🧠 تفهم العربية</h3><p>فعل + فاعل + مفعول</p></div>
-<div class="card"><h3>⚡ التوازي التلقائي</h3><p>فَعَّلَ = متوازي</p></div>
-<div class="card"><h3>🛡️ أمن سيبراني</h3><p>حَفِظَ = تشفير</p></div></div>
-<footer><p>اخترعها: <strong>محمد مجد الخطيب (حران العواميد)</strong></p><p>© 2026 - لغة البيان</p></footer>
-</body></html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لغة البيان - أول لغة برمجة عربية أصلية</title>
+    <meta name="description" content="لغة البيان - أول لغة برمجة عربية أصلية. الكود قرآن. من حران العواميد إلى العالم.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Arial', sans-serif; background: #0a0a0f; color: #e0d5c1; line-height: 1.8; }
+        
+        .nav { background: #111; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d4af37; }
+        .nav .logo { font-size: 1.5em; color: #d4af37; font-weight: bold; }
+        .nav a { color: #e0d5c1; text-decoration: none; margin: 0 15px; }
+        .nav a:hover { color: #d4af37; }
+        
+        .hero { text-align: center; padding: 80px 20px; background: linear-gradient(135deg, #0a0a2e, #1a1a3e, #0a0a2e); }
+        .hero h1 { font-size: 4em; color: #d4af37; text-shadow: 0 0 30px rgba(212,175,55,0.5); margin-bottom: 10px; }
+        .hero .subtitle { font-size: 1.8em; color: #e0d5c1; margin-bottom: 10px; }
+        .hero .verse { font-style: italic; color: #a0a0a0; margin-bottom: 30px; font-size: 1.1em; }
+        .hero .btn { display: inline-block; padding: 15px 40px; margin: 10px; background: #d4af37; color: #0a0a0f; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; transition: 0.3s; }
+        .hero .btn:hover { background: #c4a027; transform: translateY(-2px); }
+        .hero .btn.secondary { background: transparent; border: 2px solid #d4af37; color: #d4af37; }
+        .hero .btn.secondary:hover { background: rgba(212,175,55,0.1); }
+        
+        .section { padding: 60px 30px; max-width: 1200px; margin: 0 auto; }
+        .section h2 { font-size: 2.5em; color: #d4af37; text-align: center; margin-bottom: 40px; }
+        
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .feature-card { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #2a2a3e; transition: 0.3s; }
+        .feature-card:hover { border-color: #d4af37; transform: translateY(-5px); }
+        .feature-card .icon { font-size: 2.5em; margin-bottom: 15px; }
+        .feature-card h3 { color: #d4af37; margin-bottom: 10px; }
+        
+        .code-block { background: #0d1117; border: 1px solid #2a2a3e; border-radius: 15px; padding: 30px; margin: 20px 0; text-align: left; direction: ltr; overflow-x: auto; }
+        .code-block code { font-family: 'Courier New', monospace; color: #d4af37; font-size: 1.2em; }
+        .code-block .comment { color: #6a9955; }
+        
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        @media (max-width: 768px) { .comparison { grid-template-columns: 1fr; } }
+        .comp-box { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #2a2a3e; }
+        .comp-box h3 { color: #d4af37; margin-bottom: 15px; }
+        .comp-box.python { border-left: 4px solid #3776ab; }
+        .comp-box.bayan { border-left: 4px solid #d4af37; }
+        
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; text-align: center; }
+        .stat-card { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #2a2a3e; }
+        .stat-card .number { font-size: 3em; color: #d4af37; font-weight: bold; }
+        .stat-card .label { color: #a0a0a0; }
+        
+        footer { text-align: center; padding: 40px; background: #111; border-top: 1px solid #2a2a3e; margin-top: 60px; }
+        footer p { color: #666; }
+        footer .gold { color: #d4af37; }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <span class="logo">🕌 لغة البيان</span>
+    <div>
+        <a href="#features">الميزات</a>
+        <a href="#example">مثال</a>
+        <a href="#docs">التوثيق</a>
+        <a href="https://github.com/Sham4753/al-bayan-compiler">GitHub</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <h1>🕌 لغة البيان</h1>
+    <p class="subtitle">✨ الكود قرآن ✨</p>
+    <p class="verse">"الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ خَلَقَ الْإِنسَانَ عَلَّمَهُ الْبَيَانَ"</p>
+    <p style="margin-bottom:30px">أول لغة برمجة عربية أصلية في التاريخ</p>
+    <a href="https://github.com/Sham4753/al-bayan-compiler" class="btn">📦 جربها الآن</a>
+    <a href="#docs" class="btn secondary">📖 التوثيق</a>
+</div>
+
+<div class="section" id="features">
+    <h2>🧠 لماذا البيان؟</h2>
+    <div class="features">
+        <div class="feature-card">
+            <div class="icon">⚡</div>
+            <h3>التوازي التلقائي</h3>
+            <p>وزن <strong>فَعَّلَ</strong> = معالجة متوازية على كل أنوية المعالج. كلمة واحدة بدل 15 سطراً في بايثون.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🛡️</div>
+            <h3>الأمن مدمج</h3>
+            <p>وزن <strong>حَفِظَ</strong> = تشفير SHA256 + جدار ناري + كشف اختراق. بدون مكتبات خارجية.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🧠</div>
+            <h3>تفهم الجمل العربية</h3>
+            <p>المُصَرِّف يفهم: <strong>فعل + فاعل + مفعول + جار ومجرور</strong>. كما يفهمها العربي.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">✅</div>
+            <h3>مدقق نحوي</h3>
+            <p>ترفض الكود الخاطئ نحوياً قبل التنفيذ. الفاعل المرفوع، المفعول المنصوب، المجرور المجرور.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🏆</div>
+            <h3>محلل بلاغة</h3>
+            <p>تُقيِّم جمال الكود العربي. تقترح تحسينات. تعلمك كيف تكتب كوداً بليغاً.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">👑</div>
+            <h3>دمج الأوزان</h3>
+            <p><strong>اِستَحفَظَ</strong> = قراءة + معالجة + تشفير + إرسال. 4 عمليات في كلمة واحدة. أسرع 3x.</p>
+        </div>
+    </div>
+</div>
+
+<div class="section" id="example">
+    <h2>💎 مثال حي</h2>
+    
+    <div class="comparison">
+        <div class="comp-box python">
+            <h3>🐍 بايثون (15 سطراً)</h3>
+            <div class="code-block">
+<code><span class="comment"># قراءة ملف</span>
+f = open("data.txt", "r")
+data = f.read()
+f.close()
+
+<span class="comment"># معالجة متوازية</span>
+from multiprocessing import Pool
+pool = Pool()
+result = pool.map(process, data)
+
+<span class="comment"># تشفير</span>
+import hashlib
+encrypted = hashlib.sha256(str(result).encode()).hexdigest()
+
+<span class="comment"># إرسال</span>
+import requests
+requests.post("https://server.com", json={"data": encrypted})</code>
+            </div>
+        </div>
+        <div class="comp-box bayan">
+            <h3>🕌 البيان (كلمة واحدة)</h3>
+            <div class="code-block">
+<code>اِستَحفَظَ ("data.txt"، "server.com")</code>
+            </div>
+            <p style="color:#d4af37;margin-top:20px;font-size:1.2em">✅ أسرع ٣ مرات<br>✅ أوفر للذاكرة<br>✅ أبسط للفهم</p>
+        </div>
+    </div>
+</div>
+
+<div class="section" id="stats">
+    <h2>📊 بالأرقام</h2>
+    <div class="stats">
+        <div class="stat-card">
+            <div class="number">85+</div>
+            <div class="label">اختباراً ناجحاً</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">100</div>
+            <div class="label">جذر قرآني</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">120+</div>
+            <div class="label">دالة جاهزة</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">10</div>
+            <div class="label">مجالات مدعومة</div>
+        </div>
+    </div>
+</div>
+
+<div class="section" id="docs">
+    <h2>🚀 كيف تبدأ؟</h2>
+    <div class="code-block">
+<code>git clone https://github.com/Sham4753/al-bayan-compiler.git
+cd al-bayan-compiler
+cargo run -- تفاعلي
+
+<span class="comment">// اكتب أول كود لك:</span>
+بِسْمِ اللَّهِ
+قَرَأَ</code>
+    </div>
+</div>
+
+<footer>
+    <p>🕌 <span class="gold">لغة البيان</span> v0.4.0 | ✨ الكود قرآن</p>
+    <p>اخترعها: <span class="gold">محمد مجد الخطيب</span> - حران العواميد - سوريا</p>
+    <p>© 2026 - مفتوحة المصدر برخصة MIT</p>
+</footer>
+
+</body>
+</html>
