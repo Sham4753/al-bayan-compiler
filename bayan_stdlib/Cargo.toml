@@ -1,0 +1,11 @@
+[package]
+name = "bayan_stdlib"
+version = "0.1.0"
+edition = "2021"
+description = "مكتبة القرآن الأساسية للغة البيان"
+authors = ["محمد مجد الخطيب (حران العواميد)"]
+license = "MIT"
+
+[dependencies]
+sha2 = "0.10"
+lazy_static = "1.4"
