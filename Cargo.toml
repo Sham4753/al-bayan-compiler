@@ -22,3 +22,7 @@ sha2 = "0.10"
 lazy_static = "1.4"
 tower-lsp = "0.20"
 tokio = { version = "1", features = ["full"] }
+
+[[bin]]
+name = "muallim"
+path = "projects/muallim_al_bayan/معلم_البيان.rs"
