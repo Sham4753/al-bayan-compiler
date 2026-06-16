@@ -9,7 +9,8 @@ pub mod server;
 pub mod ai;
 pub mod game;
 pub mod database;
+pub mod optimizer;
 
-pub const BAYAN_VERSION: &str = "0.2.0";
+pub const BAYAN_VERSION: &str = "0.3.0";
 pub const BAYAN_NAME: &str = "البيان";
 pub const BAYAN_SLOGAN: &str = "الكود قرآن - لغة الأم";
