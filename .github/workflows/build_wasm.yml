@@ -12,27 +12,21 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: تثبيت Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          override: true
+          targets: wasm32-unknown-unknown
       
       - name: تثبيت wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+        run: |
+          curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       
       - name: بناء WASM
-        run: wasm-pack build bayan_wasm --target web
+        run: |
+          cd bayan_wasm
+          wasm-pack build --target web
       
-      - name: رفع WASM
+      - name: رفع المخرجات
         uses: actions/upload-artifact@v4
         with:
           name: bayan-wasm
           path: bayan_wasm/pkg/
-      
-      - name: نشر إلى GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: bayan_wasm/pkg
-          destination_dir: wasm
