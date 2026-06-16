@@ -1,10 +1,13 @@
-use bayan_compiler::tasreef::TasreefRegister;
 use bayan_compiler::musarrif::Musarrif;
+use bayan_compiler::generator::Generator;
 
 fn main() {
-    println!("🕌 لغة البيان - تشخيص المُصَرِّف\n");
+    println!("🕌 لغة البيان - المترجم v{}", bayan_compiler::BAYAN_VERSION);
+    println!("✨ {}\n", bayan_compiler::BAYAN_SLOGAN);
 
-    let test_words = vec![
+    let generator = Generator::new();
+
+    let words = vec![
         "قَرَأَ",
         "يُحَاسِبُ",
         "سَيُحَسِّبُ",
@@ -14,24 +17,30 @@ fn main() {
         "اِنبَعَثَ",
     ];
 
-    for word in &test_words {
-        println!("══════════════════════");
-        println!("📝 الكلمة: '{}'", word);
-        println!("📏 طول النص: {} بايت", word.len());
-        println!("🔤 الحروف (chars): {:?}", word.chars().collect::<Vec<char>>());
-        println!("🔢 البايتات (bytes): {:?}", word.as_bytes());
+    println!("╔══════════════════════════════════════════╗");
+    println!("║   المُصَرِّف + المُوَلِّد = كود حي       ║");
+    println!("╚══════════════════════════════════════════╝\n");
 
-        // عرض كل حرف مع موقعه
-        print!("🔍 تفصيل: ");
-        for (i, c) in word.char_indices() {
-            print!("[{}:'{}'] ", i, c);
-        }
-        println!();
-
+    for word in &words {
         match Musarrif::analyse(word) {
-            Ok(m) => println!("✅ جذر:{} | وزن:{} | زمن:{:?} | ضمائر:{:?}", m.jidhr, m.wazn, m.zaman, m.damair),
-            Err(e) => println!("❌ خطأ: {}", e),
+            Ok(analysis) => {
+                match generator.generate(&analysis) {
+                    Ok(code) => {
+                        println!("📝 '{}'", word);
+                        println!("   الجذر: {} | الوزن: {} | الزمن: {:?}",
+                            analysis.jidhr, analysis.wazn, analysis.zaman);
+                        println!("   {} {} {}",
+                            if code.is_async { "⚡غير متزامن" } else { "●متزامن" },
+                            if code.is_parallel { "⚙️متوازي" } else { "●فردي" },
+                            if code.ir.contains("WITH_CONTEXT") { "👤معه ضمير" } else { "" }
+                        );
+                        println!("   كود وسيط: {}", code.ir.trim());
+                        println!();
+                    }
+                    Err(e) => println!("❌ فشل التوليد: {}\n", e),
+                }
+            }
+            Err(e) => println!("❌ فشل التحليل: {}\n", e),
         }
-        println!();
     }
 }

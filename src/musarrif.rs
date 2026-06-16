@@ -95,7 +95,14 @@ impl Musarrif {
             return Err("لا توجد حروف جذر".to_string());
         }
 
-        let (wazn, root_letters_clean) = identify_wazn_and_clean(root_slice);
+        // كشف الشدة
+        let has_shadda = harakat.iter().any(|(_, h)| *h == '\u{0651}');
+
+        let (wazn, root_letters_clean) = if has_shadda {
+            ("فَعَّلَ".to_string(), root_slice.to_vec())
+        } else {
+            identify_wazn_and_clean(root_slice)
+        };
 
         let jidhr: String = root_letters_clean.iter().take(3).collect();
 
@@ -125,12 +132,12 @@ fn identify_wazn_and_clean(slice: &[char]) -> (String, Vec<char>) {
     let len = slice.len();
     if len == 0 { return ("فَعَلَ".to_string(), vec![]); }
 
-    // اِستَفعَلَ: زوائد = ا س ت (3)
+    // اِستَفعَلَ
     if len >= 5 && slice[0] == 'ا' && slice[1] == 'س' && slice[2] == 'ت' {
         return ("اِستَفعَلَ".to_string(), slice[3..].to_vec());
     }
 
-    // اِفتَعَلَ: زوائد = ا (بداية) + ت (وسط)
+    // اِفتَعَلَ
     if len >= 4 && slice[0] == 'ا' && slice[2] == 'ت' {
         let clean: Vec<char> = slice.iter().enumerate()
             .filter(|(i, _)| *i != 0 && *i != 2)
@@ -139,12 +146,12 @@ fn identify_wazn_and_clean(slice: &[char]) -> (String, Vec<char>) {
         return ("اِفتَعَلَ".to_string(), clean);
     }
 
-    // اِنفَعَلَ: زوائد = ا + ن (2)
+    // اِنفَعَلَ
     if len >= 4 && slice[0] == 'ا' && slice[1] == 'ن' {
         return ("اِنفَعَلَ".to_string(), slice[2..].to_vec());
     }
 
-    // تَفَاعَلَ: زوائد = ت (بداية) + ا (وسط)
+    // تَفَاعَلَ
     if len >= 4 && slice[0] == 'ت' && slice[2] == 'ا' {
         let clean: Vec<char> = slice.iter().enumerate()
             .filter(|(i, _)| *i != 0 && *i != 2)
@@ -153,12 +160,12 @@ fn identify_wazn_and_clean(slice: &[char]) -> (String, Vec<char>) {
         return ("تَفَاعَلَ".to_string(), clean);
     }
 
-    // أمر: ا (1)
+    // أمر
     if len >= 1 && slice[0] == 'ا' {
         return ("اِفعَل".to_string(), slice[1..].to_vec());
     }
 
-    // فَاعَلَ: الألف زائدة في الوسط
+    // فَاعَلَ
     if len >= 3 && slice[1] == 'ا' {
         let clean: Vec<char> = slice.iter().enumerate()
             .filter(|(i, _)| *i != 1)
@@ -167,7 +174,6 @@ fn identify_wazn_and_clean(slice: &[char]) -> (String, Vec<char>) {
         return ("فَاعَلَ".to_string(), clean);
     }
 
-    // فَعَّلَ / فَعَلَ: لا زوائد
     ("فَعَلَ".to_string(), slice.to_vec())
 }
 
@@ -195,6 +201,7 @@ mod tests {
     fn test_sayuhassibu() {
         let r = Musarrif::analyse("سَيُحَسِّبُ").unwrap();
         assert_eq!(r.jidhr, "حسب");
+        assert_eq!(r.wazn, "فَعَّلَ");
         assert_eq!(r.zaman, Zaman::Mustaqbal);
     }
 
