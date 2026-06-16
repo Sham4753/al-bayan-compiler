@@ -45,7 +45,6 @@ impl Musarrif {
         let mut zaman = Zaman::Madin;
         let len = letters.len();
 
-        // نزع ضمير النصب
         let mut end_cut = 0;
         if len >= 2 {
             let last_two = format!("{}{}", letters[len-2], letters[len-1]);
@@ -68,14 +67,12 @@ impl Musarrif {
 
         let core_len = len - end_cut;
 
-        // سين المستقبل
         let mut start_idx = 0;
         if core_len > 1 && letters[0] == 'س' {
             zaman = Zaman::Mustaqbal;
             start_idx = 1;
         }
 
-        // حرف المضارعة
         if start_idx < core_len {
             match letters[start_idx] {
                 'أ' | 'ت' | 'ي' | 'ن' => {
@@ -98,15 +95,10 @@ impl Musarrif {
             return Err("لا توجد حروف جذر".to_string());
         }
 
-        // تحديد الوزن وعدد الحروف الزائدة
-        let (wazn, extra_before_root) = identify_wazn(root_slice);
+        let (wazn, root_letters_clean) = identify_wazn_and_clean(root_slice);
 
-        // حساب بداية الجذر
-        let jidhr_start = start_idx + extra_before_root;
-        let jidhr_end = core_len;
-        let jidhr: String = letters[jidhr_start..jidhr_end].iter().take(3).collect();
+        let jidhr: String = root_letters_clean.iter().take(3).collect();
 
-        // علامة الإعراب
         let irab = harakat.iter()
             .filter(|(pos, _)| *pos < core_len && *pos > 0)
             .last()
@@ -129,46 +121,54 @@ impl Musarrif {
     }
 }
 
-/// تحديد الوزن.
-/// يعيد (اسم الوزن, عدد الحروف الزائدة قبل الحرف الأول من الجذر)
-fn identify_wazn(slice: &[char]) -> (String, usize) {
+fn identify_wazn_and_clean(slice: &[char]) -> (String, Vec<char>) {
     let len = slice.len();
-    if len == 0 { return ("فَعَلَ".to_string(), 0); }
+    if len == 0 { return ("فَعَلَ".to_string(), vec![]); }
 
-    // اِستَفعَلَ: زوائد = ا س ت (3 حروف)
+    // اِستَفعَلَ: زوائد = ا س ت (3)
     if len >= 5 && slice[0] == 'ا' && slice[1] == 'س' && slice[2] == 'ت' {
-        return ("اِستَفعَلَ".to_string(), 3);
+        return ("اِستَفعَلَ".to_string(), slice[3..].to_vec());
     }
 
-    // اِفتَعَلَ: زوائد = ا + ت (الحرف الثاني هو فاء الجذر)
-    // الشكل: ا + ف + ت + ع + ل
+    // اِفتَعَلَ: زوائد = ا (بداية) + ت (وسط)
     if len >= 4 && slice[0] == 'ا' && slice[2] == 'ت' {
-        return ("اِفتَعَلَ".to_string(), 1); // ألف فقط زائدة، الفاء أصلية
+        let clean: Vec<char> = slice.iter().enumerate()
+            .filter(|(i, _)| *i != 0 && *i != 2)
+            .map(|(_, &c)| c)
+            .collect();
+        return ("اِفتَعَلَ".to_string(), clean);
     }
 
-    // اِنفَعَلَ: زوائد = ا + ن (الحرف الثالث هو فاء الجذر)
-    // الشكل: ا + ن + ف + ع + ل
+    // اِنفَعَلَ: زوائد = ا + ن (2)
     if len >= 4 && slice[0] == 'ا' && slice[1] == 'ن' {
-        return ("اِنفَعَلَ".to_string(), 1); // ألف ونون زائدتان، الفاء أصلية
+        return ("اِنفَعَلَ".to_string(), slice[2..].to_vec());
     }
 
-    // تَفَاعَلَ: زوائد = ت (الفاء أصلية)
+    // تَفَاعَلَ: زوائد = ت (بداية) + ا (وسط)
     if len >= 4 && slice[0] == 'ت' && slice[2] == 'ا' {
-        return ("تَفَاعَلَ".to_string(), 1);
+        let clean: Vec<char> = slice.iter().enumerate()
+            .filter(|(i, _)| *i != 0 && *i != 2)
+            .map(|(_, &c)| c)
+            .collect();
+        return ("تَفَاعَلَ".to_string(), clean);
     }
 
-    // أمر: اِ
+    // أمر: ا (1)
     if len >= 1 && slice[0] == 'ا' {
-        return ("اِفعَل".to_string(), 1);
+        return ("اِفعَل".to_string(), slice[1..].to_vec());
     }
 
-    // فَاعَلَ: لا زوائد قبل الجذر
+    // فَاعَلَ: الألف زائدة في الوسط
     if len >= 3 && slice[1] == 'ا' {
-        return ("فَاعَلَ".to_string(), 0);
+        let clean: Vec<char> = slice.iter().enumerate()
+            .filter(|(i, _)| *i != 1)
+            .map(|(_, &c)| c)
+            .collect();
+        return ("فَاعَلَ".to_string(), clean);
     }
 
-    // فَعَّلَ أو فَعَلَ: لا زوائد
-    ("فَعَلَ".to_string(), 0)
+    // فَعَّلَ / فَعَلَ: لا زوائد
+    ("فَعَلَ".to_string(), slice.to_vec())
 }
 
 #[cfg(test)]

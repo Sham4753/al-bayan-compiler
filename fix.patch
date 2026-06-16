@@ -1,0 +1,16 @@
+--- a/src/musarrif.rs
++++ b/src/musarrif.rs
+@@ -160,7 +160,12 @@ fn identify_wazn_and_clean(slice: &[char]) -> (String, Vec<char>) {
+ 
+     // فَاعَلَ: الألف في الوسط أصلية (ف + ا + ع + ل)
+     if len >= 3 && slice[1] == 'ا' {
+-        return ("فَاعَلَ".to_string(), slice.to_vec());
++        let mut clean = Vec::new();
++        for (i, &c) in slice.iter().enumerate() {
++            if i == 1 { continue; } // تخطى الألف الزائدة
++            clean.push(c);
++        }
++        return ("فَاعَلَ".to_string(), clean);
+     }
+ 
+     // فَعَّلَ / فَعَلَ: لا زوائد
