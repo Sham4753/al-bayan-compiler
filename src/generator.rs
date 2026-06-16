@@ -52,6 +52,8 @@ impl Generator {
             "رسم" => Ok(Jidhr::Rasama),
             "علم" => Ok(Jidhr::Alima),
             "حفظ" => Ok(Jidhr::Hafitha),
+            "نشر" => Ok(Jidhr::Nashara),
+            "فتح" => Ok(Jidhr::Fataha),
             "نصر" => Ok(Jidhr::Nasara),
             "فتح" => Ok(Jidhr::Fataha),
             "نشر" => Ok(Jidhr::Nashara),
@@ -71,6 +73,8 @@ impl Generator {
             "رسم" => Ok(Jidhr::Rasama),
             "علم" => Ok(Jidhr::Alima),
             "حفظ" => Ok(Jidhr::Hafitha),
+            "نشر" => Ok(Jidhr::Nashara),
+            "فتح" => Ok(Jidhr::Fataha),
             _ => Err(format!("جذر غير معروف: '{}'", j)),
         }
     }

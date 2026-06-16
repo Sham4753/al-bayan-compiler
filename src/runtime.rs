@@ -145,6 +145,9 @@ impl BayanRuntime {
             "bayan.data.search" => {
                 Ok(Value::Text("نتائج البحث".to_string()))
             }
+            "bayan.io.open" => {
+                Ok(Value::Text("تم فتح الاتصال".to_string()))
+            }
             "bayan.ui.render" => {
                 Ok(Value::Text("<div>مرحباً بالعالم</div>".to_string()))
             }
