@@ -27,7 +27,7 @@ fn main() {
             if args.len() < 3 { eprintln!("❌ بيان جملة <نص>"); return; }
             let text = &args[2..].join(" ");
             match SentenceParser::parse(text) {
-                Ok(s) => println!("{}", s.execute()),
+                Ok(s) => println!("{}", s.display()),
                 Err(e) => eprintln!("❌ {}", e),
             }
         }
@@ -48,13 +48,17 @@ fn repl_mode() {
         if input == "خروج" || input == "exit" { break; }
         if input == "حالة" { interp.show_state(); continue; }
 
+        // جرب كجملة أولاً
         if input.contains(' ') {
             match SentenceParser::parse(input) {
                 Ok(s) => {
-                    println!("{}", s.execute());
-                    if let Some(ref verb) = s.verb {
-                        if let Err(e) = interp.execute(&verb.original) {
-                            eprintln!("{}", e);
+                    println!("{}", s.display());
+                    if s.errors.is_empty() {
+                        if let Some(ref verb) = s.verb {
+                            match interp.execute(&verb.original) {
+                                Ok(v) => println!("↳ {:?}", v),
+                                Err(e) => eprintln!("{}", e),
+                            }
                         }
                     }
                     continue;
@@ -63,6 +67,7 @@ fn repl_mode() {
             }
         }
 
+        // فعل مفرد
         match interp.execute(input) {
             Ok(v) => println!("↳ {:?}", v),
             Err(e) => eprintln!("{}", e),
@@ -75,6 +80,6 @@ fn help() {
     println!("✨ {}\n", bayan_compiler::BAYAN_SLOGAN);
     println!("  بيان شغّل <ملف>      تنفيذ برنامج");
     println!("  بيان حلل <كلمة>      تحليل كلمة");
-    println!("  بيان جملة <نص>       تحليل جملة فعلية");
+    println!("  بيان جملة <نص>       تحليل جملة فعلية مع تدقيق نحوي");
     println!("  بيان تفاعلي           وضع المحادثة");
 }
