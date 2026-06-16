@@ -72,7 +72,7 @@ fn repl_mode() {
             match SentenceParser::parse(input) {
                 Ok(s) => {
                     println!("{}", s.full_irab());
-                    history.push(s);
+                    history.push(s.clone());
                     if let Some(ref verb) = s.verb {
                         if s.errors.is_empty() {
                             match interp.execute(&verb.original) {

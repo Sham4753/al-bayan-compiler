@@ -85,7 +85,7 @@ impl ArabicSentence {
     }
 
     /// الأسماء التي ترفع تقديرياً (لا تظهر عليها الضمة)
-    fn is_taqdeeri_marfu3(word: &str) -> bool {
+    pub fn is_taqdeeri_marfu3(word: &str) -> bool {
         // مقصور: ينتهي بألف
         if word.ends_with('ى') || word.ends_with("َى") { return true; }
         // منقوص: ينتهي بياء (الضمة مقدرة)
@@ -99,7 +99,7 @@ impl ArabicSentence {
         false
     }
 
-    fn is_taqdeeri_mansub(word: &str) -> bool {
+    pub fn is_taqdeeri_mansub(word: &str) -> bool {
         if word.ends_with('ى') || word.ends_with("َى") { return true; }
         if word.ends_with("ِيَ") || word.ends_with("ِي") { return true; }
         let mabni = ["هذا", "هذه", "الذي", "التي", "أنا", "أنت", "هو", "هي", "نحن", "هم"];
@@ -109,7 +109,7 @@ impl ArabicSentence {
         false
     }
 
-    fn is_taqdeeri_majrur(word: &str) -> bool {
+    pub fn is_taqdeeri_majrur(word: &str) -> bool {
         if word.ends_with('ى') || word.ends_with("َى") { return true; }
         if word.ends_with("ِي") { return true; }
         let mabni = ["هذا", "هذه", "الذي", "التي", "أنا", "أنت", "هو", "هي", "نحن", "هم"];
@@ -155,9 +155,9 @@ impl ArabicSentence {
         r
     }
 
-    fn has_damma(w: &str) -> bool { w.ends_with('ُ') || w.ends_with("ٌ") }
-    fn has_fatha(w: &str) -> bool { w.ends_with('َ') || w.ends_with("ً") }
-    fn has_kasra(w: &str) -> bool { w.ends_with('ِ') || w.ends_with("ٍ") }
+    pub fn has_damma(w: &str) -> bool { w.ends_with('ُ') || w.ends_with("ٌ") }
+    pub fn has_fatha(w: &str) -> bool { w.ends_with('َ') || w.ends_with("ً") }
+    pub fn has_kasra(w: &str) -> bool { w.ends_with('ِ') || w.ends_with("ٍ") }
     fn is_pronoun(w: &str) -> bool { matches!(w, "هو"|"هي"|"أنا"|"أنت"|"أنتِ"|"نحن"|"هم") }
     fn is_transitive(j: &str) -> bool { matches!(j, "قرأ"|"كتب"|"حسب"|"بعث"|"جمع"|"رسم"|"حفظ"|"فتح"|"نشر") }
 
