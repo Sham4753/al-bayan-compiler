@@ -123,7 +123,7 @@ impl ArabicSentence {
         // ٦. التوافق في التذكير والتأنيث
         if let Some(ref verb) = self.verb {
             if let Some(ref subj) = self.subject {
-                let verb_feminine = verb.original.contains('ت') && verb.original.ends_with('ت');
+                let verb_feminine = verb.original.contains('ت') && (verb.original.ends_with('ت') || verb.original.ends_with('تْ'));
                 let subject_feminine = subj.ends_with('ة') || subj.ends_with('ى');
                 if verb_feminine && !subject_feminine && !Self::is_pronoun(subj) {
                     self.errors.push(format!(
