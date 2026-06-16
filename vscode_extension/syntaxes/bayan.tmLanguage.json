@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "البيان",
+  "patterns": [
+    { "include": "#keywords" },
+    { "include": "#strings" },
+    { "include": "#comments" }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        { "name": "keyword.control.bayan", "match": "\\b(قَرَأَ|كَتَبَ|حَسَبَ|حَسَّبَ|حَاسَبَ|بَعَثَ|بَاعَثَ|خَزَنَ|جَمَعَ|فَصَلَ|رَسَمَ|عَلِمَ|حَفِظَ|اِستَقرَأَ|اِحتَسَبَ|اِنبَعَثَ|اِستَعلَمَ|يُحَاسِبُ|سَيُحَسِّبُ|يَحْفَظُهُ|اِفتَعَلَ|اِنفَعَلَ|اِستَفعَلَ|فَعَّلَ|فَاعَلَ)\\b" }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.bayan",
+      "begin": "\"", "end": "\""
+    },
+    "comments": {
+      "name": "comment.line.bayan",
+      "match": "//.*$"
+    }
+  },
+  "scopeName": "source.bayan"
+}

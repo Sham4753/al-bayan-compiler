@@ -1,0 +1,6 @@
+[package]
+name = "al_masjid"
+version = "0.1.0"
+edition = "2021"
+description = "مدير حزم البيان - مثل npm لكن عربي"
+authors = ["محمد مجد الخطيب (حران العواميد)"]
