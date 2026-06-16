@@ -1,27 +1,14 @@
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub enum Wazn {
-    Faala,
-    Fa3ala,
-    Faa3ala,
-    Ifta3ala,
-    Istaf3ala,
-    Infa3ala,
-}
+pub enum Wazn { Faala, Fa3ala, Faa3ala, Ifta3ala, Istaf3ala, Infa3ala }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Jidhr {
-    Qaraa,
-    Kataba,
-    Hasaba,
-    Khazana,
-    Ba3atha,
-    Jama3a,
-    Fasala,
-    Rasama,
-    Alima,
-    Hafitha,
+    Qaraa, Kataba, Hasaba, Khazana, Ba3atha, Jama3a,
+    Fasala, Rasama, Alima, Hafitha, Nasara, Fataha,
+    Nashara, Rafa3a, Rahala, Zarra3a, Sami3a, Bana,
+    Wasala, Qata3a
 }
 
 #[derive(Debug, Clone)]
@@ -57,131 +44,96 @@ pub struct TasreefRegister {
     pub register: HashMap<(Jidhr, Wazn), Behaviour>,
 }
 
+macro_rules! add {
+    ($reg:expr, $jidhr:expr, $wazn:expr, $intrinsic:expr, $async:expr, $threads:expr, $desc:expr) => {
+        $reg.insert(($jidhr, $wazn), Behaviour {
+            llvm_intrinsic: $intrinsic.into(),
+            requires_async: $async,
+            spawns_threads: $threads,
+            input_ownership: Ownership::Moved,
+            output_ownership: Ownership::Owned,
+            description: $desc,
+        });
+    };
+}
+
 impl TasreefRegister {
     pub fn new() -> Self {
         let mut reg = HashMap::new();
 
-        // ق-ر-أ
-        reg.insert((Jidhr::Qaraa, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.io.read_sync".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Owned,
-            description: "قَرَأَ: قراءة متزامنة",
-        });
-        reg.insert((Jidhr::Qaraa, Wazn::Faa3ala), Behaviour {
-            llvm_intrinsic: "bayan.io.read_async".into(),
-            requires_async: true, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Shared,
-            description: "قَارَأَ: قراءة غير متزامنة",
-        });
-        reg.insert((Jidhr::Qaraa, Wazn::Istaf3ala), Behaviour {
-            llvm_intrinsic: "bayan.net.http_get".into(),
-            requires_async: true, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Moved,
-            description: "اِستَقرَأَ: طلب قراءة من API خارجي",
-        });
+        // ============ ق-ر-أ ============
+        add!(reg, Jidhr::Qaraa, Wazn::Faala, "bayan.io.read_sync", false, false, "قَرَأَ: قراءة متزامنة");
+        add!(reg, Jidhr::Qaraa, Wazn::Faa3ala, "bayan.io.read_async", true, false, "قَارَأَ: قراءة غير متزامنة");
+        add!(reg, Jidhr::Qaraa, Wazn::Istaf3ala, "bayan.net.http_get", true, false, "اِستَقرَأَ: طلب API خارجي");
 
-        // ح-س-ب
-        reg.insert((Jidhr::Hasaba, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.compute.sync".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Owned, output_ownership: Ownership::Owned,
-            description: "حَسَبَ: حساب متزامن",
-        });
-        reg.insert((Jidhr::Hasaba, Wazn::Fa3ala), Behaviour {
-            llvm_intrinsic: "bayan.compute.parallel_map".into(),
-            requires_async: false, spawns_threads: true,
-            input_ownership: Ownership::Shared, output_ownership: Ownership::Shared,
-            description: "حَسَّبَ: معالجة متوازية",
-        });
-        reg.insert((Jidhr::Hasaba, Wazn::Faa3ala), Behaviour {
-            llvm_intrinsic: "bayan.compute.async".into(),
-            requires_async: true, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Moved,
-            description: "حَاسَبَ: عملية غير متزامنة",
-        });
-        reg.insert((Jidhr::Hasaba, Wazn::Ifta3ala), Behaviour {
-            llvm_intrinsic: "bayan.system.profile".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Owned, output_ownership: Ownership::Owned,
-            description: "اِحتَسَبَ: مراقبة أداء ذاتي",
-        });
+        // ============ ك-ت-ب ============
+        add!(reg, Jidhr::Kataba, Wazn::Faala, "bayan.io.write_sync", false, false, "كَتَبَ: كتابة متزامنة");
+        add!(reg, Jidhr::Kataba, Wazn::Istaf3ala, "bayan.cloud.save", true, false, "اِستَكتَبَ: حفظ سحابي");
 
-        // ب-ع-ث
-        reg.insert((Jidhr::Ba3atha, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.net.send_sync".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Owned,
-            description: "بَعَثَ: إرسال متزامن",
-        });
-        reg.insert((Jidhr::Ba3atha, Wazn::Faa3ala), Behaviour {
-            llvm_intrinsic: "bayan.net.send_async".into(),
-            requires_async: true, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Shared,
-            description: "بَاعَثَ: إرسال غير متزامن",
-        });
-        reg.insert((Jidhr::Ba3atha, Wazn::Infa3ala), Behaviour {
-            llvm_intrinsic: "bayan.net.listen".into(),
-            requires_async: true, spawns_threads: true,
-            input_ownership: Ownership::Shared, output_ownership: Ownership::Shared,
-            description: "اِنبَعَثَ: الاستماع للرسائل",
-        });
+        // ============ ح-س-ب ============
+        add!(reg, Jidhr::Hasaba, Wazn::Faala, "bayan.compute.sync", false, false, "حَسَبَ: حساب بسيط");
+        add!(reg, Jidhr::Hasaba, Wazn::Fa3ala, "bayan.compute.parallel_map", false, true, "حَسَّبَ: معالجة متوازية");
+        add!(reg, Jidhr::Hasaba, Wazn::Faa3ala, "bayan.compute.async", true, false, "حَاسَبَ: عملية غير متزامنة");
+        add!(reg, Jidhr::Hasaba, Wazn::Ifta3ala, "bayan.system.profile", false, false, "اِحتَسَبَ: مراقبة أداء ذاتي");
 
-        // ج-م-ع
-        reg.insert((Jidhr::Jama3a, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.collection.create".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Owned, output_ownership: Ownership::Owned,
-            description: "جَمَعَ: تجميع في حاوية",
-        });
+        // ============ خ-ز-ن ============
+        add!(reg, Jidhr::Khazana, Wazn::Faala, "bayan.memory.store", false, false, "خَزَنَ: تخزين في الذاكرة");
+        add!(reg, Jidhr::Khazana, Wazn::Istaf3ala, "bayan.cloud.store", true, false, "اِستَخزَنَ: تخزين سحابي");
 
-        // ف-ص-ل
-        reg.insert((Jidhr::Fasala, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.control.if_else".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Owned, output_ownership: Ownership::Owned,
-            description: "فَصَلَ: تفرع شرطي",
-        });
+        // ============ ب-ع-ث ============
+        add!(reg, Jidhr::Ba3atha, Wazn::Faala, "bayan.net.send_sync", false, false, "بَعَثَ: إرسال متزامن");
+        add!(reg, Jidhr::Ba3atha, Wazn::Faa3ala, "bayan.net.send_async", true, false, "بَاعَثَ: إرسال غير متزامن");
+        add!(reg, Jidhr::Ba3atha, Wazn::Infa3ala, "bayan.net.listen", true, true, "اِنبَعَثَ: فتح مستمع");
 
-        // خ-ز-ن
-        reg.insert((Jidhr::Khazana, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.memory.store".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Owned,
-            description: "خَزَنَ: تخزين في الذاكرة",
-        });
+        // ============ ج-م-ع ============
+        add!(reg, Jidhr::Jama3a, Wazn::Faala, "bayan.collection.create", false, false, "جَمَعَ: تجميع عناصر");
 
-        // ع-ل-م
-        reg.insert((Jidhr::Alima, Wazn::Istaf3ala), Behaviour {
-            llvm_intrinsic: "bayan.data.query".into(),
-            requires_async: true, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Shared,
-            description: "اِستَعلَمَ: استعلام من قاعدة بيانات",
-        });
+        // ============ ف-ص-ل ============
+        add!(reg, Jidhr::Fasala, Wazn::Faala, "bayan.control.if_else", false, false, "فَصَلَ: تفرع شرطي");
 
-        // ح-ف-ظ
-        reg.insert((Jidhr::Hafitha, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.security.encrypt".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Owned,
-            description: "حَفِظَ: تشفير وحماية",
-        });
+        // ============ ر-س-م ============
+        add!(reg, Jidhr::Rasama, Wazn::Faala, "bayan.ui.render", false, false, "رَسَمَ: رسم واجهة");
 
-        // ر-س-م
-        reg.insert((Jidhr::Rasama, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.ui.render".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Owned, output_ownership: Ownership::Owned,
-            description: "رَسَمَ: رسم على الواجهة",
-        });
+        // ============ ع-ل-م ============
+        add!(reg, Jidhr::Alima, Wazn::Faala, "bayan.data.search", false, false, "عَلِمَ: بحث");
+        add!(reg, Jidhr::Alima, Wazn::Istaf3ala, "bayan.data.query", true, false, "اِستَعلَمَ: استعلام متقدم");
 
-        // ك-ت-ب
-        reg.insert((Jidhr::Kataba, Wazn::Faala), Behaviour {
-            llvm_intrinsic: "bayan.io.write_sync".into(),
-            requires_async: false, spawns_threads: false,
-            input_ownership: Ownership::Moved, output_ownership: Ownership::Owned,
-            description: "كَتَبَ: كتابة متزامنة",
-        });
+        // ============ ح-ف-ظ ============
+        add!(reg, Jidhr::Hafitha, Wazn::Faala, "bayan.security.encrypt", false, false, "حَفِظَ: تشفير");
+        add!(reg, Jidhr::Hafitha, Wazn::Faa3ala, "bayan.security.audit", true, false, "حَافَظَ: تدقيق أمني");
+        add!(reg, Jidhr::Hafitha, Wazn::Ifta3ala, "bayan.backup.create", false, false, "اِحتَفَظَ: نسخة احتياطية");
+
+        // ============ ن-ص-ر ============
+        add!(reg, Jidhr::Nasara, Wazn::Faala, "bayan.help.call", false, false, "نَصَرَ: طلب مساعدة");
+
+        // ============ ف-ت-ح ============
+        add!(reg, Jidhr::Fataha, Wazn::Faala, "bayan.io.open", false, false, "فَتَحَ: فتح اتصال");
+
+        // ============ ن-ش-ر ============
+        add!(reg, Jidhr::Nashara, Wazn::Faala, "bayan.publish.send", false, false, "نَشَرَ: نشر محتوى");
+
+        // ============ ر-ف-ع ============
+        add!(reg, Jidhr::Rafa3a, Wazn::Faala, "bayan.deploy.upload", false, false, "رَفَعَ: رفع إصدار");
+
+        // ============ ر-ح-ل ============
+        add!(reg, Jidhr::Rahala, Wazn::Faala, "bayan.migrate.run", false, false, "رَحَلَ: ترحيل بيانات");
+
+        // ============ ز-ر-ع ============
+        add!(reg, Jidhr::Zarra3a, Wazn::Faala, "bayan.seed.create", false, false, "زَرَعَ: زرع بيانات");
+
+        // ============ س-م-ع ============
+        add!(reg, Jidhr::Sami3a, Wazn::Faala, "bayan.event.listen", true, false, "سَمِعَ: استماع لحدث");
+        add!(reg, Jidhr::Sami3a, Wazn::Infa3ala, "bayan.event.subscribe", true, true, "اِنَسَمَعَ: اشتراك بحدث");
+
+        // ============ ب-ن-ي ============
+        add!(reg, Jidhr::Bana, Wazn::Faala, "bayan.build.start", false, false, "بَنَى: بناء مشروع");
+
+        // ============ و-ص-ل ============
+        add!(reg, Jidhr::Wasala, Wazn::Faala, "bayan.net.connect", false, false, "وَصَلَ: اتصال");
+        add!(reg, Jidhr::Wasala, Wazn::Infa3ala, "bayan.net.receive", true, true, "اِتَّصَلَ: استقبال اتصال");
+
+        // ============ ق-ط-ع ============
+        add!(reg, Jidhr::Qata3a, Wazn::Faala, "bayan.net.disconnect", false, false, "قَطَعَ: قطع اتصال");
 
         TasreefRegister { register: reg }
     }

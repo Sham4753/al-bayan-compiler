@@ -51,7 +51,8 @@ impl BayanEngine {
     }
 
     /// تنفيذ سطر واحد من كود البيان
-    pub fn execute_line(&mut self, line: &str) -> Result<Value, String> {
+    pub // تجاهل البسملة والتعليقات
+    fn execute_line(&mut self, line: &str) -> Result<Value, String> {
         // نمط: متغير = فعل (مُدخل)
         if line.contains('=') {
             let parts: Vec<&str> = line.splitn(2, '=').collect();
