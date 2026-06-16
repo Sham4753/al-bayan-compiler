@@ -1,0 +1,38 @@
+name: بناء WebAssembly
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: تثبيت Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+          override: true
+      
+      - name: تثبيت wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      
+      - name: بناء WASM
+        run: wasm-pack build bayan_wasm --target web
+      
+      - name: رفع WASM
+        uses: actions/upload-artifact@v4
+        with:
+          name: bayan-wasm
+          path: bayan_wasm/pkg/
+      
+      - name: نشر إلى GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: bayan_wasm/pkg
+          destination_dir: wasm

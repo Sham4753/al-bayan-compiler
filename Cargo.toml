@@ -1,13 +1,11 @@
 [package]
-name = "al-bayan-compiler"
-version = "0.1.0"
+name = "bayan_compiler"
+version = "0.4.0"
 edition = "2021"
 description = "مترجم لغة البيان - أول لغة برمجة عربية أصلية"
-authors = ["Sham4753"]
+authors = ["محمد مجد الخطيب (حران العواميد)"]
 license = "MIT"
 repository = "https://github.com/Sham4753/al-bayan-compiler"
-
-[dependencies]
 
 [lib]
 name = "bayan_compiler"
@@ -16,3 +14,11 @@ path = "src/lib.rs"
 [[bin]]
 name = "bayan"
 path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+lazy_static = "1.4"
+tower-lsp = "0.20"
+tokio = { version = "1", features = ["full"] }
