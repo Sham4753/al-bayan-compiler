@@ -2,6 +2,7 @@ use bayan_compiler::interpreter::Interpreter;
 use bayan_compiler::musarrif::Musarrif;
 use bayan_compiler::parser::SentenceParser;
 use bayan_compiler::optimizer::CodeOptimizer;
+use bayan_compiler::balagha::BalaghaAnalyzer;
 use std::env;
 use std::io::{self, Write};
 
@@ -41,6 +42,16 @@ fn main() {
             let mut optimizer = CodeOptimizer::new();
             optimizer.analyze(&sentences);
             println!("{}", optimizer.report());
+        }
+        "بلاغة" | "balagha" => {
+            if args.len() < 3 { eprintln!("❌ بيان بلاغة <ملف.بيان>"); return; }
+            let content = std::fs::read_to_string(&args[2]).unwrap_or_default();
+            let sentences: Vec<_> = content.lines()
+                .filter(|l| !l.trim().is_empty() && !l.trim().starts_with("//"))
+                .filter_map(|l| SentenceParser::parse(l.trim()).ok())
+                .collect();
+            let report = BalaghaAnalyzer::analyze(&sentences);
+            println!("{}", BalaghaAnalyzer::report(&report));
         }
         "تفاعلي" | "repl" => repl_mode(),
         _ => help(),
