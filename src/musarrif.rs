@@ -1,3 +1,4 @@
+#[derive(Debug, Clone)]
 pub struct Musarrafa {
     pub jidhr: String,
     pub wazn: String,
