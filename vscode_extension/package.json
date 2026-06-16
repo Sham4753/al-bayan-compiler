@@ -1,26 +1,90 @@
 {
   "name": "bayan-language",
   "displayName": "لغة البيان",
-  "description": "دعم لغة البيان - أول لغة برمجة عربية",
-  "version": "0.1.0",
-  "publisher": "محمد مجد الخطيب",
-  "engines": { "vscode": "^1.80.0" },
-  "categories": ["Programming Languages"],
+  "description": "دعم لغة البيان - أول لغة برمجة عربية - ✨ الكود قرآن",
+  "version": "0.3.0",
+  "publisher": "mohammad-majd-al-khatib",
+  "license": "MIT",
+  "icon": "icons/bayan-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sham4753/al-bayan-compiler"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:bayan"
+  ],
+  "main": "./out/extension.js",
   "contributes": {
-    "languages": [{
-      "id": "bayan",
-      "aliases": ["البيان", "Bayan"],
-      "extensions": [".bayan", ".بيان"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "bayan",
-      "scopeName": "source.bayan",
-      "path": "./syntaxes/bayan.tmLanguage.json"
-    }],
-    "snippets": [{
-      "language": "bayan",
-      "path": "./snippets/bayan.json"
-    }]
+    "languages": [
+      {
+        "id": "bayan",
+        "aliases": ["البيان", "Bayan", "bayan"],
+        "extensions": [".bayan", ".بيان"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "bayan",
+        "scopeName": "source.bayan",
+        "path": "./syntaxes/bayan.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "bayan",
+        "path": "./snippets/bayan.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "bayan.showBalagha",
+        "title": "عرض تقرير البلاغة",
+        "icon": "$(trophy)"
+      },
+      {
+        "command": "bayan.applyOptimizations",
+        "title": "تطبيق تحسينات البلاغة"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "bayan.showBalagha",
+        "key": "ctrl+shift+b",
+        "when": "editorLangId == bayan"
+      }
+    ],
+    "configuration": {
+      "title": "لغة البيان",
+      "properties": {
+        "bayan.enableSageGuide": {
+          "type": "boolean",
+          "default": true,
+          "description": "تفعيل وضع المعلم للمبتدئين"
+        },
+        "bayan.enableBalaghaOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "عرض تقرير البلاغة عند الحفظ"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0"
   }
 }

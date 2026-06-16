@@ -1,25 +1,45 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "البيان",
+  "scopeName": "source.bayan",
   "patterns": [
-    { "include": "#keywords" },
+    { "include": "#baligh-verbs" },
+    { "include": "#good-verbs" },
+    { "include": "#normal-verbs" },
     { "include": "#strings" },
-    { "include": "#comments" }
+    { "include": "#comments" },
+    { "include": "#numbers" },
+    { "include": "#basmala" }
   ],
   "repository": {
-    "keywords": {
-      "patterns": [
-        { "name": "keyword.control.bayan", "match": "\\b(قَرَأَ|كَتَبَ|حَسَبَ|حَسَّبَ|حَاسَبَ|بَعَثَ|بَاعَثَ|خَزَنَ|جَمَعَ|فَصَلَ|رَسَمَ|عَلِمَ|حَفِظَ|اِستَقرَأَ|اِحتَسَبَ|اِنبَعَثَ|اِستَعلَمَ|يُحَاسِبُ|سَيُحَسِّبُ|يَحْفَظُهُ|اِفتَعَلَ|اِنفَعَلَ|اِستَفعَلَ|فَعَّلَ|فَاعَلَ)\\b" }
-      ]
+    "basmala": {
+      "name": "keyword.control.basmala.bayan",
+      "match": "بِسْمِ اللَّهِ",
+      "patterns": [{ "name": "entity.name.type.gold.bayan" }]
+    },
+    "baligh-verbs": {
+      "name": "entity.name.function.baligh.bayan",
+      "match": "\\b(اِستَحفَظَ|اِستَقرَأَ|اِستَعلَمَ|اِستَكتَبَ|اِستَحسَبَ)\\b"
+    },
+    "good-verbs": {
+      "name": "entity.name.function.good.bayan",
+      "match": "\\b(حَسَّبَ|حَاسَبَ|بَاعَثَ|قَارَأَ|حَافَظَ)\\b"
+    },
+    "normal-verbs": {
+      "name": "entity.name.function.normal.bayan",
+      "match": "\\b(قَرَأَ|كَتَبَ|حَسَبَ|حَفِظَ|بَعَثَ|جَمَعَ|فَصَلَ|رَسَمَ|عَلِمَ)\\b"
     },
     "strings": {
       "name": "string.quoted.double.bayan",
       "begin": "\"", "end": "\""
     },
     "comments": {
-      "name": "comment.line.bayan",
+      "name": "comment.line.double-slash.bayan",
       "match": "//.*$"
+    },
+    "numbers": {
+      "name": "constant.numeric.bayan",
+      "match": "\\b\\d+(\\.\\d+)?\\b"
     }
-  },
-  "scopeName": "source.bayan"
+  }
 }
