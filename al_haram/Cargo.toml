@@ -1,0 +1,9 @@
+[package]
+name = "al_haram"
+version = "0.1.0"
+edition = "2021"
+description = "إطار الويب للبيان - مثل Django لكن عربي"
+authors = ["محمد مجد الخطيب (حران العواميد)"]
+
+[dependencies]
+bayan_compiler = { path = ".." }
