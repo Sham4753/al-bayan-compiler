@@ -113,3 +113,45 @@ impl Morphology {
         None
     }
 }
+
+impl Morphology {
+    /// توليد الاشتقاقات من الجذر
+    pub fn derive(jidhr: &str) -> Vec<String> {
+        let mut forms = Vec::new();
+        
+        // الحروف الثلاثة
+        if jidhr.len() < 3 { return forms; }
+        let chars: Vec<char> = jidhr.chars().collect();
+        let f = chars[0]; // الفاء
+        let a = chars[1]; // العين
+        let l = chars[2]; // اللام
+        
+        // الماضي
+        forms.push(format!("{}{}{}", f, a, l));
+        // المضارع (تبسيط)
+        forms.push(format!("ي{}{}{}", f, a, l));
+        // الأمر
+        forms.push(format!("ا{}{}{}", f, a, l));
+        // اسم الفاعل
+        forms.push(format!("{}ا{}", f, format!("{}{}", a, l)));
+        // اسم المفعول
+        forms.push(format!("م{}{}و{}", f, a, l));
+        
+        forms
+    }
+}
+
+#[cfg(test)]
+mod derivation_tests {
+    use super::*;
+
+    #[test]
+    fn test_derive_shukr() {
+        let forms = Morphology::derive("شكر");
+        assert!(forms.contains(&"شكر".to_string())); // ماض
+        assert!(forms.contains(&"يشكر".to_string())); // مضارع
+        assert!(forms.contains(&"اشكر".to_string())); // أمر
+        assert!(forms.contains(&"شاكر".to_string())); // فاعل
+        assert!(forms.contains(&"مشكور".to_string())); // مفعول
+    }
+}
