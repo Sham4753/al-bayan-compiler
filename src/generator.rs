@@ -105,6 +105,7 @@ impl Generator {
             "أمن" => Ok(Jidhr::Ammana),
             "عد" => Ok(Jidhr::Thalatha),
             "رتب" => Ok(Jidhr::Rattaba),
+            "جبر" => Ok(Jidhr::Jabara),
             _ => Err(format!("جذر غير معروف: '{}'", j)),
         }
     }

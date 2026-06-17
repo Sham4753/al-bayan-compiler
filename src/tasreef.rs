@@ -8,7 +8,7 @@ pub enum Jidhr {
     Qaraa, Kataba, Hasaba, Khazana, Ba3atha, Jama3a,
     Fasala, Rasama, Alima, Hafitha, Nasara, Fataha,
     Nashara, Rafa3a, Rahala, Zarra3a, Sami3a, Bana,
-    Wasala, Qata3a, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba
+    Wasala, Qata3a, Jabara, Ghasala, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba
 }
 
 #[derive(Debug, Clone)]
@@ -134,6 +134,8 @@ impl TasreefRegister {
 
         // ============ ق-ط-ع ============
         add!(reg, Jidhr::Qata3a, Wazn::Faala, "bayan.net.disconnect", false, false, "قَطَعَ: قطع اتصال");
+        add!(reg, Jidhr::Jabara, Wazn::Faala, "bayan.math.add", false, false, "جَبَرَ: جبر");
+        add!(reg, Jidhr::Ghasala, Wazn::Faala, "bayan.clean.wash", false, false, "غَسَلَ: غسيل");
         add!(reg, Jidhr::Taba3a, Wazn::Faala, "bayan.io.print", false, false, "طَبَعَ: طباعة");
         add!(reg, Jidhr::Bahatha, Wazn::Faala, "bayan.data.search", false, false, "بَحَثَ: بحث");
         add!(reg, Jidhr::Hathafa, Wazn::Faala, "bayan.data.delete", false, false, "حَذَفَ: حذف");
