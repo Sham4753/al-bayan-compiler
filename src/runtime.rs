@@ -165,6 +165,16 @@ impl BayanRuntime {
             "bayan.control.if_else" => {
                 Ok(Value::Nothing)
             }
+            "bayan.io.print" => Ok(Value::Text("تمت الطباعة".to_string())),
+            "bayan.data.search" => Ok(Value::Text("نتائج البحث".to_string())),
+            "bayan.data.delete" => Ok(Value::Text("تم الحذف".to_string())),
+            "bayan.io.copy" => Ok(Value::Text("تم النسخ".to_string())),
+            "bayan.io.paste" => Ok(Value::Text("تم اللصق".to_string())),
+            "bayan.ai.translate" => Ok(Value::Text("تمت الترجمة".to_string())),
+            "bayan.exec.run" => Ok(Value::Text("تم التشغيل".to_string())),
+            "bayan.security.lock" => Ok(Value::Text("تم التأمين".to_string())),
+            "bayan.data.count" => Ok(Value::Number(42.0)),
+            "bayan.data.sort" => Ok(Value::Text("تم الترتيب".to_string())),
 
             _ => Err(format!("intrinsic غير معروف: {}", intrinsic)),
         }

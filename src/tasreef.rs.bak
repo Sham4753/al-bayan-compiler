@@ -8,7 +8,7 @@ pub enum Jidhr {
     Qaraa, Kataba, Hasaba, Khazana, Ba3atha, Jama3a,
     Fasala, Rasama, Alima, Hafitha, Nasara, Fataha,
     Nashara, Rafa3a, Rahala, Zarra3a, Sami3a, Bana,
-    Wasala, Qata3a, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba
+    Wasala, Qata3a
 }
 
 #[derive(Debug, Clone)]
@@ -134,16 +134,6 @@ impl TasreefRegister {
 
         // ============ ق-ط-ع ============
         add!(reg, Jidhr::Qata3a, Wazn::Faala, "bayan.net.disconnect", false, false, "قَطَعَ: قطع اتصال");
-        add!(reg, Jidhr::Taba3a, Wazn::Faala, "bayan.io.print", false, false, "طَبَعَ: طباعة");
-        add!(reg, Jidhr::Bahatha, Wazn::Faala, "bayan.data.search", false, false, "بَحَثَ: بحث");
-        add!(reg, Jidhr::Hathafa, Wazn::Faala, "bayan.data.delete", false, false, "حَذَفَ: حذف");
-        add!(reg, Jidhr::Nasakha, Wazn::Faala, "bayan.io.copy", false, false, "نَسَخَ: نسخ");
-        add!(reg, Jidhr::Lasqata, Wazn::Faala, "bayan.io.paste", false, false, "لَصَقَ: لصق");
-        add!(reg, Jidhr::Tarjama, Wazn::Faala, "bayan.ai.translate", false, false, "تَرجَمَ: ترجمة");
-        add!(reg, Jidhr::Shaghghala, Wazn::Faala, "bayan.exec.run", false, false, "شَغَّلَ: تشغيل");
-        add!(reg, Jidhr::Ammana, Wazn::Faala, "bayan.security.lock", false, false, "أَمَّنَ: تأمين");
-        add!(reg, Jidhr::Thalatha, Wazn::Faala, "bayan.data.count", false, false, "عَدَّ: عدّ");
-        add!(reg, Jidhr::Rattaba, Wazn::Faala, "bayan.data.sort", false, false, "رَتَّبَ: ترتيب");
 
         TasreefRegister { register: reg }
     }
