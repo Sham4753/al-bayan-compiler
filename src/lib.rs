@@ -19,4 +19,5 @@ pub mod orchestrator;
 pub mod composer;
 pub mod executor;
 pub mod control;
+pub mod variables;
 pub mod morphology;
