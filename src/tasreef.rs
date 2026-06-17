@@ -8,7 +8,7 @@ pub enum Jidhr {
     Qaraa, Kataba, Hasaba, Khazana, Ba3atha, Jama3a,
     Fasala, Rasama, Alima, Hafitha, Nasara, Fataha,
     Nashara, Rafa3a, Rahala, Zarra3a, Sami3a, Bana,
-    Wasala, Qata3a, Shukr, Sabr, Ghufr, Rahm, Dukhl, Khurj, Saal, Julus, Qaam, Naam, Dhahab, Raja3, Sakan, Hamal, Amal, Daras, Fahm, Hukm, Malik, Salm, Jabara, Ghasala, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba
+    Wasala, Qata3a, Shukr, Sabr, Ghufr, Rahm, Dukhl, Khurj, Saal, Julus, Qaam, Naam, Dhahab, Raja3, Sakan, Hamal, Amal, Daras, Fahm, Hukm, Malik, Salm, Hallala, Jabara, Ghasala, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba
 }
 
 #[derive(Debug, Clone)]
@@ -147,6 +147,8 @@ impl TasreefRegister {
         add!(reg, Jidhr::Thalatha, Wazn::Faala, "bayan.data.count", false, false, "عَدَّ: عدّ");
         add!(reg, Jidhr::Rattaba, Wazn::Faala, "bayan.data.sort", false, false, "رَتَّبَ: ترتيب");
 
+        add!(reg, Jidhr::Hallala, Wazn::Faala, "bayan.ai.analyze", false, false, "حَلَّلَ: تحليل");
+        add!(reg, Jidhr::Hallala, Wazn::Fa3ala, "bayan.ai.analyze_deep", false, false, "حَلَّلَ: تحليل عميق");
         TasreefRegister { register: reg }
     }
 
