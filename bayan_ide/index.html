@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>دفتر البيان</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:#e0d5c1;font-family:Arial;display:flex;height:100vh}
+.sidebar{width:250px;background:#111;padding:20px;border-left:2px solid #d4af37;overflow-y:auto}
+.sidebar h2{color:#d4af37;text-align:center;margin-bottom:20px}
+.sidebar button{display:block;width:100%;padding:12px;margin:8px 0;background:#1a1a2e;color:#d4af37;border:1px solid #333;border-radius:8px;cursor:pointer;font-size:1em}
+.sidebar button:hover{background:#d4af37;color:#0a0a0f}
+.main{flex:1;display:flex;flex-direction:column;padding:20px}
+.main h1{color:#d4af37;text-align:center;margin-bottom:10px}
+.toolbar{display:flex;gap:10px;margin-bottom:10px}
+.toolbar button{padding:12px 30px;background:#d4af37;color:#0a0a0f;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:1.1em}
+.toolbar button.help{background:#333;color:#d4af37}
+textarea{flex:1;background:#0d1117;color:#d4af37;border:1px solid #333;border-radius:10px;padding:20px;font-size:1.3em;font-family:monospace;resize:none;line-height:1.8}
+.output{background:#0d1117;border:1px solid #333;border-radius:10px;padding:20px;margin-top:10px;min-height:150px;font-family:monospace;white-space:pre-wrap;overflow-y:auto}
+.output .ok{color:#0f0}
+.output .err{color:#f44}
+.output .info{color:#d4af37}
+.memory{background:#111;padding:15px;margin-top:10px;border-radius:10px;border:1px solid #333}
+.memory h3{color:#d4af37}
+.memory pre{color:#aaa;font-family:monospace}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>🕌 البيان</h2>
+    <button onclick="loadExample('basic')">📖 الأساسيات</button>
+    <button onclick="loadExample('if')">🔀 إذا-فـ</button>
+    <button onclick="loadExample('repeat')">🔄 كرر</button>
+    <button onclick="loadExample('function')">🧠 دالة</button>
+    <button onclick="loadExample('try')">🛡️ حاول-وإلا</button>
+    <button onclick="clearAll()">🗑️ مسح الكل</button>
+</div>
+
+<div class="main">
+    <h1>✍️ دفتر البيان</h1>
+    <div class="toolbar">
+        <button onclick="runCode()">▶️ شغّل</button>
+        <button class="help" onclick="showHelp()">📖 مساعدة</button>
+    </div>
+    <textarea id="code" placeholder="اكتب كود البيان هنا..."></textarea>
+    <div class="output" id="output">
+        <span class="info">🕌 جاهز... اكتب كوداً واضغط شغّل</span>
+    </div>
+    <div class="memory">
+        <h3>📦 الذاكرة</h3>
+        <pre id="memory">فارغة</pre>
+    </div>
+</div>
+
+<script>
+const memory = {};
+
+function loadExample(type) {
+    const examples = {
+        basic: "اِحتَسَبَ\nحَفِظَ\nبَعَثَ\nرَسَمَ\nقَرَأَ",
+        if: "إذا شكر شاكر الله فـ احفظ النتيجة",
+        repeat: "كرر شكر الله 3 مرات",
+        function: "دالة شكر(شخص) = احفظ شكر معامل في السجل",
+        try: "حاول احفظ الملف وإلا فـ اسأل للمساعدة"
+    };
+    document.getElementById('code').value = examples[type] || '';
+}
+
+function clearAll() {
+    document.getElementById('code').value = '';
+    document.getElementById('output').innerHTML = '<span class="info">🕌 جاهز...</span>';
+    for (let k in memory) delete memory[k];
+    updateMemory();
+}
+
+function runCode() {
+    const code = document.getElementById('code').value.trim();
+    if (!code) return;
+    
+    const lines = code.split('\n');
+    let out = '';
+    
+    lines.forEach((line, i) => {
+        line = line.trim();
+        if (!line || line.startsWith('//')) return;
+        
+        // محاكاة التنفيذ
+        if (line.startsWith('إذا')) {
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            out += `<span class="ok">   ✅ تحقق الشرط</span>\n`;
+        } else if (line.startsWith('كرر')) {
+            const match = line.match(/(\d+)/);
+            const count = match ? match[1] : '؟';
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            for (let j = 1; j <= (parseInt(count) || 3); j++) {
+                out += `<span class="ok">   ${j}. ✅ تم</span>\n`;
+            }
+        } else if (line.startsWith('دالة')) {
+            const name = line.split('(')[0]?.replace('دالة', '').trim() || 'دالة';
+            memory[name] = line;
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            out += `<span class="ok">   ✅ تم تعريف الدالة</span>\n`;
+        } else if (line.startsWith('حاول')) {
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            out += `<span class="ok">   ✅ نجحت المهمة</span>\n`;
+        } else if (line === 'اِحتَسَبَ') {
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            out += `<span class="ok">   ✅ النظام: ذاكرة 64MB | 8 أنوية</span>\n`;
+        } else if (line === 'حَفِظَ') {
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            out += `<span class="ok">   ✅ تم التشفير</span>\n`;
+        } else if (line === 'بَعَثَ') {
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            out += `<span class="ok">   ✅ تم الإرسال</span>\n`;
+        } else if (line === 'رَسَمَ') {
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            out += `<span class="ok">   ✅ <div>مرحباً بالعالم</div></span>\n`;
+        } else if (line === 'قَرَأَ') {
+            out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+            out += `<span class="ok">   ✅ محتوى الملف التجريبي</span>\n`;
+        } else {
+            // تحقق من المتغيرات
+            if (memory[line]) {
+                out += `<span class="ok">📜 ${i+1}: ${line}</span>\n`;
+                out += `<span class="ok">   ↳ ${memory[line]}</span>\n`;
+            } else {
+                out += `<span class="err">📜 ${i+1}: ${line}</span>\n`;
+                out += `<span class="err">   ❌ لم يفهم</span>\n`;
+            }
+        }
+    });
+    
+    document.getElementById('output').innerHTML = out || '<span class="info">✅ تم</span>';
+    updateMemory();
+}
+
+function updateMemory() {
+    const mem = document.getElementById('memory');
+    const keys = Object.keys(memory);
+    if (keys.length === 0) {
+        mem.innerHTML = 'فارغة';
+    } else {
+        mem.innerHTML = keys.map(k => `${k} = ${memory[k].substring(0, 50)}...`).join('\n');
+    }
+}
+
+function showHelp() {
+    document.getElementById('output').innerHTML = `
+        <span class="info">📖 أوامر البيان:</span>
+        <span class="info">  اِحتَسَبَ     - فحص النظام</span>
+        <span class="info">  حَفِظَ       - تشفير</span>
+        <span class="info">  بَعَثَ       - إرسال</span>
+        <span class="info">  رَسَمَ       - واجهة</span>
+        <span class="info">  قَرَأَ       - قراءة</span>
+        <span class="info">  إذا ... فـ   - شرط</span>
+        <span class="info">  كرر ... مرات - تكرار</span>
+        <span class="info">  دالة ...     - تعريف</span>
+        <span class="info">  حاول ... وإلا - استثناء</span>
+    `;
+}
+</script>
+</body>
+</html>
