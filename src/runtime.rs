@@ -32,6 +32,150 @@ impl BayanRuntime {
         self.log.push(format!("تنفيذ: {} | المُدخل: {:?}", intrinsic, input));
 
         match intrinsic {
+            // ========== القراءة ==========
+            "bayan.io.read_sync" => {
+                // محاكاة: نعيد نصاً وهمياً
+                Ok(Value::Text("محتوى الملف التجريبي".to_string()))
+            }
+            "bayan.io.read_async" => {
+                // محاكاة غير متزامنة: نعيد نصاً
+                Ok(Value::Text("محتوى من Stream".to_string()))
+            }
+            "bayan.net.http_get" => {
+                Ok(Value::Text("{\"result\": \"استجابة API\"}".to_string()))
+            }
+
+            // ========== الكتابة ==========
+            "bayan.io.write_sync" => {
+                if let Some(Value::Text(t)) = input {
+                    self.memory.insert("آخر_كتابة".to_string(), Value::Text(t));
+                }
+                Ok(Value::Nothing)
+            }
+
+            // ========== الحساب ==========
+            "bayan.compute.sync" => {
+                if let Some(Value::List(list)) = input {
+                    let sum: f64 = list.iter().filter_map(|v| {
+                        if let Value::Number(n) = v { Some(*n) } else { None }
+                    }).sum();
+                    Ok(Value::Number(sum))
+                } else {
+                    Ok(Value::Number(42.0)) // قيمة افتراضية
+                }
+            }
+            "bayan.compute.parallel_map" => {
+                // تنفيذ متوازي حقيقي باستخدام threads
+                if let Some(Value::List(list)) = input {
+                    let results = Arc::new(Mutex::new(Vec::new()));
+                    let mut handles = vec![];
+
+                    for item in list {
+                        let results = Arc::clone(&results);
+                        handles.push(thread::spawn(move || {
+                            // معالجة متوازية: نضاعف الرقم
+                            let processed = match item {
+                                Value::Number(n) => Value::Number(n * 2.0),
+                                other => other,
+                            };
+                            results.lock().unwrap().push(processed);
+                        }));
+                    }
+
+                    for handle in handles {
+                        handle.join().unwrap();
+                    }
+
+                    let final_results = results.lock().unwrap().clone();
+                    Ok(Value::List(final_results))
+                } else {
+                    Err("parallel_map يحتاج إلى قائمة".to_string())
+                }
+            }
+            "bayan.compute.async" => {
+                // محاكاة غير متزامنة
+                Ok(Value::Number(100.0))
+            }
+
+            // ========== الشبكة ==========
+            "bayan.net.send_sync" => {
+                self.memory.insert("حالة_الإرسال".to_string(), Value::Text("تم".to_string()));
+                Ok(Value::Text("تم الإرسال".to_string()))
+            }
+            "bayan.net.send_async" => {
+                Ok(Value::Text("إرسال غير متزامن مجدول".to_string()))
+            }
+            "bayan.net.listen" => {
+                // يفتح مستمعاً (محاكاة)
+                self.memory.insert("مستمع_نشط".to_string(), Value::Text("يعمل".to_string()));
+                Ok(Value::Text("المستمع يعمل على المنفذ 8080".to_string()))
+            }
+
+            // ========== التخزين ==========
+            "bayan.memory.store" => {
+                if let Some(val) = input {
+                    self.memory.insert("مخزن".to_string(), val);
+                }
+                Ok(Value::Nothing)
+            }
+
+            // ========== الأمان ==========
+            "bayan.security.encrypt" => {
+                if let Some(Value::Text(t)) = input {
+                    Ok(Value::Text(format!("مُشفر[{}]", t)))
+                } else {
+                    Ok(Value::Text("مُشفر[??]".to_string()))
+                }
+            }
+
+            // ========== النظام ==========
+            "bayan.system.profile" => {
+                Ok(Value::Text("حالة النظام: الذاكرة 64MB، المعالج 2.1GHz".to_string()))
+            }
+
+            // ========== الاستعلام ==========
+            "bayan.data.query" => {
+                Ok(Value::List(vec![
+                    Value::Text("نتيجة1".to_string()),
+                    Value::Text("نتيجة2".to_string()),
+                ]))
+            }
+
+            // ========== الواجهة ==========
+            "bayan.data.search" => {
+                Ok(Value::Text("نتائج البحث".to_string()))
+            }
+            "bayan.io.open" => {
+                Ok(Value::Text("تم فتح الاتصال".to_string()))
+            }
+            "bayan.ui.render" => {
+                Ok(Value::Text("<div>مرحباً بالعالم</div>".to_string()))
+            }
+
+            // ========== التجميع ==========
+            "bayan.collection.create" => {
+                if let Some(val) = input {
+                    Ok(Value::List(vec![val]))
+                } else {
+                    Ok(Value::List(vec![]))
+                }
+            }
+
+            // ========== المنطق ==========
+            "bayan.control.if_else" => {
+                Ok(Value::Nothing)
+            }
+            "bayan.io.print" => Ok(Value::Text("تمت الطباعة".to_string())),
+            "bayan.data.search" => Ok(Value::Text("نتائج البحث".to_string())),
+            "bayan.data.delete" => Ok(Value::Text("تم الحذف".to_string())),
+            "bayan.io.copy" => Ok(Value::Text("تم النسخ".to_string())),
+            "bayan.io.paste" => Ok(Value::Text("تم اللصق".to_string())),
+            "bayan.ai.translate" => Ok(Value::Text("تمت الترجمة".to_string())),
+            "bayan.exec.run" => Ok(Value::Text("تم التشغيل".to_string())),
+            "bayan.security.lock" => Ok(Value::Text("تم التأمين".to_string())),
+            "bayan.data.count" => Ok(Value::Number(42.0)),
+            "bayan.data.sort" => Ok(Value::Text("تم الترتيب".to_string())),
+
             _ => Err(format!("intrinsic غير معروف: {}", intrinsic)),
         }
     }

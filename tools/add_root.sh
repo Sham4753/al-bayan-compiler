@@ -1,19 +1,18 @@
 #!/bin/bash
 if [ $# -lt 2 ]; then
-    echo "استخدام: ./tools/add_root.sh <الأمر> <النتيجة>"
-    echo "مثال: ./tools/add_root.sh bayan.math.add 'جَبَرَ: جبر'"
+    echo "استخدام: ./tools/add_root.sh <intrinsic> <الوصف>"
     exit 1
 fi
 
 CMD=$1
-RESULT=$2
-FILE="src/runtime_entries.rs"
+DESC=$2
+FILE="src/runtime.rs"
 
 if grep -q "$CMD" "$FILE"; then
-    echo "⏭️ $CMD موجود مسبقاً"
+    echo "⏭️ موجود"
     exit 0
 fi
 
-sed -i "/\/\/ -- END_MARKER --/i \"$CMD\" => Ok(Value::Text(\"$RESULT\".to_string()))," "$FILE"
-echo "✅ تمت إضافة $CMD"
-echo "🔨 جرب: cargo build --lib"
+LINE=$(grep -n "intrinsic غير معروف" "$FILE" | head -1 | cut -d: -f1)
+sed -i "${LINE}i\\            \"$CMD\" => Ok(Value::Text(\"$DESC\".to_string()))," "$FILE"
+echo "✅ تم: $CMD"
