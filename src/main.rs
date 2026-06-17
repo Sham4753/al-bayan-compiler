@@ -53,6 +53,14 @@ fn main() {
             let report = BalaghaAnalyzer::analyze(&sentences);
             println!("{}", BalaghaAnalyzer::report(&report));
         }
+        "نفذ" | "execute" => {
+            if args.len() < 3 { eprintln!("❌ بيان نفذ <كلمة>"); return; }
+            let mut orch = bayan_compiler::orchestrator::Orchestrator::new();
+            match orch.execute(&args[2]) {
+                Ok(v) => println!("↳ {:?}", v),
+                Err(e) => eprintln!("❌ {}", e),
+            }
+        }
         "تفاعلي" | "repl" => repl_mode(),
         _ => help(),
     }

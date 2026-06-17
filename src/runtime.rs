@@ -195,6 +195,8 @@ impl BayanRuntime {
             "bayan.arabic.حكم" => Ok(Value::Text("حكم: فعل".to_string())),
             "bayan.arabic.ملك" => Ok(Value::Text("ملك: فعل".to_string())),
             "bayan.arabic.سلم" => Ok(Value::Text("سلم: فعل".to_string())),
+            "bayan.arabic.شكر" => Ok(Value::Text("شكر: فعل".to_string())),
+            "bayan.arabic.صبر" => Ok(Value::Text("صبر: فعل".to_string())),
             _ => Err(format!("intrinsic غير معروف: {}", intrinsic)),
         }
     }
