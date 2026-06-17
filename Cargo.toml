@@ -1,28 +1,15 @@
 [package]
-name = "bayan_compiler"
-version = "0.4.0"
+name = "bayan_llvm"
+version = "0.1.0"
 edition = "2021"
-description = "مترجم لغة البيان - أول لغة برمجة عربية أصلية"
-authors = ["محمد مجد الخطيب (حران العواميد)"]
-license = "MIT"
-repository = "https://github.com/Sham4753/al-bayan-compiler"
-
-[lib]
-name = "bayan_compiler"
-path = "src/lib.rs"
-
-[[bin]]
-name = "bayan"
-path = "src/main.rs"
 
 [dependencies]
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-sha2 = "0.10"
-lazy_static = "1.4"
-tower-lsp = "0.20"
-tokio = { version = "1", features = ["full"] }
+inkwell = { version = "0.4", features = ["llvm15-0"] }
 
 [[bin]]
-name = "muallim"
-path = "projects/muallim_al_bayan/معلم_البيان.rs"
+name = "bayan_llvm"
+path = "src/main.rs"
+
+[lib]
+name = "bayan_llvm"
+path = "src/lib.rs"

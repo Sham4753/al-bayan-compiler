@@ -1,1 +1,1 @@
-/root/bayan_llvm_standalone/target/debug/bayan_to_c: /root/bayan_llvm_standalone/src/lib.rs /root/bayan_llvm_standalone/test_main.rs
+/root/al-bayan-compiler/bayan_to_c/target/debug/bayan_to_c: /root/al-bayan-compiler/bayan_to_c/src/lib.rs /root/al-bayan-compiler/bayan_to_c/test_main.rs
