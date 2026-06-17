@@ -1,0 +1,11 @@
+[package]
+name = "bayan_llvm_core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+inkwell = { version = "0.4", features = ["llvm15-0"] }
+
+[[bin]]
+name = "bayan_llvm"
+path = "src/main.rs"
