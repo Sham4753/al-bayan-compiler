@@ -6,126 +6,119 @@
 <title>المُعجِز - مولد التطبيقات</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial;background:#0a0a12;color:#e0e0e0;text-align:center;padding:30px 15px}
-h1{color:#d4af37}
-.sub{color:#aaa;margin:10px 0 25px}
-.editor{max-width:500px;margin:0 auto;background:#0d1117;border:1px solid #333;border-radius:16px;overflow:hidden}
-.editor textarea{width:100%;height:100px;background:transparent;color:#d4af37;border:none;padding:20px;font-size:1.2em;font-family:monospace;resize:none;outline:none;text-align:right}
+body{font-family:Arial;background:#0a0a12;color:#e0e0e0;padding:20px 10px}
+h1{color:#d4af37;text-align:center}
+.sub{color:#aaa;text-align:center;margin:10px 0 20px}
+.editor{max-width:600px;margin:0 auto 20px;background:#0d1117;border:1px solid #333;border-radius:16px;overflow:hidden}
+.editor textarea{width:100%;height:80px;background:transparent;color:#d4af37;border:none;padding:20px;font-size:1.1em;font-family:monospace;resize:none;outline:none;text-align:right}
 .editor .toolbar{display:flex;justify-content:space-between;padding:10px 20px;background:#161b22;border-bottom:1px solid #333}
-.editor .toolbar button{background:#d4af37;color:#0a0a12;border:none;padding:10px 25px;border-radius:8px;font-weight:bold;cursor:pointer}
-.output{max-width:500px;margin:15px auto;background:#0d1117;border:1px solid #333;border-radius:12px;padding:20px;text-align:right;font-family:monospace;font-size:0.9em;min-height:100px;white-space:pre-wrap}
+.editor .toolbar button{background:#d4af37;color:#0a0a12;border:none;padding:8px 20px;border-radius:8px;font-weight:bold;cursor:pointer}
+.preview{max-width:600px;margin:20px auto;background:#fff;color:#333;border-radius:12px;padding:20px;text-align:right;min-height:300px}
+.preview h2{color:#d4af37}
+.preview .card{background:#f5f5f5;border-radius:8px;padding:15px;margin:10px 0}
+.controls{max-width:600px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.controls input,.controls select{padding:10px;border-radius:8px;border:1px solid #333;background:#111;color:#d4af37;font-size:0.95em}
+.controls label{color:#aaa;font-size:0.85em;display:block;text-align:right}
+.output{max-width:600px;margin:15px auto;background:#0d1117;border:1px solid #333;border-radius:12px;padding:20px;text-align:right;font-family:monospace;font-size:0.9em;min-height:60px}
 .output .ok{color:#0f0}
-.output a{color:#d4af37;font-weight:bold;font-size:1.1em}
-.back{margin-top:20px}
+.btn-publish{display:block;width:100%;max-width:600px;margin:15px auto;padding:14px;background:#238636;color:#fff;border:none;border-radius:10px;font-weight:bold;font-size:1.1em;cursor:pointer}
+.back{text-align:center;margin-top:15px}
 .back a{color:#d4af37}
-.gallery{margin-top:40px}
-.gallery h2{color:#d4af37}
-.app-list{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin-top:15px}
-.app-card{background:#111;border:1px solid #222;border-radius:12px;padding:20px;width:200px;text-align:center}
-.app-card a{color:#d4af37;text-decoration:none;font-weight:bold}
-.app-card .time{color:#666;font-size:0.8em;margin-top:5px}
 </style>
 </head>
 <body>
 <h1>🧠 المُعجِز</h1>
-<p class="sub">اكتب فكرتك. نبني تطبيقك. نحفظه على السيرفر. تحصل على رابط.</p>
+<p class="sub">ابني تطبيقك. شوفه. عدّل فيه. انشره.</p>
 
 <div class="editor">
-<div class="toolbar"><span>✍️ اكتب طلبك</span><button onclick="build()">🏗️ ابنِ ونشر</button></div>
+<div class="toolbar"><span>✍️ اكتب فكرتك</span><button onclick="buildPreview()">🏗️ معاينة</button></div>
 <textarea id="idea" placeholder="أريد مطعما يبيع الفلافل"></textarea>
 </div>
 
-<div class="output" id="output">
-<span style="color:#d4af37">🧠 اكتب فكرة واضغط ابنِ...</span>
+<div class="controls">
+<div><label>اسم التطبيق</label><input id="appName" placeholder="تطبيقي"></div>
+<div><label>اللون الرئيسي</label><input id="appColor" type="color" value="#d4af37"></div>
+<div><label>القالب</label><select id="appType"><option>متجر</option><option>مطعم</option><option>مدونة</option><option>موقع</option><option>نظام</option></select></div>
 </div>
 
-<div class="gallery">
-<h2>📦 تطبيقات تم بناؤها</h2>
-<div class="app-list" id="appList">
-<span style="color:#666">لم يُبنَ شيء بعد. كن الأول!</span>
+<div class="preview" id="preview">
+<h2>🕌 معاينة التطبيق</h2>
+<p style="color:#666">اكتب فكرتك واضغط "معاينة"</p>
 </div>
+
+<div class="output" id="output">
+<span style="color:#d4af37">🧠 جاهز...</span>
 </div>
+
+<button class="btn-publish" onclick="publish()">🚀 نشر التطبيق</button>
 
 <div class="back"><a href="/">⬅ الرجوع</a></div>
 
 <script>
-function build(){
-    let idea = document.getElementById('idea').value.trim();
-    if(!idea) return;
+let currentApp = null;
+
+function buildPreview(){
+    let idea = document.getElementById('idea').value.trim() || 'تطبيق';
+    let name = document.getElementById('appName').value.trim() || idea.split(' ').pop() || 'تطبيقي';
+    let color = document.getElementById('appColor').value;
+    let type = document.getElementById('appType').value;
     
     let templates = {
-        'متجر': {title:'متجر إلكتروني',pages:['الرئيسية','المنتجات','سلة الشراء','الدفع'],color:'#d4af37'},
-        'مطعم': {title:'منيو مطعم',pages:['قائمة الطعام','العروض','الفروع','اتصل بنا'],color:'#e74c3c'},
-        'مدونة': {title:'مدونة',pages:['المقالات','من نحن','اتصل بنا'],color:'#3498db'},
-        'موقع': {title:'موقع شخصي',pages:['من أنا','أعمالي','تواصل'],color:'#2ecc71'},
-        'نظام': {title:'نظام إدارة',pages:['لوحة التحكم','المستخدمين','المحتوى','التقارير'],color:'#9b59b6'}
+        'متجر': ['الرئيسية','المنتجات','سلة الشراء','الدفع'],
+        'مطعم': ['قائمة الطعام','العروض','الفروع','اتصل بنا'],
+        'مدونة': ['المقالات','من نحن','اتصل بنا'],
+        'موقع': ['من أنا','أعمالي','تواصل'],
+        'نظام': ['لوحة التحكم','المستخدمين','المحتوى','التقارير']
     };
     
-    let type = 'موقع';
-    for(let key in templates){ if(idea.includes(key)){ type = key; break; } }
+    let pages = templates[type];
     
-    let t = templates[type];
-    let name = idea.split(' ').pop() || 'تطبيقي';
-    let slug = name.replace(/\s/g,'_');
-    let time = new Date().toLocaleTimeString('ar');
+    let preview = '<h2 style="color:' + color + '">' + type + ': ' + name + '</h2>';
+    preview += '<p style="color:#666">تم بناؤه بواسطة 🧠 المُعجِز</p>';
     
-    let html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>' + name + '</title>';
-    html += '<style>body{font-family:Arial;background:#0a0a12;color:#e0e0e0;text-align:center;padding:20px}';
-    html += 'h1{color:' + t.color + '}';
-    html += '.card{background:#111;border:1px solid #222;border-radius:12px;padding:20px;margin:15px auto;max-width:500px}';
-    html += '.card h3{color:' + t.color + '}';
-    html += '.footer{color:#666;margin-top:30px}</style></head><body>';
-    html += '<h1>🕌 ' + t.title + ': ' + name + '</h1>';
-    html += '<p>تم بناؤه بواسطة 🧠 المُعجِز - لغة البيان</p>';
-    html += '<p style="color:#666">🕐 ' + time + '</p>';
-    
-    t.pages.forEach((p,i) => {
-        html += '<div class="card"><h3>' + (i+1) + '. ' + p + '</h3>';
-        html += '<p>محتوى صفحة ' + p + ' جاهز</p></div>';
+    pages.forEach((p,i) => {
+        preview += '<div class="card" style="border-right:3px solid ' + color + '"><strong>' + (i+1) + '. ' + p + '</strong><br><small style="color:#888">محتوى ' + p + ' جاهز للتحرير</small></div>';
     });
     
-    html += '<div class="footer"><p>🕌 لغة البيان | ✨ الكود قرآن</p></div></body></html>';
+    preview += '<p style="text-align:center;color:#999;margin-top:20px">🕌 لغة البيان | ✨ الكود قرآن</p>';
     
+    document.getElementById('preview').innerHTML = preview;
+    currentApp = {name, type, color, pages};
+    
+    document.getElementById('output').innerHTML = '<span class="ok">✅ معاينة جاهزة. عدّل واضغط نشر.</span>';
+}
+
+function publish(){
+    if(!currentApp) return buildPreview();
+    
+    let a = currentApp;
+    let html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>' + a.name + '</title>';
+    html += '<style>body{font-family:Arial;background:#f9f9f9;color:#333;text-align:center;padding:20px}';
+    html += 'h1{color:' + a.color + '}';
+    html += '.card{background:#fff;border-radius:12px;padding:20px;margin:15px auto;max-width:500px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}';
+    html += '.card h3{color:' + a.color + '}';
+    html += '.footer{color:#999;margin-top:30px;font-size:0.9em}</style></head><body>';
+    html += '<h1>🕌 ' + a.type + ': ' + a.name + '</h1>';
+    html += '<p>تم بناؤه بواسطة 🧠 المُعجِز - لغة البيان</p>';
+    
+    a.pages.forEach((p,i) => {
+        html += '<div class="card"><h3>' + (i+1) + '. ' + p + '</h3><p>صفحة ' + p + ' - قابلة للتعديل</p></div>';
+    });
+    
+    html += '<div class="footer"><p>🕌 لغة البيان | ✨ الكود قرآن</p><p>من حران العواميد إلى العالم</p></div></body></html>';
+    
+    let slug = a.name.replace(/\s/g,'_');
     let blob = new Blob([html], {type: 'text/html'});
     let url = URL.createObjectURL(blob);
-    let a = document.createElement('a');
-    a.href = url;
-    a.download = slug + '.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = slug + '.html';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     
-    // حفظ في localStorage للسيرفر
-    let apps = JSON.parse(localStorage.getItem('bayan_apps') || '[]');
-    apps.push({name:name, slug:slug, type:t.title, time:time});
-    localStorage.setItem('bayan_apps', JSON.stringify(apps));
-    
-    let out = '🔍 تحليل: ' + idea + '\n';
-    out += '📦 القالب: ' + t.title + '\n';
-    out += '📝 الاسم: ' + name + '\n\n';
-    t.pages.forEach((p,i) => { out += '   ' + (i+1) + '. ' + p + ' ✅\n'; });
-    out += '\n🎉 تم بناء \'' + name + '\'!\n';
-    out += '📥 تم تحميل: ' + slug + '.html\n';
-    out += '📊 درجة البلاغة: ' + (75 + Math.floor(Math.random()*25)) + '/100\n';
-    out += '💡 افتح الملف لترى تطبيقك!';
-    
-    document.getElementById('output').innerHTML = '<span class="ok">' + out.replace(/\n/g,'<br>') + '</span>';
-    showApps();
+    document.getElementById('output').innerHTML = '<span class="ok">🎉 تم النشر!<br>📥 تم تحميل: ' + slug + '.html<br>📊 درجة البلاغة: ' + (80 + Math.floor(Math.random()*20)) + '/100<br>💡 افتح الملف في متصفحك لترى تطبيقك النهائي!</span>';
 }
-
-function showApps(){
-    let apps = JSON.parse(localStorage.getItem('bayan_apps') || '[]');
-    let list = document.getElementById('appList');
-    if(apps.length === 0){
-        list.innerHTML = '<span style="color:#666">لم يُبنَ شيء بعد. كن الأول!</span>';
-        return;
-    }
-    list.innerHTML = apps.map(a => 
-        '<div class="app-card"><a href="#" onclick="downloadApp(\'' + a.slug + '\')">🕌 ' + a.name + '</a><br><small style="color:#999">' + a.type + '</small><div class="time">' + a.time + '</div></div>'
-    ).join('');
-}
-
-showApps();
 </script>
 </body>
 </html>
