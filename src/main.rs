@@ -86,6 +86,15 @@ fn main() {
             let mut ctrl = ControlFlow::new();
             println!("{:?}", ctrl.execute_if(text));
         }
+        "كرر" | "repeat" => {
+            if args.len() < 3 { eprintln!("❌ بيان كرر <فعل> <عدد> مرات"); return; }
+            let text = &args[2..].join(" ");
+            let mut looper = bayan_compiler::loops::Loops::new();
+            match looper.repeat(text) {
+                Ok(v) => println!("{}", v),
+                Err(e) => eprintln!("{}", e),
+            }
+        }
         "حاول" | "try" => {
             if args.len() < 3 { eprintln!("❌ بيان حاول <مهمة> وإلا فـ <بديل>"); return; }
             let text = &args[2..].join(" ");

@@ -22,4 +22,5 @@ pub mod control;
 pub mod variables;
 pub mod functions;
 pub mod exceptions;
+pub mod loops;
 pub mod morphology;
