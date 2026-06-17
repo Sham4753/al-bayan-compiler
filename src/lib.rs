@@ -15,4 +15,5 @@ pub const BAYAN_VERSION: &str = "0.3.0";
 pub const BAYAN_NAME: &str = "البيان";
 pub const BAYAN_SLOGAN: &str = "الكود قرآن - لغة الأم";
 pub mod balagha;
+pub mod orchestrator;
 pub mod morphology;
