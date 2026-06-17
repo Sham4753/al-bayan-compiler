@@ -147,6 +147,8 @@ impl TasreefRegister {
         add!(reg, Jidhr::Thalatha, Wazn::Faala, "bayan.data.count", false, false, "عَدَّ: عدّ");
         add!(reg, Jidhr::Rattaba, Wazn::Faala, "bayan.data.sort", false, false, "رَتَّبَ: ترتيب");
 
+        add!(reg, Jidhr::Hallala, Wazn::Faala, "bayan.ai.analyze", false, false, "حَلَّلَ: تحليل");
+        add!(reg, Jidhr::Hallala, Wazn::Fa3ala, "bayan.ai.analyze_deep", false, false, "حَلَّلَ: تحليل عميق");
         TasreefRegister { register: reg }
     }
 

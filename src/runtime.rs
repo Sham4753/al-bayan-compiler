@@ -129,6 +129,8 @@ impl BayanRuntime {
             }
 
             // ========== النظام ==========
+            "bayan.ai.analyze" => Ok(Value::Text("تحليل: تم".to_string())),
+            "bayan.ai.analyze_deep" => Ok(Value::Text("تحليل عميق: تم".to_string())),
             "bayan.system.profile" => {
                 Ok(Value::Text("حالة النظام: الذاكرة 64MB، المعالج 2.1GHz".to_string()))
             }
