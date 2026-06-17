@@ -3,6 +3,11 @@ use bayan_compiler::musarrif::Musarrif;
 use bayan_compiler::parser::SentenceParser;
 use bayan_compiler::optimizer::CodeOptimizer;
 use bayan_compiler::balagha::BalaghaAnalyzer;
+use bayan_compiler::orchestrator::Orchestrator;
+use bayan_compiler::composer::Composer;
+use bayan_compiler::executor::Executor;
+use bayan_compiler::control::ControlFlow;
+use bayan_compiler::variables::Variables;
 use std::env;
 use std::io::{self, Write};
 
@@ -38,7 +43,6 @@ fn main() {
                 .filter(|l| !l.trim().is_empty() && !l.trim().starts_with("//"))
                 .filter_map(|l| SentenceParser::parse(l.trim()).ok())
                 .collect();
-
             let mut optimizer = CodeOptimizer::new();
             optimizer.analyze(&sentences);
             println!("{}", optimizer.report());
@@ -53,16 +57,79 @@ fn main() {
             let report = BalaghaAnalyzer::analyze(&sentences);
             println!("{}", BalaghaAnalyzer::report(&report));
         }
+        "نفذ" | "exec" => {
+            if args.len() < 3 { eprintln!("❌ بيان نفذ <كلمة>"); return; }
+            let mut orch = Orchestrator::new();
+            match orch.execute(&args[2]) {
+                Ok(v) => println!("↳ {:?}", v),
+                Err(e) => eprintln!("❌ {}", e),
+            }
+        }
+        "ركب" | "compose" => {
+            if args.len() < 3 { eprintln!("❌ بيان ركب <جملة>"); return; }
+            let text = &args[2..].join(" ");
+            let s = Composer::compose(text);
+            println!("{}", s.execute());
+        }
+        "نفذ-جملة" | "exec-sen" => {
+            if args.len() < 3 { eprintln!("❌ بيان نفذ-جملة <جملة>"); return; }
+            let text = &args[2..].join(" ");
+            let mut exec = Executor::new();
+            match exec.execute_sentence(text) {
+                Ok(v) => println!("↳ {:?}", v),
+                Err(e) => eprintln!("❌ {}", e),
+            }
+        }
+        "إذا" | "if" => {
+            if args.len() < 3 { eprintln!("❌ بيان إذا <شرط> فـ <نتيجة>"); return; }
+            let text = &args[2..].join(" ");
+            let mut ctrl = ControlFlow::new();
+            println!("{:?}", ctrl.execute_if(text));
+        }
+        "كرر" | "repeat" => {
+            if args.len() < 3 { eprintln!("❌ بيان كرر <فعل> <عدد> مرات"); return; }
+            let text = &args[2..].join(" ");
+            let mut looper = bayan_compiler::loops::Loops::new();
+            match looper.repeat(text) {
+                Ok(v) => println!("{}", v),
+                Err(e) => eprintln!("{}", e),
+            }
+        }
+        "حاول" | "try" => {
+            if args.len() < 3 { eprintln!("❌ بيان حاول <مهمة> وإلا فـ <بديل>"); return; }
+            let text = &args[2..].join(" ");
+            let mut exc = bayan_compiler::exceptions::Exceptions::new();
+            match exc.try_catch(text) {
+                Ok(v) => println!("{}", v),
+                Err(e) => eprintln!("{}", e),
+            }
+        }
+        "دالة" | "fn" => {
+            if args.len() < 3 { eprintln!("❌ بيان دالة <اسم>(<معامل>) = <جسم>"); return; }
+            let text = &args[2..].join(" ");
+            let mut funcs = bayan_compiler::functions::Functions::new();
+            match funcs.define(&text) {
+                Ok(v) => println!("{}", v),
+                Err(e) => eprintln!("{}", e),
+            }
+        }
+        "let" => {
+            if args.len() < 3 { eprintln!("❌ بيان let <اسم> = <قيمة>"); return; }
+            let text = &args[2..].join(" ");
+            let mut vars = Variables::new();
+            match vars.set(text) {
+                Ok(v) => println!("{:?}", v),
+                Err(e) => eprintln!("{}", e),
+            }
+        }
         "تفاعلي" | "repl" => repl_mode(),
         _ => help(),
     }
 }
 
 fn repl_mode() {
-    println!("🕌 الوضع التفاعلي | 'خروج' للخروج | 'فحص' لتحليل الكود\n");
+    println!("🕌 الوضع التفاعلي | 'خروج' للخروج\n");
     let mut interp = Interpreter::new();
-    let mut history: Vec<bayan_compiler::parser::ArabicSentence> = Vec::new();
-
     loop {
         print!("بيان> "); io::stdout().flush().unwrap();
         let mut input = String::new();
@@ -71,33 +138,6 @@ fn repl_mode() {
         if input.is_empty() { continue; }
         if input == "خروج" || input == "exit" { break; }
         if input == "حالة" { interp.show_state(); continue; }
-
-        if input == "فحص" || input == "check" {
-            let mut opt = CodeOptimizer::new();
-            opt.analyze(&history);
-            println!("{}", opt.report());
-            continue;
-        }
-
-        if input.contains(' ') {
-            match SentenceParser::parse(input) {
-                Ok(s) => {
-                    println!("{}", s.full_irab());
-                    history.push(s.clone());
-                    if let Some(ref verb) = s.verb {
-                        if s.errors.is_empty() {
-                            match interp.execute(&verb.original) {
-                                Ok(v) => println!("↳ {:?}", v),
-                                Err(e) => eprintln!("{}", e),
-                            }
-                        }
-                    }
-                    continue;
-                }
-                Err(_) => {}
-            }
-        }
-
         match interp.execute(input) {
             Ok(v) => println!("↳ {:?}", v),
             Err(e) => eprintln!("{}", e),
@@ -106,11 +146,13 @@ fn repl_mode() {
 }
 
 fn help() {
-    println!("🕌 لغة البيان v{}", bayan_compiler::BAYAN_VERSION);
-    println!("✨ {}\n", bayan_compiler::BAYAN_SLOGAN);
+    println!("🕌 لغة البيان v0.5.0");
+    println!("✨ الكود قرآن\n");
     println!("  بيان شغّل <ملف>      تنفيذ برنامج");
-    println!("  بيان حلل <كلمة>      تحليل كلمة");
-    println!("  بيان جملة <نص>       تحليل جملة");
-    println!("  بيان حسّن <ملف>      تحليل وتحسين الكود");
-    println!("  بيان تفاعلي           وضع المحادثة (اكتب 'فحص' للتحسين)");
+    println!("  بيان نفذ <كلمة>      تنفيذ كلمة");
+    println!("  بيان ركب <جملة>      تحليل جملة");
+    println!("  بيان نفذ-جملة <جملة> تنفيذ جملة");
+    println!("  بيان إذا <شرط> فـ    منطق شرطي");
+    println!("  بيان let <اسم> =     تعريف متغير");
+    println!("  بيان تفاعلي           وضع المحادثة");
 }
