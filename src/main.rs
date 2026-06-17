@@ -76,6 +76,12 @@ fn main() {
                 Err(e) => eprintln!("❌ {}", e),
             }
         }
+        "إذا" | "if" => {
+            if args.len() < 3 { eprintln!("❌ بيان إذا <شرط> فـ <نتيجة>"); return; }
+            let text = &args[2..].join(" ");
+            let mut ctrl = bayan_compiler::control::ControlFlow::new();
+            println!("{:?}", ctrl.execute_if(text));
+        }
         "تفاعلي" | "repl" => repl_mode(),
         _ => help(),
     }
