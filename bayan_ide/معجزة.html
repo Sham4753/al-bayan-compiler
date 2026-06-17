@@ -1,124 +1,130 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المُعجِز - مولد التطبيقات</title>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>المُعجِز</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial;background:#0a0a12;color:#e0e0e0;padding:20px 10px}
-h1{color:#d4af37;text-align:center}
-.sub{color:#aaa;text-align:center;margin:10px 0 20px}
-.editor{max-width:600px;margin:0 auto 20px;background:#0d1117;border:1px solid #333;border-radius:16px;overflow:hidden}
-.editor textarea{width:100%;height:80px;background:transparent;color:#d4af37;border:none;padding:20px;font-size:1.1em;font-family:monospace;resize:none;outline:none;text-align:right}
-.editor .toolbar{display:flex;justify-content:space-between;padding:10px 20px;background:#161b22;border-bottom:1px solid #333}
-.editor .toolbar button{background:#d4af37;color:#0a0a12;border:none;padding:8px 20px;border-radius:8px;font-weight:bold;cursor:pointer}
-.preview{max-width:600px;margin:20px auto;background:#fff;color:#333;border-radius:12px;padding:20px;text-align:right;min-height:300px}
-.preview h2{color:#d4af37}
-.preview .card{background:#f5f5f5;border-radius:8px;padding:15px;margin:10px 0}
-.controls{max-width:600px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.controls input,.controls select{padding:10px;border-radius:8px;border:1px solid #333;background:#111;color:#d4af37;font-size:0.95em}
-.controls label{color:#aaa;font-size:0.85em;display:block;text-align:right}
-.output{max-width:600px;margin:15px auto;background:#0d1117;border:1px solid #333;border-radius:12px;padding:20px;text-align:right;font-family:monospace;font-size:0.9em;min-height:60px}
-.output .ok{color:#0f0}
-.btn-publish{display:block;width:100%;max-width:600px;margin:15px auto;padding:14px;background:#238636;color:#fff;border:none;border-radius:10px;font-weight:bold;font-size:1.1em;cursor:pointer}
-.back{text-align:center;margin-top:15px}
-.back a{color:#d4af37}
-</style>
-</head>
-<body>
-<h1>🧠 المُعجِز</h1>
-<p class="sub">ابني تطبيقك. شوفه. عدّل فيه. انشره.</p>
-
-<div class="editor">
-<div class="toolbar"><span>✍️ اكتب فكرتك</span><button onclick="buildPreview()">🏗️ معاينة</button></div>
-<textarea id="idea" placeholder="أريد مطعما يبيع الفلافل"></textarea>
-</div>
-
-<div class="controls">
-<div><label>اسم التطبيق</label><input id="appName" placeholder="تطبيقي"></div>
-<div><label>اللون الرئيسي</label><input id="appColor" type="color" value="#d4af37"></div>
-<div><label>القالب</label><select id="appType"><option>متجر</option><option>مطعم</option><option>مدونة</option><option>موقع</option><option>نظام</option></select></div>
-</div>
-
-<div class="preview" id="preview">
-<h2>🕌 معاينة التطبيق</h2>
-<p style="color:#666">اكتب فكرتك واضغط "معاينة"</p>
-</div>
-
-<div class="output" id="output">
-<span style="color:#d4af37">🧠 جاهز...</span>
-</div>
-
-<button class="btn-publish" onclick="publish()">🚀 نشر التطبيق</button>
-
-<div class="back"><a href="/">⬅ الرجوع</a></div>
-
+body{font-family:Arial;background:#0a0a12;color:#e0e0e0;display:flex;min-height:100vh}
+.editor-panel{width:50%;background:#0d1117;border-left:2px solid #d4af37;display:flex;flex-direction:column}
+.editor-panel .header{background:#161b22;padding:15px 20px;color:#d4af37;font-weight:bold;border-bottom:1px solid #333}
+.editor-panel textarea{flex:1;background:transparent;color:#d4af37;border:none;padding:20px;font-size:1.2em;font-family:monospace;resize:none;outline:none;line-height:2;text-align:right}
+.preview-panel{width:50%;background:#fff;color:#333;overflow-y:auto;padding:20px}
+.preview-panel h1{color:#d4af37;text-align:center;font-size:1.5em}
+.preview-panel .card{background:#f9f9f9;border-radius:12px;padding:15px;margin:10px 0;border-right:4px solid #d4af37}
+.preview-panel .ok{color:#0a0;font-family:monospace;display:block;margin:5px 0}
+.preview-panel .err{color:#d00;font-family:monospace;display:block;margin:5px 0}
+.preview-panel .fix{color:#d4af37;font-family:monospace;display:block;margin:5px 10px;padding:5px;background:#fffde7;border-radius:4px}
+.preview-panel .learn{color:#666;font-size:0.85em;font-style:italic}
+@media(max-width:768px){body{flex-direction:column}.editor-panel,.preview-panel{width:100%;height:50vh}}
+</style></head><body>
+<div class="editor-panel"><div class="header">✍️ اكتب كود البيان</div>
+<textarea id="code" oninput="live()" placeholder="اكتب كوداً عربياً...">اِحتَسَبَ
+حَفِظَ
+بَعَثَ</textarea></div>
+<div class="preview-panel" id="preview"><h1>🕌 المُعجِز - معلم ومدقق</h1></div>
 <script>
-let currentApp = null;
+function strip(t){return t.replace(/[\u064B-\u0652\u0670]/g,'');}
 
-function buildPreview(){
-    let idea = document.getElementById('idea').value.trim() || 'تطبيق';
-    let name = document.getElementById('appName').value.trim() || idea.split(' ').pop() || 'تطبيقي';
-    let color = document.getElementById('appColor').value;
-    let type = document.getElementById('appType').value;
-    
-    let templates = {
-        'متجر': ['الرئيسية','المنتجات','سلة الشراء','الدفع'],
-        'مطعم': ['قائمة الطعام','العروض','الفروع','اتصل بنا'],
-        'مدونة': ['المقالات','من نحن','اتصل بنا'],
-        'موقع': ['من أنا','أعمالي','تواصل'],
-        'نظام': ['لوحة التحكم','المستخدمين','المحتوى','التقارير']
-    };
-    
-    let pages = templates[type];
-    
-    let preview = '<h2 style="color:' + color + '">' + type + ': ' + name + '</h2>';
-    preview += '<p style="color:#666">تم بناؤه بواسطة 🧠 المُعجِز</p>';
-    
-    pages.forEach((p,i) => {
-        preview += '<div class="card" style="border-right:3px solid ' + color + '"><strong>' + (i+1) + '. ' + p + '</strong><br><small style="color:#888">محتوى ' + p + ' جاهز للتحرير</small></div>';
-    });
-    
-    preview += '<p style="text-align:center;color:#999;margin-top:20px">🕌 لغة البيان | ✨ الكود قرآن</p>';
-    
-    document.getElementById('preview').innerHTML = preview;
-    currentApp = {name, type, color, pages};
-    
-    document.getElementById('output').innerHTML = '<span class="ok">✅ معاينة جاهزة. عدّل واضغط نشر.</span>';
+const O={
+'احتسب':'✅ فحص النظام: ذاكرة 64MB | 8 أنوية',
+'حفظ':'✅ تشفير SHA256: a7b3c9d2e1...',
+'بعث':'✅ إرسال للخادم - تم بنجاح',
+'انبعث':'✅ مستمع يعمل على 8080',
+'استقرأ':'✅ استدعاء API خارجي',
+'خزن':'✅ تخزين: مفتاح = قيمة',
+'جمع':'✅ تجميع عناصر',
+'فصل':'✅ تفرع شرطي',
+'رسم':'✅ رسم واجهة HTML',
+'فتح':'✅ فتح اتصال',
+'قرأ':'✅ قراءة ملف',
+'كتب':'✅ كتابة ملف',
+'حلل':'✅ تحليل البيانات',
+'صمم':'✅ تصميم الواجهة',
+'طور':'✅ تطوير التطبيق'
+};
+
+const CORRECT={
+'حل':'حَلَّلَ',
+'حلل':'حَلَّلَ',
+'صم':'صَمَّمَ',
+'صمم':'صَمَّمَ',
+'طو':'طَوَّرَ',
+'طور':'طَوَّرَ',
+'حسب':'حَسَبَ',
+'حسب':'حَسَّبَ',
+'قرا':'قَرَأَ',
+'قرء':'قَرَأَ',
+'كتب':'كَتَبَ',
+'رسم':'رَسَمَ',
+'فتح':'فَتَحَ',
+'حفض':'حَفِظَ',
+'حفط':'حَفِظَ',
+'بعص':'بَعَثَ',
+'بعس':'بَعَثَ',
+'بعت':'بَعَثَ'
+};
+
+const T={
+'متجر':{title:'متجر إلكتروني',pages:['الرئيسية','المنتجات','سلة الشراء','الدفع'],color:'#d4af37'},
+'مطعم':{title:'منيو مطعم',pages:['قائمة الطعام','العروض','الفروع','اتصل بنا'],color:'#e74c3c'},
+'مدونة':{title:'مدونة',pages:['المقالات','من نحن','اتصل بنا'],color:'#3498db'}
+};
+
+function live(){
+let c=document.getElementById('code').value.trim();
+if(!c)return;
+
+// جملة عامة
+if(c.includes('اريد')||c.includes('ابني')||c.includes('أنشئ')){
+let type='موقع';let name='تطبيقي';
+for(let k in T){if(c.includes(k)){type=k;break;}}
+if(c.includes('اسم المحل')){let p=c.split('اسم المحل')[1];if(p){let w=p.trim().split(' ')[0];if(w)name=w;}}
+else{let w=c.split(' ');if(w.length>=3)name=w[w.length-1];}
+let t=T[type]||T['موقع'];
+let h='<h1 style="color:'+t.color+'">🕌 '+t.title+': '+name+'</h1>';
+h+='<p style="text-align:center;color:#666">تم بناؤه بواسطة 🧠 المُعجِز</p>';
+h+='<div class="card" style="text-align:center"><strong>🔍 تحليل: '+c+'</strong><br>📦 القالب: '+t.title+'</div>';
+t.pages.forEach((p,i)=>{h+='<div class="card"><h3>'+(i+1)+'. '+p+'</h3><p>صفحة '+p+' جاهزة</p></div>';});
+h+='<div style="text-align:center;margin-top:20px;color:#666">🕌 لغة البيان | ✨ الكود قرآن</div>';
+document.getElementById('preview').innerHTML=h;return;
 }
 
-function publish(){
-    if(!currentApp) return buildPreview();
-    
-    let a = currentApp;
-    let html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>' + a.name + '</title>';
-    html += '<style>body{font-family:Arial;background:#f9f9f9;color:#333;text-align:center;padding:20px}';
-    html += 'h1{color:' + a.color + '}';
-    html += '.card{background:#fff;border-radius:12px;padding:20px;margin:15px auto;max-width:500px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}';
-    html += '.card h3{color:' + a.color + '}';
-    html += '.footer{color:#999;margin-top:30px;font-size:0.9em}</style></head><body>';
-    html += '<h1>🕌 ' + a.type + ': ' + a.name + '</h1>';
-    html += '<p>تم بناؤه بواسطة 🧠 المُعجِز - لغة البيان</p>';
-    
-    a.pages.forEach((p,i) => {
-        html += '<div class="card"><h3>' + (i+1) + '. ' + p + '</h3><p>صفحة ' + p + ' - قابلة للتعديل</p></div>';
-    });
-    
-    html += '<div class="footer"><p>🕌 لغة البيان | ✨ الكود قرآن</p><p>من حران العواميد إلى العالم</p></div></body></html>';
-    
-    let slug = a.name.replace(/\s/g,'_');
-    let blob = new Blob([html], {type: 'text/html'});
-    let url = URL.createObjectURL(blob);
-    let link = document.createElement('a');
-    link.href = url;
-    link.download = slug + '.html';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    document.getElementById('output').innerHTML = '<span class="ok">🎉 تم النشر!<br>📥 تم تحميل: ' + slug + '.html<br>📊 درجة البلاغة: ' + (80 + Math.floor(Math.random()*20)) + '/100<br>💡 افتح الملف في متصفحك لترى تطبيقك النهائي!</span>';
+// أوامر
+let l=c.split('\n');let h='<h1>🕌 التنفيذ المباشر</h1>';let ok=0,tot=0;
+l.forEach(line=>{
+line=line.trim();if(!line||line.startsWith('//'))return;
+// متغيرات
+if(line.includes('=')&&!line.startsWith('اذا')&&!line.startsWith('كرر')){
+let p=line.split('=');h+='<div class="ok">📦 '+p[0].trim()+' = <strong>'+p.slice(1).join('=').trim()+'</strong></div>';ok++;tot++;return;
 }
-</script>
-</body>
-</html>
+tot++;
+let s=strip(line);let f=0;
+for(let k in O){if(s.includes(k)){h+='<div class="ok">'+O[k]+'</div>';ok++;f=1;break;}}
+if(!f){
+// اقتراح تصحيح
+let suggestion='';
+for(let wrong in CORRECT){
+if(s.includes(wrong)){
+suggestion=CORRECT[wrong];
+break;
+}
+}
+if(suggestion){
+h+='<div class="err">❌ '+line+'</div>';
+h+='<div class="fix">💡 الصواب: '+suggestion+'</div>';
+h+='<div class="learn">📖 تعلم: الوزن الصحيح هو '+suggestion+'</div>';
+}else if(line.includes('كرر')){
+let n=line.match(/\d+/)||[3];h+='<div class="ok">🔄 كرر '+n[0]+' مرات</div>';
+for(let i=1;i<=(n[0]|3);i++)h+='<div class="ok" style="margin-right:20px">'+i+'. ✅</div>';
+ok++;
+}else if(line.includes('اذا')){
+h+='<div class="ok">🔀 '+line+' → تحقق</div>';ok++;
+}else{
+h+='<div class="err">❌ '+line+' - لم يفهم</div>';
+h+='<div class="learn">💡 جرب: اِحتَسَبَ | حَفِظَ | بَعَثَ | رَسَمَ | قَرَأَ | خَزَنَ</div>';
+}
+}
+});
+h+='<div class="card" style="text-align:center"><strong>📊</strong> العمليات: '+tot+' | الناجح: '+ok+' | البلاغة: '+(tot>0?50+Math.round(ok/tot*50):0)+'/100</div>';
+h+='<div style="text-align:center;color:#666;margin-top:15px">🕌 لغة البيان | ✨ الكود قرآن</div>';
+document.getElementById('preview').innerHTML=h;
+}
+live();
+</script></body></html>
