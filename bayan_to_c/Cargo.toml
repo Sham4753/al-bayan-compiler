@@ -1,0 +1,12 @@
+[package]
+name = "bayan_to_c"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "bayan_to_c"
+path = "test_main.rs"
+
+[lib]
+name = "bayan_to_c"
+path = "src/lib.rs"
