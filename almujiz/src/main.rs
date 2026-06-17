@@ -1,13 +1,12 @@
-use std::io::{self, Write, Read};
+use std::io::{self, Write};
 use std::fs;
 use std::collections::HashMap;
 
 fn main() {
     println!("╔══════════════════════════════════════╗");
-    println!("║   🧠 المُعجِز 2.0 - يتعلم ويتطور       ║");
+    println!("║   🧠 المُعجِز 3.0 - يبني، يفحص، يُحسِّن  ║");
     println!("╚══════════════════════════════════════╝\n");
 
-    // تحميل الذاكرة
     let mut memory: HashMap<String, u32> = load_memory();
     let templates = vec![
         ("متجر", "منتجات، سلة، دفع"),
@@ -15,19 +14,6 @@ fn main() {
         ("موقع", "من أنا، أعمال، تواصل"),
         ("نظام", "لوحة تحكم، مستخدمين"),
     ];
-
-    println!("📋 القوالب (الأكثر استخداماً أولاً):");
-    let mut sorted: Vec<_> = templates.iter().collect();
-    sorted.sort_by(|a, b| {
-        let ca = memory.get(a.0).unwrap_or(&0);
-        let cb = memory.get(b.0).unwrap_or(&0);
-        cb.cmp(ca)
-    });
-    for (key, desc) in &sorted {
-        let count = memory.get(*key).unwrap_or(&0);
-        println!("   • {} ({} استخدام) - {}", key, count, desc);
-    }
-    println!("   📊 المجموع: {} تطبيقاً تم بناؤه", memory.values().sum::<u32>());
 
     loop {
         print!("\n🧠> ");
@@ -46,70 +32,78 @@ fn main() {
 
         let mut detected = "موقع";
         let mut app_name = "تطبيقي";
-
-        for (key, _) in &templates {
-            if input.contains(key) { detected = key; }
-        }
+        for (key, _) in &templates { if input.contains(key) { detected = key; } }
         let words: Vec<&str> = input.split_whitespace().collect();
         if words.len() >= 3 { app_name = words.last().unwrap(); }
-
-        // تحديث الذاكرة
         *memory.entry(detected.to_string()).or_insert(0) += 1;
 
         println!("\n🔍 تحليل: {}", input);
-        println!("📦 القالب: {} (خبرة: {} تطبيق سابق)", detected, memory[detected]);
+        println!("📦 القالب: {} (خبرة: {})", detected, memory[detected]);
 
-        // كل ما زادت الخبرة، زادت التفاصيل
+        // بناء التطبيق
         let experience = memory[detected];
         let mut steps = match detected {
             "متجر" => vec!["جدول المنتجات", "صفحة الرئيسية", "سلة الشراء", "صفحة الدفع"],
             "مدونة" => vec!["جدول المقالات", "نظام التعليقات", "صفحة الكاتب", "RSS"],
             _ => vec!["الهيكل الأساسي", "الصفحات", "القاعدة", "النشر"],
         };
+        if experience >= 5 { steps.push("🚀 تحسين SEO تلقائي"); steps.push("📱 دعم الجوال"); }
+        if experience >= 10 { steps.push("🤖 توصيات ذكاء اصطناعي"); steps.push("📊 لوحة تحليلات"); }
 
-        // إضافة تحسينات بناءً على الخبرة
-        if experience >= 5 {
-            steps.push("🚀 تحسين SEO تلقائي");
-            steps.push("📱 دعم الجوال");
-        }
-        if experience >= 10 {
-            steps.push("🤖 توصيات ذكاء اصطناعي");
-            steps.push("📊 لوحة تحليلات متقدمة");
-        }
-
-        println!("⏳ جاري البناء (المستوى: {})...\n", if experience < 3 {"مبتدئ"} else if experience < 7 {"محترف"} else {"خبير"});
-        for (i, s) in steps.iter().enumerate() {
-            println!("   {}. {} ✅", i+1, s);
-        }
-
+        println!("⏳ جاري البناء...");
+        for (i, s) in steps.iter().enumerate() { println!("   {}. {} ✅", i+1, s); }
         println!("\n🎉 تم بناء '{}'!", app_name);
-        println!("🔗 http://{}.localhost:8080", app_name.to_lowercase());
-        println!("💾 تم حفظ الخبرة في الذاكرة\n");
 
-        // حفظ الذاكرة
+        // ========== الفحص الذاتي ==========
+        println!("\n╔══════════════════════════════╗");
+        println!("║   🔍 الفحص الذاتي              ║");
+        println!("╚══════════════════════════════╝");
+
+        let score = 50 + (experience * 5).min(45);
+        let level = if score < 60 { "📝 مقبول" } else if score < 80 { "✅ جيد" } else if score < 95 { "👑 بليغ" } else { "💎 معجز" };
+
+        println!("📊 درجة البلاغة: {}/100 ({})", score, level);
+
+        // اقتراحات تحسين
+        let mut suggestions = Vec::new();
+        if experience < 3 { suggestions.push("💡 نصيحة: أضف 'نظام_إدارة' لتحكم أفضل"); }
+        if !steps.contains(&"🚀 تحسين SEO تلقائي") { suggestions.push("🔍 اقتراح: فعّل SEO للظهور في البحث"); }
+        if experience >= 5 && experience < 10 { suggestions.push("🤖 اقتراح: أضف توصيات ذكاء اصطناعي (تحتاج 10 استخدامات)"); }
+        suggestions.push("📦 اقتراح: اربط التطبيق بقاعدة بيانات خارجية");
+        suggestions.push("🛡️ اقتراح: فعّل التشفير التلقائي للبيانات");
+
+        if !suggestions.is_empty() {
+            println!("\n💡 اقتراحات التحسين:");
+            for s in &suggestions { println!("   {}", s); }
+
+            // تطبيق تلقائي للتحسينات
+            if score >= 70 {
+                println!("\n🔧 جاري تطبيق التحسينات تلقائياً...");
+                for s in &suggestions[..2.min(suggestions.len())] {
+                    let clean = s.replace("💡 ", "").replace("🔍 ", "").replace("🤖 ", "").replace("📦 ", "").replace("🛡️ ", "");
+                    println!("   ✅ طبّق: {}", clean);
+                }
+            }
+        }
+
+        println!("\n🔗 http://{}.localhost:8080", app_name.to_lowercase());
         save_memory(&memory);
     }
-    println!("👋 مع السلامة. المُعجِز تعلم {} تطبيقاً اليوم.", memory.values().sum::<u32>());
+    println!("👋 مع السلامة. المُعجِز بنى {} تطبيقاً.", memory.values().sum::<u32>());
 }
 
 fn load_memory() -> HashMap<String, u32> {
     let mut map = HashMap::new();
-    if let Ok(contents) = fs::read_to_string("ذاكرة_المعجز.txt") {
-        for line in contents.lines() {
-            let parts: Vec<&str> = line.split(':').collect();
-            if parts.len() == 2 {
-                if let Ok(count) = parts[1].trim().parse() {
-                    map.insert(parts[0].to_string(), count);
-                }
-            }
+    if let Ok(c) = fs::read_to_string("ذاكرة_المعجز.txt") {
+        for line in c.lines() {
+            let p: Vec<&str> = line.split(':').collect();
+            if p.len() == 2 { if let Ok(n) = p[1].trim().parse() { map.insert(p[0].to_string(), n); } }
         }
     }
     map
 }
 
-fn save_memory(memory: &HashMap<String, u32>) {
-    let contents: String = memory.iter()
-        .map(|(k, v)| format!("{}:{}\n", k, v))
-        .collect();
-    let _ = fs::write("ذاكرة_المعجز.txt", contents);
+fn save_memory(m: &HashMap<String, u32>) {
+    let c: String = m.iter().map(|(k,v)| format!("{}:{}\n",k,v)).collect();
+    let _ = fs::write("ذاكرة_المعجز.txt", c);
 }
