@@ -6,123 +6,50 @@
 <title>لغة البيان</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#0a0a12;color:#e0e0e0;text-align:center;padding:20px 10px}
-h1{color:#d4af37;font-size:2em;margin-bottom:5px}
-.sub{color:#aaa;margin-bottom:20px}
-.verse{color:#666;font-style:italic;margin-bottom:20px;font-size:0.9em}
-.editor{max-width:600px;margin:0 auto;background:#0d1117;border:1px solid #333;border-radius:16px;overflow:hidden}
-.editor textarea{width:100%;height:150px;background:transparent;color:#d4af37;border:none;padding:20px;font-size:1.2em;font-family:monospace;resize:none;outline:none;line-height:1.8}
-.editor .toolbar{display:flex;justify-content:space-between;padding:10px 20px;background:#161b22;border-bottom:1px solid #333}
-.editor .toolbar span{color:#d4af37;font-weight:bold}
-.editor .toolbar button{background:#d4af37;color:#0a0a12;border:none;padding:10px 25px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:1em}
-.output{max-width:600px;margin:15px auto;background:#0d1117;border:1px solid #333;border-radius:12px;padding:20px;text-align:right;font-family:monospace;font-size:0.95em;min-height:100px;white-space:pre-wrap}
-.output .ok{color:#0f0}
-.output .err{color:#f44}
-.btns{margin:20px 0}
-.btn{display:inline-block;padding:12px 25px;border-radius:10px;text-decoration:none;font-weight:700;margin:5px;font-size:0.95em}
-.btn.github{background:#d4af37;color:#0a0a12}
-.btn.docs{background:#111;border:2px solid #d4af37;color:#d4af37}
-.footer{margin-top:30px;color:#666;font-size:0.85em}
+body{font-family:Arial;background:#0a0a12;color:#e0e0e0;text-align:center;padding:30px 15px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+h1{color:#d4af37;font-size:3em;margin-bottom:5px}
+.sub{color:#aaa;font-size:1.2em;margin-bottom:10px}
+.verse{color:#666;font-style:italic;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;max-width:700px;margin:0 auto 40px}
+.card{background:#111;border:1px solid #222;border-radius:12px;padding:20px;text-decoration:none;color:#e0e0e0;transition:0.3s}
+.card:hover{border-color:#d4af37;transform:translateY(-3px)}
+.card .icon{font-size:2em;margin-bottom:10px}
+.card .title{color:#d4af37;font-weight:700;margin-bottom:5px}
+.card .desc{color:#666;font-size:0.85em}
+.stats{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin:30px 0}
+.stat .num{font-size:2em;color:#d4af37;font-weight:900}
+.stat .label{color:#666;font-size:0.85em}
+.footer{margin-top:40px;color:#666;font-size:0.85em}
 .footer .gold{color:#d4af37}
 </style>
 </head>
 <body>
+
 <h1>🕌 لغة البيان</h1>
 <p class="sub">أول لغة برمجة عربية أصلية</p>
 <p class="verse">"الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ خَلَقَ الْإِنسَانَ عَلَّمَهُ الْبَيَانَ"</p>
 
-<div class="editor">
-<div class="toolbar">
-<span>✍️ محرر البيان</span>
-<button onclick="runCode()">▶️ شغّل</button>
-</div>
-<textarea id="code" placeholder="اكتب كوداً عربياً هنا... مثلاً: اِحتَسَبَ"></textarea>
-</div>
-
-<div class="output" id="output">
-<span style="color:#d4af37">🕌 اكتب كوداً واضغط شغّل...</span>
+<div class="stats">
+<div class="stat"><div class="num">20</div><div class="label">برنامجاً</div></div>
+<div class="stat"><div class="num">6</div><div class="label">مجالات</div></div>
+<div class="stat"><div class="num">90+</div><div class="label">اختباراً</div></div>
+<div class="stat"><div class="num">35+</div><div class="label">جذراً</div></div>
 </div>
 
-<div class="btns">
-<a href="https://github.com/Sham4753/al-bayan-compiler" class="btn github">📦 المستودع</a>
-<a href="/معجزة.html" class="btn" style="background:#238636;color:#fff">🧠 المُعجِز</a>
-<a href="/الدليل.html" class="btn docs">📖 الدليل</a>
+<div class="grid">
+<a href="/welcome.html" class="card"><div class="icon">🕌</div><div class="title">ابدأ هنا</div><div class="desc">رسالة ترحيب</div></a>
+<a href="/دفتر_البيان.html" class="card"><div class="icon">✍️</div><div class="title">دفتر البيان</div><div class="desc">محرر كود احترافي</div></a>
+<a href="/معجزة.html" class="card"><div class="icon">🧠</div><div class="title">المُعجِز</div><div class="desc">مولد تطبيقات</div></a>
+<a href="/الدليل.html" class="card"><div class="icon">📖</div><div class="title">الدليل</div><div class="desc">ورقة الأوامر</div></a>
+<a href="/manifesto.html" class="card"><div class="icon">📜</div><div class="title">البيان</div><div class="desc">فلسفة اللغة</div></a>
+<a href="/roadmap.html" class="card"><div class="icon">🗺️</div><div class="title">المستقبل</div><div class="desc">خارطة الطريق</div></a>
 </div>
 
 <div class="footer">
-<p>🕌 <span class="gold">لغة البيان</span> v0.6.0 | ✨ الكود قرآن</p>
+<p>🕌 <span class="gold">لغة البيان</span> | ✨ الكود قرآن</p>
 <p>من <span class="gold">حران العواميد</span> إلى العالم</p>
+<p><span class="gold">محمد مجد الخطيب</span></p>
 </div>
 
-<script>
-const ops = {
-    "اِحتَسَبَ":"✅ فحص النظام: ذاكرة 64MB | 8 أنوية",
-    "حَفِظَ":"✅ تشفير SHA256: a7b3c9d2e1...",
-    "بَعَثَ":"✅ تم الإرسال إلى الخادم",
-    "اِنبَعَثَ":"✅ المستمع يعمل على المنفذ 8080",
-    "اِستَقرَأَ":"✅ استجابة API: تم جلب البيانات",
-    "خَزَنَ":"✅ تخزين في الذاكرة",
-    "جَمَعَ":"✅ تجميع: [عنصر1، عنصر2، عنصر3]",
-    "فَصَلَ":"✅ تفرع شرطي: إذا تحقق → نفذ",
-    "رَسَمَ":"✅ واجهة HTML: تم الرسم",
-    "فَتَحَ":"✅ فتح اتصال: المنفذ مفتوح",
-    "قَرَأَ":"✅ قراءة ملف: محتوى تجريبي",
-    "كَتَبَ":"✅ كتابة ملف: تم الحفظ",
-    "أَمَّنَ":"✅ تأمين: تم تفعيل الحماية",
-    "نَسَخَ":"✅ نسخ: تم النسخ",
-    "لَصَقَ":"✅ لصق: تم اللصق",
-    "عَدَّ":"✅ عد: 42 عنصراً",
-    "رَتَّبَ":"✅ ترتيب: تم الترتيب"
-};
-
-function بدون_حركات(نص){ return نص.replace(/[\u064B-\u0652\u0670]/g, ''); }
-
-function runCode(){
-    let code = document.getElementById('code').value.trim();
-    if(!code) return;
-    let lines = code.split('\n');
-    let out = '';
-    
-    for(let line of lines){
-        line = line.trim();
-        if(!line || line.startsWith('//')) continue;
-        
-        let clean = بدون_حركات(line);
-        let found = false;
-        
-        for(let key in ops){
-            let keyClean = بدون_حركات(key);
-            if(clean.includes(keyClean)){
-                out += '<span class="ok">📜 ' + line + '\n   ' + ops[key] + '</span>\n\n';
-                found = true;
-                break;
-            }
-        }
-        
-        if(!found){
-            if(line.includes('كرر')){
-                let num = line.match(/\d+/);
-                let n = num ? num[0] : '3';
-                out += '<span class="ok">📜 ' + line + '</span>\n';
-                for(let i=1; i<=(parseInt(n)||3); i++){
-                    out += '<span class="ok">   ' + i + '. ✅ تم</span>\n';
-                }
-                out += '\n';
-            } else if(line.includes('إذا')){
-                out += '<span class="ok">📜 ' + line + '\n   ✅ تحقق الشرط</span>\n\n';
-            } else {
-                out += '<span class="err">❌ لم يفهم: ' + line + '</span>\n\n';
-            }
-        }
-    }
-    
-    document.getElementById('output').innerHTML = out || '<span class="ok">✅ تم التنفيذ</span>';
-}
-
-// جرب تلقائي
-window.onload = function(){
-    document.getElementById('code').value = 'اِحتَسَبَ\nحَفِظَ\nبَعَثَ';
-};
-</script>
 </body>
 </html>
