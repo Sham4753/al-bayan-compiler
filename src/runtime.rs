@@ -197,6 +197,16 @@ impl BayanRuntime {
             "bayan.arabic.سلم" => Ok(Value::Text("سلم: فعل".to_string())),
             "bayan.arabic.شكر" => Ok(Value::Text("شكر: فعل".to_string())),
             "bayan.arabic.صبر" => Ok(Value::Text("صبر: فعل".to_string())),
+            "bayan.arabic.حلل" => Ok(Value::Text("حلل: فعل".to_string())),
+            "bayan.arabic.صمم" => Ok(Value::Text("صمم: فعل".to_string())),
+            "bayan.arabic.طور" => Ok(Value::Text("طور: فعل".to_string())),
+            "bayan.arabic.ربط" => Ok(Value::Text("ربط: فعل".to_string())),
+            "bayan.arabic.شبك" => Ok(Value::Text("شبك: فعل".to_string())),
+            "bayan.arabic.بلغ" => Ok(Value::Text("بلغ: فعل".to_string())),
+            "bayan.arabic.نفذ" => Ok(Value::Text("نفذ: فعل".to_string())),
+            "bayan.arabic.راقب" => Ok(Value::Text("راقب: فعل".to_string())),
+            "bayan.arabic.دعم" => Ok(Value::Text("دعم: فعل".to_string())),
+            "bayan.arabic.ثبت" => Ok(Value::Text("ثبت: فعل".to_string())),
             _ => Err(format!("intrinsic غير معروف: {}", intrinsic)),
         }
     }
