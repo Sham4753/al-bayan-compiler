@@ -86,6 +86,15 @@ fn main() {
             let mut ctrl = ControlFlow::new();
             println!("{:?}", ctrl.execute_if(text));
         }
+        "حاول" | "try" => {
+            if args.len() < 3 { eprintln!("❌ بيان حاول <مهمة> وإلا فـ <بديل>"); return; }
+            let text = &args[2..].join(" ");
+            let mut exc = bayan_compiler::exceptions::Exceptions::new();
+            match exc.try_catch(text) {
+                Ok(v) => println!("{}", v),
+                Err(e) => eprintln!("{}", e),
+            }
+        }
         "دالة" | "fn" => {
             if args.len() < 3 { eprintln!("❌ بيان دالة <اسم>(<معامل>) = <جسم>"); return; }
             let text = &args[2..].join(" ");
