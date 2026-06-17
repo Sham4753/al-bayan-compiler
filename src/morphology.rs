@@ -79,11 +79,31 @@ mod tests {
     #[test] fn test_nasakha() { let r = Morphology::analyse(&l("نَسَخَ")); assert_eq!(r.jidhr, "نسخ"); assert_eq!(r.zaman, Zaman::Madi); }
     #[test] fn test_yaktubu() { let r = Morphology::analyse(&l("يَكْتُبُ")); assert_eq!(r.jidhr, "كتب"); assert_eq!(r.zaman, Zaman::Mudari3); }
     #[test] fn test_qaraa() { let r = Morphology::analyse(&l("قَرَأَ")); assert_eq!(r.jidhr, "قرأ"); }
+    #[test] fn test_shakara() { let r = Morphology::analyse(&l("شَكَرَ")); assert_eq!(r.jidhr, "شكر"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_سلم() { let r = Morphology::analyse(&l("سلم")); assert_eq!(r.jidhr, "سلم"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_ملك() { let r = Morphology::analyse(&l("ملك")); assert_eq!(r.jidhr, "ملك"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_حكم() { let r = Morphology::analyse(&l("حكم")); assert_eq!(r.jidhr, "حكم"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_فهم() { let r = Morphology::analyse(&l("فهم")); assert_eq!(r.jidhr, "فهم"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_درس() { let r = Morphology::analyse(&l("درس")); assert_eq!(r.jidhr, "درس"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_عمل() { let r = Morphology::analyse(&l("عمل")); assert_eq!(r.jidhr, "عمل"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_حمل() { let r = Morphology::analyse(&l("حمل")); assert_eq!(r.jidhr, "حمل"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_سكن() { let r = Morphology::analyse(&l("سكن")); assert_eq!(r.jidhr, "سكن"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_رجع() { let r = Morphology::analyse(&l("رجع")); assert_eq!(r.jidhr, "رجع"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_ذهب() { let r = Morphology::analyse(&l("ذهب")); assert_eq!(r.jidhr, "ذهب"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_نام() { let r = Morphology::analyse(&l("نام")); assert_eq!(r.jidhr, "نام"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_قام() { let r = Morphology::analyse(&l("قام")); assert_eq!(r.jidhr, "قام"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_جلس() { let r = Morphology::analyse(&l("جلس")); assert_eq!(r.jidhr, "جلس"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_سأل() { let r = Morphology::analyse(&l("سأل")); assert_eq!(r.jidhr, "سأل"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_خرج() { let r = Morphology::analyse(&l("خرج")); assert_eq!(r.jidhr, "خرج"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_دخل() { let r = Morphology::analyse(&l("دخل")); assert_eq!(r.jidhr, "دخل"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_رحم() { let r = Morphology::analyse(&l("رحم")); assert_eq!(r.jidhr, "رحم"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_غفر() { let r = Morphology::analyse(&l("غفر")); assert_eq!(r.jidhr, "غفر"); assert_eq!(r.zaman, Zaman::Madi); }
+    #[test] fn test_sabara() { let r = Morphology::analyse(&l("صَبَرَ")); assert_eq!(r.jidhr, "صبر"); assert_eq!(r.zaman, Zaman::Madi); }
 }
 
 impl Morphology {
     fn lookup_root(letters: &[char]) -> Option<String> {
-        let roots = ["ترجم", "نسخ", "أمن", "يسر", "طبع", "بحث", "حذف", "لصق", "شغل", "رتب"];
+        let roots = ["ترجم", "نسخ", "أمن", "يسر", "طبع", "بحث", "حذف", "لصق", "شغل", "رتب", "شكر", "صبر"];
         for size in [4, 3] {
             if letters.len() >= size {
                 let c: String = letters[..size].iter().collect();
