@@ -17,4 +17,5 @@ pub const BAYAN_SLOGAN: &str = "الكود قرآن - لغة الأم";
 pub mod balagha;
 pub mod orchestrator;
 pub mod composer;
+pub mod executor;
 pub mod morphology;

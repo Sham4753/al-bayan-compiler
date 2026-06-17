@@ -67,6 +67,15 @@ fn main() {
             let s = bayan_compiler::composer::Composer::compose(text);
             println!("{}", s.execute());
         }
+        "نفذ-جملة" | "exec-sen" => {
+            if args.len() < 3 { eprintln!("❌ بيان نفذ-جملة <جملة>"); return; }
+            let text = &args[2..].join(" ");
+            let mut exec = bayan_compiler::executor::Executor::new();
+            match exec.execute_sentence(text) {
+                Ok(v) => println!("↳ {:?}", v),
+                Err(e) => eprintln!("❌ {}", e),
+            }
+        }
         "تفاعلي" | "repl" => repl_mode(),
         _ => help(),
     }
