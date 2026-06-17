@@ -8,7 +8,7 @@ pub enum Jidhr {
     Qaraa, Kataba, Hasaba, Khazana, Ba3atha, Jama3a,
     Fasala, Rasama, Alima, Hafitha, Nasara, Fataha,
     Nashara, Rafa3a, Rahala, Zarra3a, Sami3a, Bana,
-    Wasala, Qata3a, Shukr, Sabr, Ghufr, Rahm, Dukhl, Khurj, Saal, Julus, Qaam, Naam, Dhahab, Raja3, Sakan, Hamal, Amal, Daras, Fahm, Hukm, Malik, Salm, Jabara, Ghasala, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba
+    Wasala, Qata3a, Shukr, Sabr, Ghufr, Rahm, Dukhl, Khurj, Saal, Julus, Qaam, Naam, Dhahab, Raja3, Sakan, Hamal, Amal, Daras, Fahm, Hukm, Malik, Salm, Hallala, Jabara, Ghasala, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba
 }
 
 #[derive(Debug, Clone)]

@@ -117,6 +117,7 @@ impl Generator {
             "غفر" => Ok(Jidhr::Ghufr),
             "جلس" => Ok(Jidhr::Julus),
             "سلم" => Ok(Jidhr::Salm),
+            "حلل" => Ok(Jidhr::Hallala),
             "صبر" => Ok(Jidhr::Sabr),
             "فهم" => Ok(Jidhr::Fahm),
             "حكم" => Ok(Jidhr::Hukm),
