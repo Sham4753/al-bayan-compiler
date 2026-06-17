@@ -61,6 +61,12 @@ fn main() {
                 Err(e) => eprintln!("❌ {}", e),
             }
         }
+        "ركب" | "compose" => {
+            if args.len() < 3 { eprintln!("❌ بيان ركب <جملة>"); return; }
+            let text = &args[2..].join(" ");
+            let s = bayan_compiler::composer::Composer::compose(text);
+            println!("{}", s.execute());
+        }
         "تفاعلي" | "repl" => repl_mode(),
         _ => help(),
     }
