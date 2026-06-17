@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل لغة البيان</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#0a0a12;color:#e0e0e0;line-height:1.8;font-size:16px}
+.hero{background:linear-gradient(135deg,#0d1117,#1a1a2e);padding:40px 15px;text-align:center;border-bottom:2px solid #d4af37}
+.hero h1{font-size:2em;color:#d4af37;font-weight:900}
+.hero .sub{color:#aaa;font-size:1em;margin-top:5px}
+.container{max-width:900px;margin:0 auto;padding:20px 10px}
+.card{background:#111;border:1px solid #222;border-radius:12px;padding:20px 15px;margin:15px 0}
+.card h2{color:#d4af37;font-size:1.3em;margin-bottom:10px}
+pre{background:#0a0a12;border:1px solid #222;border-radius:8px;padding:15px;color:#d4af37;font-size:0.85em;overflow-x:auto;margin:10px 0;direction:ltr;text-align:left;word-break:break-all}
+code{background:#1a1a2e;color:#d4af37;padding:2px 6px;border-radius:4px;font-size:0.9em}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:0.85em}
+th{background:#d4af37;color:#0a0a12;padding:8px 10px}
+td{padding:8px 10px;border-bottom:1px solid #222}
+.steps{display:flex;flex-direction:column;gap:15px;margin:15px 0}
+.step{background:#111;border:1px solid #222;border-radius:10px;padding:20px;text-align:center}
+.step .num{font-size:2em;color:#d4af37;font-weight:900}
+.btn{display:block;width:100%;padding:14px;background:#d4af37;color:#0a0a12;border-radius:10px;text-decoration:none;font-weight:700;text-align:center;margin:8px 0}
+.footer{text-align:center;padding:30px 15px;color:#666;border-top:1px solid #222;margin-top:40px}
+.footer .gold{color:#d4af37}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>🕌 دليل لغة البيان</h1>
+<p class="sub">أول لغة برمجة عربية أصلية</p>
+<p class="sub">"الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ خَلَقَ الْإِنسَانَ عَلَّمَهُ الْبَيَانَ"</p>
+<a href="https://github.com/Sham4753/al-bayan-compiler" class="btn">📦 GitHub</a>
+</div>
+<div class="container">
+
+<div class="steps">
+<div class="step"><div class="num">١</div>حمّل<br><pre>git clone https://github.com/Sham4753/al-bayan-compiler.git</pre></div>
+<div class="step"><div class="num">٢</div>ادخل<br><pre>cd al-bayan-compiler</pre></div>
+<div class="step"><div class="num">٣</div>شغّل<br><pre>cargo run --bin bayan -- شغّل "community/starter_kit/ابدأ_هنا.بيان"</pre></div>
+</div>
+
+<div class="card">
+<h2>📋 الأوامر</h2>
+<table>
+<tr><th>الأمر</th><th>المعنى</th></tr>
+<tr><td>اِحتَسَبَ</td><td>فحص النظام</td></tr>
+<tr><td>حَفِظَ</td><td>تشفير SHA256</td></tr>
+<tr><td>بَعَثَ</td><td>إرسال عبر الشبكة</td></tr>
+<tr><td>اِنبَعَثَ</td><td>فتح مستمع</td></tr>
+<tr><td>خَزَنَ</td><td>تخزين بيانات</td></tr>
+<tr><td>جَمَعَ</td><td>تجميع عناصر</td></tr>
+<tr><td>رَسَمَ</td><td>رسم واجهة</td></tr>
+<tr><td>قَرَأَ</td><td>قراءة ملف</td></tr>
+<tr><td>كَتَبَ</td><td>كتابة ملف</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>🗿 برنامج كامل</h2>
+<pre>اِحتَسَبَ
+حَفِظَ
+بَعَثَ
+رَسَمَ
+قَرَأَ</pre>
+<p>شغله: <code>cargo run --bin bayan -- شغّل "ملف.بيان"</code></p>
+</div>
+
+<div class="card">
+<h2>🧠 المُعجِز</h2>
+<pre>cd almujiz && ./almujiz</pre>
+<p>اكتب: <code>أريد متجرا يبيع القهوة</code></p>
+</div>
+
+</div>
+<div class="footer">
+<p>🕌 <span class="gold">لغة البيان</span> v0.6.0</p>
+<p>✨ الكود قرآن ✨</p>
+<p>من <span class="gold">حران العواميد</span> إلى العالم</p>
+</div>
+</body>
+</html>
