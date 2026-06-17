@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حمّل لغة البيان</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#0a0a12;color:#e0e0e0;text-align:center;padding:40px 15px;max-width:600px;margin:auto;line-height:2}
+h1{color:#d4af37;font-size:2.5em;margin-bottom:30px}
+.card{background:#111;border:1px solid #222;border-radius:12px;padding:25px;margin:20px 0;text-align:right}
+.card h2{color:#d4af37;margin-bottom:10px}
+pre{background:#0d1117;padding:15px;border-radius:8px;color:#d4af37;direction:ltr;text-align:left;overflow-x:auto}
+.btn{display:block;width:100%;padding:16px;margin:12px 0;border-radius:12px;text-decoration:none;font-weight:700;font-size:1.1em;text-align:center}
+.btn.download{background:#d4af37;color:#0a0a12}
+.btn.github{background:#111;border:2px solid #d4af37;color:#d4af37}
+.footer{margin-top:40px;color:#666}
+</style>
+</head>
+<body>
+
+<h1>📥 حمّل لغة البيان</h1>
+
+<div class="card">
+<h2>📦 عن طريق Git</h2>
+<pre>git clone https://github.com/Sham4753/al-bayan-compiler.git
+cd al-bayan-compiler
+cargo run --bin bayan -- شغّل "community/starter_kit/ابدأ_هنا.بيان"</pre>
+</div>
+
+<div class="card">
+<h2>🦀 المتطلبات</h2>
+<p>Rust: <code>curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</code></p>
+</div>
+
+<div class="card">
+<h2>🌐 أو جرب مباشرة على الويب</h2>
+<p>ما تحتاج تنزّل شي. افتح <a href="/دفتر_البيان.html" style="color:#d4af37">دفتر البيان</a> وابدأ.</p>
+</div>
+
+<a href="https://github.com/Sham4753/al-bayan-compiler" class="btn download">📦 GitHub</a>
+<a href="/دفتر_البيان.html" class="btn github">✍️ جرب مباشرة</a>
+
+<div class="footer">🕌 لغة البيان | ✨ الكود قرآن</div>
+</body>
+</html>
