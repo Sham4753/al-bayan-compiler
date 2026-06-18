@@ -72,3 +72,76 @@ impl RootEntry {
         Self::find(arabic).map(|r| r.intrinsic)
     }
 }
+
+// ========== 50 جذر جديد ==========
+pub const ROOT_EXTENSION: &[RootEntry] = &[
+    // حركة
+    RootEntry { arabic: "مشى", intrinsic: "bayan.move.walk", description: "مشى", category: "حركة" },
+    RootEntry { arabic: "جرى", intrinsic: "bayan.move.run", description: "جرى", category: "حركة" },
+    RootEntry { arabic: "وقف", intrinsic: "bayan.move.stop", description: "وقف", category: "حركة" },
+    RootEntry { arabic: "قفز", intrinsic: "bayan.move.jump", description: "قفز", category: "حركة" },
+    RootEntry { arabic: "طار", intrinsic: "bayan.move.fly", description: "طار", category: "حركة" },
+    
+    // تواصل
+    RootEntry { arabic: "قال", intrinsic: "bayan.comm.say", description: "قال", category: "تواصل" },
+    RootEntry { arabic: "سأل", intrinsic: "bayan.comm.ask", description: "سأل", category: "تواصل" },
+    RootEntry { arabic: "أجاب", intrinsic: "bayan.comm.answer", description: "أجاب", category: "تواصل" },
+    RootEntry { arabic: "نادى", intrinsic: "bayan.comm.call", description: "نادى", category: "تواصل" },
+    RootEntry { arabic: "صاح", intrinsic: "bayan.comm.shout", description: "صاح", category: "تواصل" },
+    
+    // إدراك
+    RootEntry { arabic: "رأى", intrinsic: "bayan.sense.see", description: "رأى", category: "إدراك" },
+    RootEntry { arabic: "سمع", intrinsic: "bayan.sense.hear", description: "سمع", category: "إدراك" },
+    RootEntry { arabic: "شم", intrinsic: "bayan.sense.smell", description: "شم", category: "إدراك" },
+    RootEntry { arabic: "ذاق", intrinsic: "bayan.sense.taste", description: "ذاق", category: "إدراك" },
+    RootEntry { arabic: "لمس", intrinsic: "bayan.sense.touch", description: "لمس", category: "إدراك" },
+    
+    // عواطف
+    RootEntry { arabic: "فرح", intrinsic: "bayan.emoji.happy", description: "فرح", category: "عواطف" },
+    RootEntry { arabic: "حزن", intrinsic: "bayan.emoji.sad", description: "حزن", category: "عواطف" },
+    RootEntry { arabic: "غضب", intrinsic: "bayan.emoji.angry", description: "غضب", category: "عواطف" },
+    RootEntry { arabic: "خاف", intrinsic: "bayan.emoji.fear", description: "خاف", category: "عواطف" },
+    RootEntry { arabic: "أحب", intrinsic: "bayan.emoji.love", description: "أحب", category: "عواطف" },
+    
+    // عمليات
+    RootEntry { arabic: "زاد", intrinsic: "bayan.math.add", description: "زاد", category: "عمليات" },
+    RootEntry { arabic: "نقص", intrinsic: "bayan.math.sub", description: "نقص", category: "عمليات" },
+    RootEntry { arabic: "ضرب", intrinsic: "bayan.math.mul", description: "ضرب", category: "عمليات" },
+    RootEntry { arabic: "قسم", intrinsic: "bayan.math.div", description: "قسم", category: "عمليات" },
+    RootEntry { arabic: "بقي", intrinsic: "bayan.math.mod", description: "بقي", category: "عمليات" },
+    
+    // زمن
+    RootEntry { arabic: "أمس", intrinsic: "bayan.time.yesterday", description: "أمس", category: "زمن" },
+    RootEntry { arabic: "يوم", intrinsic: "bayan.time.today", description: "يوم", category: "زمن" },
+    RootEntry { arabic: "غد", intrinsic: "bayan.time.tomorrow", description: "غد", category: "زمن" },
+    RootEntry { arabic: "ساع", intrinsic: "bayan.time.hour", description: "ساعة", category: "زمن" },
+    RootEntry { arabic: "دقي", intrinsic: "bayan.time.minute", description: "دقيقة", category: "زمن" },
+    
+    // طبيعة
+    RootEntry { arabic: "شمس", intrinsic: "bayan.nature.sun", description: "شمس", category: "طبيعة" },
+    RootEntry { arabic: "قمر", intrinsic: "bayan.nature.moon", description: "قمر", category: "طبيعة" },
+    RootEntry { arabic: "نجم", intrinsic: "bayan.nature.star", description: "نجم", category: "طبيعة" },
+    RootEntry { arabic: "بحر", intrinsic: "bayan.nature.sea", description: "بحر", category: "طبيعة" },
+    RootEntry { arabic: "نهر", intrinsic: "bayan.nature.river", description: "نهر", category: "طبيعة" },
+    
+    // ألوان
+    RootEntry { arabic: "أحمر", intrinsic: "bayan.color.red", description: "أحمر", category: "ألوان" },
+    RootEntry { arabic: "أخضر", intrinsic: "bayan.color.green", description: "أخضر", category: "ألوان" },
+    RootEntry { arabic: "أزرق", intrinsic: "bayan.color.blue", description: "أزرق", category: "ألوان" },
+    RootEntry { arabic: "أبيض", intrinsic: "bayan.color.white", description: "أبيض", category: "ألوان" },
+    RootEntry { arabic: "أسود", intrinsic: "bayan.color.black", description: "أسود", category: "ألوان" },
+    
+    // أحجام
+    RootEntry { arabic: "كبير", intrinsic: "bayan.size.big", description: "كبير", category: "أحجام" },
+    RootEntry { arabic: "صغير", intrinsic: "bayan.size.small", description: "صغير", category: "أحجام" },
+    RootEntry { arabic: "طويل", intrinsic: "bayan.size.tall", description: "طويل", category: "أحجام" },
+    RootEntry { arabic: "قصير", intrinsic: "bayan.size.short", description: "قصير", category: "أحجام" },
+    RootEntry { arabic: "واسع", intrinsic: "bayan.size.wide", description: "واسع", category: "أحجام" },
+    
+    // تقنية
+    RootEntry { arabic: "شغل", intrinsic: "bayan.tech.on", description: "شغل", category: "تقنية" },
+    RootEntry { arabic: "أطفأ", intrinsic: "bayan.tech.off", description: "أطفأ", category: "تقنية" },
+    RootEntry { arabic: "حمل", intrinsic: "bayan.tech.load", description: "حمل", category: "تقنية" },
+    RootEntry { arabic: "أرسل", intrinsic: "bayan.tech.send", description: "أرسل", category: "تقنية" },
+    RootEntry { arabic: "استلم", intrinsic: "bayan.tech.receive", description: "استلم", category: "تقنية" },
+];
