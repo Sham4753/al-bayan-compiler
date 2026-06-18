@@ -1,10 +1,40 @@
 #!/bin/bash
-echo "🛡️ محطة الهاكر العربي"
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+clear
+echo -e "${GREEN}╔══════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║   🛡️ محطة الهاكر العربي - لغة البيان  ║${NC}"
+echo -e "${GREEN}╚══════════════════════════════════════╝${NC}"
+echo ""
+
 cd /root/al-bayan-compiler
+COUNT=0
+
 while true; do
-    echo -n "🕌> "
-    read cmd
-    [ "$cmd" = "خروج" ] && break
-    echo "$cmd" > /tmp/h.bayan
-    cargo run --bin bayan -- شغّل /tmp/h.bayan 2>&1 | grep "↳"
+    echo -en "${CYAN}🕌${NC} ${YELLOW}هاكر${NC}> "
+    read -r cmd
+    
+    if [ "$cmd" = "خروج" ]; then
+        echo -e "${GREEN}✅ تم تنفيذ $COUNT عملية${NC}"
+        break
+    fi
+    
+    if [ "$cmd" = "مساعدة" ]; then
+        echo -e "${YELLOW}📋 اِحتَسَبَ | حَفِظَ | بَعَثَ | اِنبَعَثَ | خَزَنَ${NC}"
+        continue
+    fi
+    
+    printf '%s\n' "$cmd" > /tmp/h.bayan
+    RESULT=$(cargo run --bin bayan -- شغّل /tmp/h.bayan 2>&1 | grep "↳" | head -1 | cut -d'(' -f2 | cut -d')' -f1)
+    
+    if [ -n "$RESULT" ]; then
+        echo -e "${GREEN}✅ $RESULT${NC}"
+        COUNT=$((COUNT+1))
+    else
+        echo -e "${RED}❌ لم يفهم${NC}"
+    fi
 done
