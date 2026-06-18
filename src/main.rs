@@ -104,6 +104,14 @@ fn main() {
                 Err(e) => eprintln!("{}", e),
             }
         }
+        "جذر" | "root" => {
+            if args.len() < 3 { eprintln!("❌ بيان جذر <اسم>"); return; }
+            let gen = bayan_compiler::generator_new::Generator::new();
+            match gen.lookup(&args[2]) {
+                Some(r) => println!("✅ {} -> {} ({})", r.arabic, r.intrinsic, r.description),
+                None => eprintln!("❌ غير معروف"),
+            }
+        }
         "تفاعلي" | "repl" => repl_mode(),
         _ => help(),
     }
@@ -141,3 +149,5 @@ fn help() {
     println!("  بيان حاول <مهمة>     استثناء");
     println!("  بيان تفاعلي           وضع المحادثة");
 }
+
+// أمر جديد: "جذر" للبحث في القاعدة

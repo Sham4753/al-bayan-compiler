@@ -13,6 +13,7 @@ pub mod optimizer;
 pub mod balagha;
 pub mod morphology;
 pub mod roots_map;
+pub mod generator_new;
 pub mod orchestrator;
 pub mod composer;
 pub mod executor;
