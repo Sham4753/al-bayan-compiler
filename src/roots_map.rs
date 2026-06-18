@@ -215,3 +215,17 @@ pub const DYNAMIC_ROOTS: &[RootEntry] = &[
     RootEntry { arabic: "وسع", intrinsic: "bayan.dynamic.expand", description: "توسيع", category: "ديناميكية" },
     RootEntry { arabic: "قلص", intrinsic: "bayan.dynamic.shrink", description: "تقليص", category: "ديناميكية" },
 ];
+
+// ========== فئة التأمل ==========
+pub const META_ROOTS: &[RootEntry] = &[
+    RootEntry { arabic: "اعرف", intrinsic: "bayan.meta.know", description: "معرفة الذات", category: "تأمل" },
+    RootEntry { arabic: "افحص", intrinsic: "bayan.meta.inspect", description: "فحص الذات", category: "تأمل" },
+    RootEntry { arabic: "عدل", intrinsic: "bayan.meta.modify", description: "تعديل الذات", category: "تأمل" },
+    RootEntry { arabic: "ابن", intrinsic: "bayan.meta.build", description: "بناء ذاتي", category: "تأمل" },
+    RootEntry { arabic: "أصلح", intrinsic: "bayan.meta.fix", description: "إصلاح ذاتي", category: "تأمل" },
+    RootEntry { arabic: "قيم", intrinsic: "bayan.meta.evaluate", description: "تقييم ذاتي", category: "تأمل" },
+    RootEntry { arabic: "سجل", intrinsic: "bayan.meta.log", description: "تسجيل", category: "تأمل" },
+    RootEntry { arabic: "راجع", intrinsic: "bayan.meta.review", description: "مراجعة", category: "تأمل" },
+    RootEntry { arabic: "تنبأ", intrinsic: "bayan.meta.predict", description: "تنبؤ", category: "تأمل" },
+    RootEntry { arabic: "استنتج", intrinsic: "bayan.meta.infer", description: "استنتاج", category: "تأمل" },
+];

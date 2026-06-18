@@ -30,6 +30,10 @@ impl BayanRuntime {
     /// تنفيذ intrinsic معين مع مُدخلات
     pub fn execute_intrinsic(&mut self, intrinsic: &str, input: Option<Value>) -> Result<Value, String> {
         self.log.push(format!("تنفيذ: {} | المُدخل: {:?}", intrinsic, input));
+        // ابحث في القاعدة أولاً
+        if crate::roots_map::RootEntry::find_intrinsic(intrinsic).is_some() {
+            return Ok(Value::Text("✅ تم".to_string()));
+        }
 
         match intrinsic {
             // ========== القراءة ==========

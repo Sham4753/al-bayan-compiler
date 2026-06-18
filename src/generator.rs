@@ -144,6 +144,7 @@ impl Generator {
             "شكر" => Ok(Jidhr::Shukr),
             "نام" => Ok(Jidhr::Naam),
             "سكن" => Ok(Jidhr::Sakan),
+            "صدق" => Ok(Jidhr::Sidq),
             _ => Err(format!("جذر غير معروف: '{}'", j)),
         }
     }

@@ -8,7 +8,7 @@ pub enum Jidhr {
     Qaraa, Kataba, Hasaba, Khazana, Ba3atha, Jama3a,
     Fasala, Rasama, Alima, Hafitha, Nasara, Fataha,
     Nashara, Rafa3a, Rahala, Zarra3a, Sami3a, Bana,
-    Wasala, Qata3a, Shukr, Sabr, Ghufr, Rahm, Dukhl, Khurj, Saal, Julus, Qaam, Naam, Dhahab, Raja3, Sakan, Hamal, Amal, Daras, Fahm, Hukm, Malik, Salm, Hallala, Yasara, Jabara, Ghasala, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba
+    Wasala, Qata3a, Shukr, Sabr, Ghufr, Rahm, Dukhl, Khurj, Saal, Julus, Qaam, Naam, Dhahab, Raja3, Sakan, Hamal, Amal, Daras, Fahm, Hukm, Malik, Salm, Hallala, Yasara, Jabara, Ghasala, Taba3a, Bahatha, Hathafa, Nasakha, Lasqata, Tarjama, Shaghghala, Ammana, Thalatha, Rattaba, Sidq,
 }
 
 #[derive(Debug, Clone)]
@@ -143,6 +143,7 @@ impl TasreefRegister {
         add!(reg, Jidhr::Lasqata, Wazn::Faala, "bayan.io.paste", false, false, "لَصَقَ: لصق");
         add!(reg, Jidhr::Tarjama, Wazn::Faala, "bayan.ai.translate", false, false, "تَرجَمَ: ترجمة");
         add!(reg, Jidhr::Shaghghala, Wazn::Faala, "bayan.exec.run", false, false, "شَغَّلَ: تشغيل");
+        add!(reg, Jidhr::Shaghghala, Wazn::Fa3ala, "bayan.dev.upgrade", false, false, "طَوَّرَ: تطوير");
         add!(reg, Jidhr::Ammana, Wazn::Faala, "bayan.security.lock", false, false, "أَمَّنَ: تأمين");
         add!(reg, Jidhr::Ammana, Wazn::Fa3ala, "bayan.security.lock", false, false, "أَمَّنَ: تأمين");
         add!(reg, Jidhr::Thalatha, Wazn::Faala, "bayan.data.count", false, false, "عَدَّ: عدّ");
@@ -151,6 +152,7 @@ impl TasreefRegister {
         add!(reg, Jidhr::Hallala, Wazn::Faala, "bayan.ai.analyze", false, false, "حَلَّلَ: تحليل");
         add!(reg, Jidhr::Hallala, Wazn::Fa3ala, "bayan.ai.analyze_deep", false, false, "حَلَّلَ: تحليل عميق");
         add!(reg, Jidhr::Yasara, Wazn::Faala, "bayan.data.ease", false, false, "يَسَرَ: تيسير");
+        add!(reg, Jidhr::Sidq, Wazn::Faala, "bayan.arabic.صدق", false, false, "صَدَقَ: صدق");
         TasreefRegister { register: reg }
     }
 
