@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "🛡️ محطة الهاكر العربي"
+cd /root/al-bayan-compiler
+while true; do
+    echo -n "🕌> "
+    read cmd
+    [ "$cmd" = "خروج" ] && break
+    echo "$cmd" > /tmp/h.bayan
+    cargo run --bin bayan -- شغّل /tmp/h.bayan 2>&1 | grep "↳"
+done
