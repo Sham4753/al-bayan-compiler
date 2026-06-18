@@ -187,3 +187,17 @@ pub const AWARE_ROOTS: &[RootEntry] = &[
     RootEntry { arabic: "قارن", intrinsic: "bayan.aware.compare", description: "مقارنة", category: "وعي" },
     RootEntry { arabic: "اختار", intrinsic: "bayan.aware.choose", description: "اختيار", category: "وعي" },
 ];
+
+// ========== فئة المجسات ==========
+pub const SENSOR_ROOTS: &[RootEntry] = &[
+    RootEntry { arabic: "استشعر", intrinsic: "bayan.sensor.detect", description: "استشعار", category: "مجسات" },
+    RootEntry { arabic: "قس", intrinsic: "bayan.sensor.measure", description: "قياس", category: "مجسات" },
+    RootEntry { arabic: "حرك", intrinsic: "bayan.sensor.move", description: "تحريك", category: "مجسات" },
+    RootEntry { arabic: "أوقف", intrinsic: "bayan.sensor.stop", description: "إيقاف", category: "مجسات" },
+    RootEntry { arabic: "وجه", intrinsic: "bayan.sensor.orient", description: "توجيه", category: "مجسات" },
+    RootEntry { arabic: "التقط", intrinsic: "bayan.sensor.capture", description: "التقاط", category: "مجسات" },
+    RootEntry { arabic: "تعرف", intrinsic: "bayan.sensor.recognize", description: "تعرف", category: "مجسات" },
+    RootEntry { arabic: "تتبع", intrinsic: "bayan.sensor.track", description: "تتبع", category: "مجسات" },
+    RootEntry { arabic: "حذر", intrinsic: "bayan.sensor.alert", description: "تحذير", category: "مجسات" },
+    RootEntry { arabic: "استجب", intrinsic: "bayan.sensor.respond", description: "استجابة", category: "مجسات" },
+];
