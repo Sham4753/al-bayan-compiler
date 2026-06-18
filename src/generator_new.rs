@@ -15,6 +15,9 @@ impl Generator {
         // تحميل كل الجذور من القاعدة
         for root in crate::roots_map::ROOTS_DB {
         for root in crate::roots_map::ROOT_EXTENSION {
+        for root in crate::roots_map::NETWORK_ROOTS {
+            map.insert(root.arabic.to_string(), root);
+        }
             map.insert(root.arabic.to_string(), root);
         }
             map.insert(root.arabic.to_string(), root);

@@ -145,3 +145,17 @@ pub const ROOT_EXTENSION: &[RootEntry] = &[
     RootEntry { arabic: "أرسل", intrinsic: "bayan.tech.send", description: "أرسل", category: "تقنية" },
     RootEntry { arabic: "استلم", intrinsic: "bayan.tech.receive", description: "استلم", category: "تقنية" },
 ];
+
+// ========== فئة الشبكات ==========
+pub const NETWORK_ROOTS: &[RootEntry] = &[
+    RootEntry { arabic: "اتصل", intrinsic: "bayan.net.connect", description: "اتصال", category: "شبكة" },
+    RootEntry { arabic: "اقطع", intrinsic: "bayan.net.disconnect", description: "قطع اتصال", category: "شبكة" },
+    RootEntry { arabic: "أصغ", intrinsic: "bayan.net.listen", description: "استماع", category: "شبكة" },
+    RootEntry { arabic: "اردد", intrinsic: "bayan.net.reply", description: "رد", category: "شبكة" },
+    RootEntry { arabic: "وجه", intrinsic: "bayan.net.route", description: "توجيه", category: "شبكة" },
+    RootEntry { arabic: "مرر", intrinsic: "bayan.net.forward", description: "تمرير", category: "شبكة" },
+    RootEntry { arabic: "حزم", intrinsic: "bayan.net.packet", description: "حزمة", category: "شبكة" },
+    RootEntry { arabic: "فكك", intrinsic: "bayan.net.unpack", description: "فك حزمة", category: "شبكة" },
+    RootEntry { arabic: "بث", intrinsic: "bayan.net.broadcast", description: "بث", category: "شبكة" },
+    RootEntry { arabic: "أمن", intrinsic: "bayan.net.secure", description: "تأمين اتصال", category: "شبكة" },
+];
