@@ -1,83 +1,58 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>دليل لغة البيان</title>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>دليل الجذور</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#0a0a12;color:#e0e0e0;line-height:1.8;font-size:16px}
-.hero{background:linear-gradient(135deg,#0d1117,#1a1a2e);padding:40px 15px;text-align:center;border-bottom:2px solid #d4af37}
-.hero h1{font-size:2em;color:#d4af37;font-weight:900}
-.hero .sub{color:#aaa;font-size:1em;margin-top:5px}
-.container{max-width:900px;margin:0 auto;padding:20px 10px}
-.card{background:#111;border:1px solid #222;border-radius:12px;padding:20px 15px;margin:15px 0}
-.card h2{color:#d4af37;font-size:1.3em;margin-bottom:10px}
-pre{background:#0a0a12;border:1px solid #222;border-radius:8px;padding:15px;color:#d4af37;font-size:0.85em;overflow-x:auto;margin:10px 0;direction:ltr;text-align:left;word-break:break-all}
-code{background:#1a1a2e;color:#d4af37;padding:2px 6px;border-radius:4px;font-size:0.9em}
-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:0.85em}
-th{background:#d4af37;color:#0a0a12;padding:8px 10px}
-td{padding:8px 10px;border-bottom:1px solid #222}
-.steps{display:flex;flex-direction:column;gap:15px;margin:15px 0}
-.step{background:#111;border:1px solid #222;border-radius:10px;padding:20px;text-align:center}
-.step .num{font-size:2em;color:#d4af37;font-weight:900}
-.btn{display:block;width:100%;padding:14px;background:#d4af37;color:#0a0a12;border-radius:10px;text-decoration:none;font-weight:700;text-align:center;margin:8px 0}
-.footer{text-align:center;padding:30px 15px;color:#666;border-top:1px solid #222;margin-top:40px}
-.footer .gold{color:#d4af37}
-</style>
-</head>
-<body>
-<div class="hero">
-<h1>🕌 دليل لغة البيان</h1>
-<p class="sub">أول لغة برمجة عربية أصلية</p>
-<p class="sub">"الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ خَلَقَ الْإِنسَانَ عَلَّمَهُ الْبَيَانَ"</p>
-<a href="https://github.com/Sham4753/al-bayan-compiler" class="btn">📦 GitHub</a>
-</div>
-<div class="container">
+body{font-family:Arial;background:#0a0a12;color:#e0e0e0;padding:20px;max-width:900px;margin:auto}
+h1{color:#d4af37;text-align:center;font-size:2em;margin-bottom:10px}
+.sub{color:#aaa;text-align:center;margin-bottom:30px}
+.cat{margin:25px 0}
+.cat h2{color:#d4af37;border-bottom:1px solid #333;padding-bottom:5px;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.card{background:#111;border:1px solid #222;border-radius:8px;padding:10px;text-align:center;font-size:0.9em}
+.card .arabic{color:#d4af37;font-weight:bold}
+.card .desc{color:#666;font-size:0.75em;margin-top:3px}
+.total{text-align:center;margin:30px 0;padding:20px;background:#111;border:1px solid #d4af37;border-radius:12px}
+.total .num{font-size:3em;color:#d4af37;font-weight:900}
+.footer{text-align:center;color:#666;margin-top:30px}
+</style></head><body>
+<h1>📖 دليل الجذور</h1>
+<p class="sub">80 جذراً في 18 فئة - لغة البيان</p>
 
-<div class="steps">
-<div class="step"><div class="num">١</div>حمّل<br><pre>git clone https://github.com/Sham4753/al-bayan-compiler.git</pre></div>
-<div class="step"><div class="num">٢</div>ادخل<br><pre>cd al-bayan-compiler</pre></div>
-<div class="step"><div class="num">٣</div>شغّل<br><pre>cargo run --bin bayan -- شغّل "community/starter_kit/ابدأ_هنا.بيان"</pre></div>
-</div>
+<div class="cat"><h2>🖥️ النظام</h2><div class="grid"><div class="card"><div class="arabic">اِحتَسَبَ</div><div class="desc">فحص النظام</div></div><div class="card"><div class="arabic">اِستَقرَأَ</div><div class="desc">استدعاء API</div></div></div></div>
 
-<div class="card">
-<h2>📋 الأوامر</h2>
-<table>
-<tr><th>الأمر</th><th>المعنى</th></tr>
-<tr><td>اِحتَسَبَ</td><td>فحص النظام</td></tr>
-<tr><td>حَفِظَ</td><td>تشفير SHA256</td></tr>
-<tr><td>بَعَثَ</td><td>إرسال عبر الشبكة</td></tr>
-<tr><td>اِنبَعَثَ</td><td>فتح مستمع</td></tr>
-<tr><td>خَزَنَ</td><td>تخزين بيانات</td></tr>
-<tr><td>جَمَعَ</td><td>تجميع عناصر</td></tr>
-<tr><td>رَسَمَ</td><td>رسم واجهة</td></tr>
-<tr><td>قَرَأَ</td><td>قراءة ملف</td></tr>
-<tr><td>كَتَبَ</td><td>كتابة ملف</td></tr>
-</table>
-</div>
+<div class="cat"><h2>🛡️ الأمان</h2><div class="grid"><div class="card"><div class="arabic">حَفِظَ</div><div class="desc">تشفير</div></div><div class="card"><div class="arabic">أَمَّنَ</div><div class="desc">تأمين</div></div></div></div>
 
-<div class="card">
-<h2>🗿 برنامج كامل</h2>
-<pre>اِحتَسَبَ
-حَفِظَ
-بَعَثَ
-رَسَمَ
-قَرَأَ</pre>
-<p>شغله: <code>cargo run --bin bayan -- شغّل "ملف.بيان"</code></p>
-</div>
+<div class="cat"><h2>🌐 الشبكة</h2><div class="grid"><div class="card"><div class="arabic">بَعَثَ</div><div class="desc">إرسال</div></div><div class="card"><div class="arabic">اِنبَعَثَ</div><div class="desc">مستمع</div></div><div class="card"><div class="arabic">فَتَحَ</div><div class="desc">اتصال</div></div></div></div>
 
-<div class="card">
-<h2>🧠 المُعجِز</h2>
-<pre>cd almujiz && ./almujiz</pre>
-<p>اكتب: <code>أريد متجرا يبيع القهوة</code></p>
-</div>
+<div class="cat"><h2>📦 البيانات</h2><div class="grid"><div class="card"><div class="arabic">خَزَنَ</div><div class="desc">تخزين</div></div><div class="card"><div class="arabic">جَمَعَ</div><div class="desc">تجميع</div></div><div class="card"><div class="arabic">فَصَلَ</div><div class="desc">تفرع</div></div><div class="card"><div class="arabic">بَحَثَ</div><div class="desc">بحث</div></div><div class="card"><div class="arabic">حَذَفَ</div><div class="desc">حذف</div></div><div class="card"><div class="arabic">عَدَّ</div><div class="desc">عد</div></div><div class="card"><div class="arabic">رَتَّبَ</div><div class="desc">ترتيب</div></div></div></div>
 
-</div>
-<div class="footer">
-<p>🕌 <span class="gold">لغة البيان</span> v0.6.0</p>
-<p>✨ الكود قرآن ✨</p>
-<p>من <span class="gold">حران العواميد</span> إلى العالم</p>
-</div>
-</body>
-</html>
+<div class="cat"><h2>🎨 الواجهة</h2><div class="grid"><div class="card"><div class="arabic">رَسَمَ</div><div class="desc">رسم</div></div></div></div>
+
+<div class="cat"><h2>📝 الملفات</h2><div class="grid"><div class="card"><div class="arabic">قَرَأَ</div><div class="desc">قراءة</div></div><div class="card"><div class="arabic">كَتَبَ</div><div class="desc">كتابة</div></div><div class="card"><div class="arabic">نَسَخَ</div><div class="desc">نسخ</div></div><div class="card"><div class="arabic">لَصَقَ</div><div class="desc">لصق</div></div></div></div>
+
+<div class="cat"><h2>🤖 الذكاء</h2><div class="grid"><div class="card"><div class="arabic">حَلَّلَ</div><div class="desc">تحليل</div></div><div class="card"><div class="arabic">صَمَّمَ</div><div class="desc">تصميم</div></div><div class="card"><div class="arabic">طَوَّرَ</div><div class="desc">تطوير</div></div><div class="card"><div class="arabic">تَرجَمَ</div><div class="desc">ترجمة</div></div></div></div>
+
+<div class="cat"><h2>💎 القيم</h2><div class="grid"><div class="card"><div class="arabic">صَدَقَ</div><div class="desc">صدق</div></div><div class="card"><div class="arabic">كَذَبَ</div><div class="desc">كذب</div></div><div class="card"><div class="arabic">رَبِحَ</div><div class="desc">ربح</div></div><div class="card"><div class="arabic">خَسِرَ</div><div class="desc">خسر</div></div><div class="card"><div class="arabic">قَوِيَ</div><div class="desc">قوي</div></div><div class="card"><div class="arabic">ضَعُفَ</div><div class="desc">ضعف</div></div><div class="card"><div class="arabic">نَجَحَ</div><div class="desc">نجح</div></div><div class="card"><div class="arabic">فَشِلَ</div><div class="desc">فشل</div></div></div></div>
+
+<div class="cat"><h2>🏃 الحركة</h2><div class="grid"><div class="card"><div class="arabic">مَشَى</div><div class="desc">مشى</div></div><div class="card"><div class="arabic">جَرَى</div><div class="desc">جرى</div></div><div class="card"><div class="arabic">وَقَفَ</div><div class="desc">وقف</div></div><div class="card"><div class="arabic">قَفَزَ</div><div class="desc">قفز</div></div><div class="card"><div class="arabic">طَارَ</div><div class="desc">طار</div></div></div></div>
+
+<div class="cat"><h2>💬 التواصل</h2><div class="grid"><div class="card"><div class="arabic">قَالَ</div><div class="desc">قال</div></div><div class="card"><div class="arabic">سَأَلَ</div><div class="desc">سأل</div></div><div class="card"><div class="arabic">أَجَابَ</div><div class="desc">أجاب</div></div><div class="card"><div class="arabic">نَادَى</div><div class="desc">نادى</div></div><div class="card"><div class="arabic">صَاحَ</div><div class="desc">صاح</div></div></div></div>
+
+<div class="cat"><h2>👁️ الإدراك</h2><div class="grid"><div class="card"><div class="arabic">رَأَى</div><div class="desc">رأى</div></div><div class="card"><div class="arabic">سَمِعَ</div><div class="desc">سمع</div></div><div class="card"><div class="arabic">شَمَّ</div><div class="desc">شم</div></div><div class="card"><div class="arabic">ذَاقَ</div><div class="desc">ذاق</div></div><div class="card"><div class="arabic">لَمَسَ</div><div class="desc">لمس</div></div></div></div>
+
+<div class="cat"><h2>❤️ العواطف</h2><div class="grid"><div class="card"><div class="arabic">فَرِحَ</div><div class="desc">فرح</div></div><div class="card"><div class="arabic">حَزِنَ</div><div class="desc">حزن</div></div><div class="card"><div class="arabic">غَضِبَ</div><div class="desc">غضب</div></div><div class="card"><div class="arabic">خَافَ</div><div class="desc">خاف</div></div><div class="card"><div class="arabic">أَحَبَّ</div><div class="desc">أحب</div></div></div></div>
+
+<div class="cat"><h2>🔢 العمليات</h2><div class="grid"><div class="card"><div class="arabic">زَادَ</div><div class="desc">زاد</div></div><div class="card"><div class="arabic">نَقَصَ</div><div class="desc">نقص</div></div><div class="card"><div class="arabic">ضَرَبَ</div><div class="desc">ضرب</div></div><div class="card"><div class="arabic">قَسَمَ</div><div class="desc">قسم</div></div><div class="card"><div class="arabic">بَقِيَ</div><div class="desc">بقي</div></div></div></div>
+
+<div class="cat"><h2>⏰ الزمن</h2><div class="grid"><div class="card"><div class="arabic">أَمسِ</div><div class="desc">أمس</div></div><div class="card"><div class="arabic">يَوم</div><div class="desc">يوم</div></div><div class="card"><div class="arabic">غَد</div><div class="desc">غد</div></div><div class="card"><div class="arabic">سَاع</div><div class="desc">ساعة</div></div><div class="card"><div class="arabic">دَقِي</div><div class="desc">دقيقة</div></div></div></div>
+
+<div class="cat"><h2>🌿 الطبيعة</h2><div class="grid"><div class="card"><div class="arabic">شَمس</div><div class="desc">شمس</div></div><div class="card"><div class="arabic">قَمَر</div><div class="desc">قمر</div></div><div class="card"><div class="arabic">نَجم</div><div class="desc">نجم</div></div><div class="card"><div class="arabic">بَحر</div><div class="desc">بحر</div></div><div class="card"><div class="arabic">نَهر</div><div class="desc">نهر</div></div></div></div>
+
+<div class="cat"><h2>🎨 الألوان</h2><div class="grid"><div class="card"><div class="arabic">أَحمَر</div><div class="desc">أحمر</div></div><div class="card"><div class="arabic">أَخضَر</div><div class="desc">أخضر</div></div><div class="card"><div class="arabic">أَزرَق</div><div class="desc">أزرق</div></div><div class="card"><div class="arabic">أَبيَض</div><div class="desc">أبيض</div></div><div class="card"><div class="arabic">أَسوَد</div><div class="desc">أسود</div></div></div></div>
+
+<div class="cat"><h2>📏 الأحجام</h2><div class="grid"><div class="card"><div class="arabic">كَبِير</div><div class="desc">كبير</div></div><div class="card"><div class="arabic">صَغِير</div><div class="desc">صغير</div></div><div class="card"><div class="arabic">طَوِيل</div><div class="desc">طويل</div></div><div class="card"><div class="arabic">قَصِير</div><div class="desc">قصير</div></div><div class="card"><div class="arabic">وَاسِع</div><div class="desc">واسع</div></div></div></div>
+
+<div class="cat"><h2>⚡ التقنية</h2><div class="grid"><div class="card"><div class="arabic">شَغَلَ</div><div class="desc">شغل</div></div><div class="card"><div class="arabic">أَطفَأَ</div><div class="desc">أطفأ</div></div><div class="card"><div class="arabic">حَمَلَ</div><div class="desc">حمل</div></div><div class="card"><div class="arabic">أَرسَلَ</div><div class="desc">أرسل</div></div><div class="card"><div class="arabic">اِستَلمَ</div><div class="desc">استلم</div></div></div></div>
+
+<div class="total"><div class="num">80</div><p>جذراً في 18 فئة</p></div>
+<div class="footer">🕌 لغة البيان | ✨ الكود قرآن</div>
+</body></html>
