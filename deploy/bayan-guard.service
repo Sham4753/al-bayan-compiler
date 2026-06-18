@@ -1,0 +1,12 @@
+[Unit]
+Description=حارس البيان - Server Guardian
+After=network.target
+
+[Service]
+ExecStart=/root/al-bayan-compiler/target/debug/bayan شغّل /root/al-bayan-compiler/server_guard.bayan
+Restart=always
+RestartSec=10
+WorkingDirectory=/root/al-bayan-compiler
+
+[Install]
+WantedBy=multi-user.target

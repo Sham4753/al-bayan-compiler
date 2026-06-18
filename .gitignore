@@ -2,3 +2,4 @@
 *.swp
 .DS_Store
 bayan_llvm_core/target/
+bayan_wasm/target/
