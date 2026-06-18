@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لغة البيان</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#0a0a12;color:#e0e0e0;text-align:center;padding:30px 15px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+h1{color:#d4af37;font-size:3em;margin-bottom:5px;animation:fadeIn 1s}
+.sub{color:#aaa;font-size:1.2em;margin-bottom:10px;animation:fadeIn 1.3s}
+.verse{color:#666;font-style:italic;margin-bottom:40px;animation:fadeIn 1.6s}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;max-width:700px;margin:0 auto 40px;animation:fadeIn 2s}
+.card{background:#111;border:1px solid #222;border-radius:12px;padding:20px;text-decoration:none;color:#e0e0e0;transition:0.3s}
+.card:hover{border-color:#d4af37;transform:translateY(-3px)}
+.card .icon{font-size:2em;margin-bottom:10px}
+.card .title{color:#d4af37;font-weight:700;margin-bottom:5px}
+.card .desc{color:#666;font-size:0.85em}
+.stats{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin:30px 0;animation:fadeIn 2.3s}
+.stat .num{font-size:2em;color:#d4af37;font-weight:900}
+.stat .label{color:#666;font-size:0.85em}
+.footer{margin-top:40px;color:#666;font-size:0.85em;animation:fadeIn 2.6s}
+.footer .gold{color:#d4af37}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<h1>🕌 لغة البيان</h1>
+<p class="sub">أول لغة برمجة عربية أصلية</p>
+<p class="verse">"الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ خَلَقَ الْإِنسَانَ عَلَّمَهُ الْبَيَانَ"</p>
+
+<div class="stats">
+<div class="stat"><div class="num">20</div><div class="label">برنامجاً</div></div>
+<div class="stat"><div class="num">6</div><div class="label">مجالات</div></div>
+<div class="stat"><div class="num">90+</div><div class="label">اختباراً</div></div>
+<div class="stat"><div class="num">35+</div><div class="label">جذراً</div></div>
+</div>
+
+<div class="grid">
+<a href="/welcome.html" class="card"><div class="icon">🕌</div><div class="title">ابدأ هنا</div><div class="desc">رسالة ترحيب</div></a>
+<a href="/دفتر_البيان.html" class="card"><div class="icon">✍️</div><div class="title">دفتر البيان</div><div class="desc">محرر كود احترافي</div></a>
+<a href="/معجزة.html" class="card"><div class="icon">🧠</div><div class="title">المُعجِز</div><div class="desc">مولد تطبيقات</div></a>
+<a href="/الدليل.html" class="card"><div class="icon">📖</div><div class="title">الدليل</div><div class="desc">ورقة الأوامر</div></a>
+<a href="/manifesto.html" class="card"><div class="icon">📜</div><div class="title">البيان</div><div class="desc">فلسفة اللغة</div></a>
+<a href="/roadmap.html" class="card"><div class="icon">🗺️</div><div class="title">المستقبل</div><div class="desc">خارطة الطريق</div></a>
+</div>
+
+<div class="footer">
+<p>🕌 <span class="gold">لغة البيان</span> | ✨ الكود قرآن</p>
+<p>من <span class="gold">حران العواميد</span> إلى العالم</p>
+<p><span class="gold">محمد مجد الخطيب</span></p>
+</div>
+
+</body>
+</html>

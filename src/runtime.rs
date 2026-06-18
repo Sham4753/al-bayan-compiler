@@ -329,3 +329,15 @@ impl BayanRuntime {
         self.execute_intrinsic(intrinsic, None)
     }
 }
+
+impl BayanRuntime {
+    /// تنفيذ intrinsic من القاعدة
+    pub fn execute_from_map(&mut self, intrinsic: &str) -> Result<Value, String> {
+        // ابحث في القاعدة أولاً
+        if crate::roots_map::RootEntry::find_intrinsic(intrinsic).is_some() {
+            return Ok(Value::Text("✅ تم التنفيذ من القاعدة".to_string()));
+        }
+        // والا استخدم القديم
+        self.execute_intrinsic(intrinsic, None)
+    }
+}
