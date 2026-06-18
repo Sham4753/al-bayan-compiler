@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>البيان بورتال</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#0a0a12;color:#e0e0e0;display:flex;height:100vh;overflow:hidden}
+.sidebar{width:60px;background:#111;display:flex;flex-direction:column;align-items:center;padding:10px 0;border-left:1px solid #222}
+.sidebar .icon{font-size:1.4em;margin:12px 0;cursor:pointer;opacity:0.5;transition:0.3s}
+.sidebar .icon:hover,.sidebar .icon.active{opacity:1;color:#d4af37}
+.main{flex:1;display:flex;flex-direction:column}
+.header{background:#111;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222}
+.header h1{color:#d4af37;font-size:1.2em}
+.header .stats{display:flex;gap:20px}
+.header .stat{text-align:center}
+.header .stat .num{color:#d4af37;font-size:1.1em;font-weight:bold}
+.header .stat .lbl{color:#666;font-size:0.7em}
+.canvas{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:15px;padding:15px;overflow-y:auto}
+.card{background:#111;border:1px solid #222;border-radius:12px;padding:20px}
+.card h3{color:#d4af37;margin-bottom:15px;font-size:1em}
+.metric{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1a2e}
+.metric .label{color:#aaa}
+.metric .value{color:#d4af37;font-weight:bold}
+.root-flow{display:flex;flex-wrap:wrap;gap:8px}
+.root-chip{background:#1a1a2e;color:#d4af37;padding:6px 12px;border-radius:20px;font-size:0.8em;border:1px solid #333;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.live-log{font-family:monospace;font-size:0.8em;color:#0a0;max-height:200px;overflow-y:auto}
+.live-log .line{padding:3px 0;border-bottom:1px solid #0a0a12}
+.speed-bar{height:6px;background:#222;border-radius:3px;margin:10px 0;overflow:hidden}
+.speed-fill{height:100%;background:#d4af37;width:0%;transition:width 0.3s}
+.footer{background:#111;padding:8px 20px;border-top:1px solid #222;display:flex;justify-content:space-between;color:#666;font-size:0.75em}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+<div class="icon active">🏠</div>
+<div class="icon">📊</div>
+<div class="icon">🧠</div>
+<div class="icon">⚡</div>
+<div class="icon">🌐</div>
+</div>
+
+<div class="main">
+<div class="header">
+<h1>🕌 البيان بورتال</h1>
+<div class="stats">
+<div class="stat"><div class="num" id="rootCount">3248</div><div class="lbl">جذر</div></div>
+<div class="stat"><div class="num" id="opsCount">0</div><div class="lbl">عملية/ث</div></div>
+<div class="stat"><div class="num" id="speed">0.019</div><div class="lbl">ثانية</div></div>
+</div>
+</div>
+
+<div class="canvas">
+<!-- بطاقة الجذور النشطة -->
+<div class="card">
+<h3>🧠 الجذور النشطة</h3>
+<div class="root-flow" id="rootFlow">
+<div class="root-chip">اِحتَسَبَ</div>
+<div class="root-chip">حَفِظَ</div>
+<div class="root-chip">بَعَثَ</div>
+<div class="root-chip">تَنَبَّأ</div>
+<div class="root-chip">حَلَّلَ</div>
+</div>
+<div class="speed-bar"><div class="speed-fill" style="width:85%"></div></div>
+<p style="color:#666;font-size:0.8em">85% من الجذور جاهزة</p>
+</div>
+
+<!-- بطاقة المدينة -->
+<div class="card">
+<h3>🏙️ مدينة البيان</h3>
+<div class="metric"><span class="label">🚗 المرور</span><span class="value">78%</span></div>
+<div class="metric"><span class="label">🛡️ الأمان</span><span class="value">92%</span></div>
+<div class="metric"><span class="label">⚡ الطاقة</span><span class="value">65%</span></div>
+<div class="metric"><span class="label">🌡️ الحرارة</span><span class="value">32°C</span></div>
+</div>
+
+<!-- بطاقة السرعة -->
+<div class="card">
+<h3>⚡ مقارنة السرعة</h3>
+<div class="metric"><span class="label">البيان</span><span class="value" style="color:#0f0">0.0187s</span></div>
+<div class="metric"><span class="label">Python</span><span class="value" style="color:#ff0">0.23s</span></div>
+<div class="metric"><span class="label">Java</span><span class="value" style="color:#f80">0.15s</span></div>
+<div class="metric"><span class="label">C++</span><span class="value" style="color:#0af">0.02s</span></div>
+<p style="color:#0f0;margin-top:10px;font-size:0.9em">✅ البيان أسرع 12x من Python</p>
+</div>
+
+<!-- بطاقة السجل الحي -->
+<div class="card">
+<h3>📜 السجل الحي</h3>
+<div class="live-log" id="liveLog">
+<div class="line">🕌 تهيئة البيان بورتال...</div>
+<div class="line">📚 تحميل 3,248 جذر</div>
+<div class="line">🏙️ مدينة البيان تعمل</div>
+<div class="line">⚡ سرعة التنفيذ: 0.0187s</div>
+</div>
+</div>
+</div>
+
+<div class="footer">
+<span>🕌 لغة البيان</span>
+<span>✨ الكود قرآن</span>
+<span>من حران العواميد إلى العالم</span>
+</div>
+</div>
+
+<script>
+// محاكاة حية
+setInterval(() => {
+    // تحديث العمليات
+    let ops = Math.floor(Math.random() * 10000) + 50000;
+    document.getElementById('opsCount').textContent = ops.toLocaleString();
+    
+    // تحديث السرعة
+    let speed = (0.015 + Math.random() * 0.01).toFixed(4);
+    document.getElementById('speed').textContent = speed;
+    
+    // إضافة سجل
+    let actions = ['حَلَّلَ', 'تَنَبَّأ', 'بَعَثَ', 'حَفِظَ', 'خَزَنَ', 'جَمَعَ'];
+    let action = actions[Math.floor(Math.random() * actions.length)];
+    let log = document.getElementById('liveLog');
+    log.innerHTML += `<div class="line">⚡ ${action} ← ${Math.floor(Math.random()*1000)} عملية</div>`;
+    if (log.children.length > 10) log.removeChild(log.firstChild);
+    log.scrollTop = log.scrollHeight;
+}, 1000);
+</script>
+</body>
+</html>
