@@ -19,6 +19,9 @@ impl Generator {
         for root in crate::roots_map::CONCURRENCY_ROOTS {
         for root in crate::roots_map::AWARE_ROOTS {
         for root in crate::roots_map::SENSOR_ROOTS {
+        for root in crate::roots_map::DYNAMIC_ROOTS {
+            map.insert(root.arabic.to_string(), root);
+        }
             map.insert(root.arabic.to_string(), root);
         }
             map.insert(root.arabic.to_string(), root);

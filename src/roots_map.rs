@@ -201,3 +201,17 @@ pub const SENSOR_ROOTS: &[RootEntry] = &[
     RootEntry { arabic: "حذر", intrinsic: "bayan.sensor.alert", description: "تحذير", category: "مجسات" },
     RootEntry { arabic: "استجب", intrinsic: "bayan.sensor.respond", description: "استجابة", category: "مجسات" },
 ];
+
+// ========== فئة الديناميكية ==========
+pub const DYNAMIC_ROOTS: &[RootEntry] = &[
+    RootEntry { arabic: "حدث", intrinsic: "bayan.dynamic.update", description: "تحديث", category: "ديناميكية" },
+    RootEntry { arabic: "جدد", intrinsic: "bayan.dynamic.refresh", description: "تجديد", category: "ديناميكية" },
+    RootEntry { arabic: "أعد", intrinsic: "bayan.dynamic.restart", description: "إعادة", category: "ديناميكية" },
+    RootEntry { arabic: "بدل", intrinsic: "bayan.dynamic.swap", description: "تبديل", category: "ديناميكية" },
+    RootEntry { arabic: "أضف", intrinsic: "bayan.dynamic.add", description: "إضافة", category: "ديناميكية" },
+    RootEntry { arabic: "أزل", intrinsic: "bayan.dynamic.remove", description: "إزالة", category: "ديناميكية" },
+    RootEntry { arabic: "دمج", intrinsic: "bayan.dynamic.merge", description: "دمج", category: "ديناميكية" },
+    RootEntry { arabic: "قسم", intrinsic: "bayan.dynamic.split", description: "تقسيم", category: "ديناميكية" },
+    RootEntry { arabic: "وسع", intrinsic: "bayan.dynamic.expand", description: "توسيع", category: "ديناميكية" },
+    RootEntry { arabic: "قلص", intrinsic: "bayan.dynamic.shrink", description: "تقليص", category: "ديناميكية" },
+];
