@@ -21,6 +21,9 @@ impl Generator {
         for root in crate::roots_map::SENSOR_ROOTS {
         for root in crate::roots_map::DYNAMIC_ROOTS {
         for root in crate::roots_map::META_ROOTS {
+        for root in crate::roots_map::ADVANCED_TIME_ROOTS {
+            map.insert(root.arabic.to_string(), root);
+        }
             map.insert(root.arabic.to_string(), root);
         }
             map.insert(root.arabic.to_string(), root);

@@ -229,3 +229,17 @@ pub const META_ROOTS: &[RootEntry] = &[
     RootEntry { arabic: "تنبأ", intrinsic: "bayan.meta.predict", description: "تنبؤ", category: "تأمل" },
     RootEntry { arabic: "استنتج", intrinsic: "bayan.meta.infer", description: "استنتاج", category: "تأمل" },
 ];
+
+// ========== فئة الزمن المتقدم ==========
+pub const ADVANCED_TIME_ROOTS: &[RootEntry] = &[
+    RootEntry { arabic: "أبد", intrinsic: "bayan.time.forever", description: "أبد", category: "زمن متقدم" },
+    RootEntry { arabic: "حين", intrinsic: "bayan.time.when", description: "حين", category: "زمن متقدم" },
+    RootEntry { arabic: "مذ", intrinsic: "bayan.time.since", description: "منذ", category: "زمن متقدم" },
+    RootEntry { arabic: "حتى", intrinsic: "bayan.time.until", description: "حتى", category: "زمن متقدم" },
+    RootEntry { arabic: "فور", intrinsic: "bayan.time.instant", description: "فوري", category: "زمن متقدم" },
+    RootEntry { arabic: "أجل", intrinsic: "bayan.time.delay", description: "تأجيل", category: "زمن متقدم" },
+    RootEntry { arabic: "كرر", intrinsic: "bayan.time.repeat", description: "تكرار", category: "زمن متقدم" },
+    RootEntry { arabic: "استمر", intrinsic: "bayan.time.continue", description: "استمرار", category: "زمن متقدم" },
+    RootEntry { arabic: "توقف", intrinsic: "bayan.time.pause", description: "توقف", category: "زمن متقدم" },
+    RootEntry { arabic: "أنهى", intrinsic: "bayan.time.end", description: "إنهاء", category: "زمن متقدم" },
+];
