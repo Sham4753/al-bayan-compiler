@@ -223,6 +223,7 @@ impl BayanRuntime {
             "bayan.arabic.بحث" => Ok(Value::Text("بحث: فعل".to_string())),
             "bayan.arabic.قيم" => Ok(Value::Text("قيم: فعل".to_string())),
             "bayan.arabic.نظم" => Ok(Value::Text("نظم: فعل".to_string())),
+            "bayan.arabic.صدق" => Ok(Value::Text("صدق: تم".to_string())),
             _ => Err(format!("intrinsic غير معروف: {}", intrinsic)),
         }
     }
@@ -313,5 +314,14 @@ mod tests {
             Value::Text(t) => assert!(t.contains("النظام")),
             _ => panic!("يجب أن يعيد نصاً"),
         }
+    }
+}
+
+impl BayanRuntime {
+    /// تنفيذ جذر من قاعدة الجذور
+    pub fn execute_root(&mut self, arabic: &str) -> Result<Value, String> {
+        let intrinsic = crate::roots_map::RootEntry::find_intrinsic(arabic)
+            .ok_or_else(|| format!("جذر غير معروف: {}", arabic))?;
+        self.execute_intrinsic(intrinsic, None)
     }
 }
