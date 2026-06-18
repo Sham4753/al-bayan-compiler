@@ -173,3 +173,17 @@ pub const CONCURRENCY_ROOTS: &[RootEntry] = &[
     RootEntry { arabic: "دفع", intrinsic: "bayan.concurrency.push", description: "دفع بيانات", category: "تزامن" },
     RootEntry { arabic: "سحب", intrinsic: "bayan.concurrency.pull", description: "سحب بيانات", category: "تزامن" },
 ];
+
+// ========== فئة الوعي ==========
+pub const AWARE_ROOTS: &[RootEntry] = &[
+    RootEntry { arabic: "اقترح", intrinsic: "bayan.aware.suggest", description: "اقتراح", category: "وعي" },
+    RootEntry { arabic: "تعلم", intrinsic: "bayan.aware.learn", description: "تعلم", category: "وعي" },
+    RootEntry { arabic: "تذكر", intrinsic: "bayan.aware.remember", description: "تذكر", category: "وعي" },
+    RootEntry { arabic: "انس", intrinsic: "bayan.aware.forget", description: "نسيان", category: "وعي" },
+    RootEntry { arabic: "فكر", intrinsic: "bayan.aware.think", description: "تفكير", category: "وعي" },
+    RootEntry { arabic: "أدرك", intrinsic: "bayan.aware.realize", description: "إدراك", category: "وعي" },
+    RootEntry { arabic: "تكيف", intrinsic: "bayan.aware.adapt", description: "تكيف", category: "وعي" },
+    RootEntry { arabic: "حسن", intrinsic: "bayan.aware.improve", description: "تحسين", category: "وعي" },
+    RootEntry { arabic: "قارن", intrinsic: "bayan.aware.compare", description: "مقارنة", category: "وعي" },
+    RootEntry { arabic: "اختار", intrinsic: "bayan.aware.choose", description: "اختيار", category: "وعي" },
+];
