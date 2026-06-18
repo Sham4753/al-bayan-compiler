@@ -159,3 +159,17 @@ pub const NETWORK_ROOTS: &[RootEntry] = &[
     RootEntry { arabic: "بث", intrinsic: "bayan.net.broadcast", description: "بث", category: "شبكة" },
     RootEntry { arabic: "أمن", intrinsic: "bayan.net.secure", description: "تأمين اتصال", category: "شبكة" },
 ];
+
+// ========== فئة التزامن ==========
+pub const CONCURRENCY_ROOTS: &[RootEntry] = &[
+    RootEntry { arabic: "تفرع", intrinsic: "bayan.concurrency.spawn", description: "تشغيل متوازي", category: "تزامن" },
+    RootEntry { arabic: "انتظر", intrinsic: "bayan.concurrency.await", description: "انتظار", category: "تزامن" },
+    RootEntry { arabic: "أقفل", intrinsic: "bayan.concurrency.lock", description: "قفل", category: "تزامن" },
+    RootEntry { arabic: "حرر", intrinsic: "bayan.concurrency.unlock", description: "تحرير", category: "تزامن" },
+    RootEntry { arabic: "زامن", intrinsic: "bayan.concurrency.sync", description: "مزامنة", category: "تزامن" },
+    RootEntry { arabic: "شارك", intrinsic: "bayan.concurrency.share", description: "مشاركة", category: "تزامن" },
+    RootEntry { arabic: "نافس", intrinsic: "bayan.concurrency.race", description: "تنافس", category: "تزامن" },
+    RootEntry { arabic: "أجل", intrinsic: "bayan.concurrency.delay", description: "تأجيل", category: "تزامن" },
+    RootEntry { arabic: "دفع", intrinsic: "bayan.concurrency.push", description: "دفع بيانات", category: "تزامن" },
+    RootEntry { arabic: "سحب", intrinsic: "bayan.concurrency.pull", description: "سحب بيانات", category: "تزامن" },
+];
