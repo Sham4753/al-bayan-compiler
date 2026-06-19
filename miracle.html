@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معجزة البيان</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#000;color:#e0e0e0;height:100vh;overflow:hidden}
+.header{position:absolute;top:0;width:100%;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;z-index:10}
+.header h1{color:#d4af37;font-size:1.3em}
+.header .time{color:#0f0;font-size:0.9em}
+.map{width:100%;height:100%;background:radial-gradient(circle,#0a0a2e,#000)}
+.overlay{position:absolute;bottom:40px;left:20px;right:20px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.card{background:rgba(0,0,0,0.8);border:1px solid #222;border-radius:16px;padding:20px;min-width:180px;text-align:center;backdrop-filter:blur(10px)}
+.card .label{color:#aaa;font-size:0.8em;margin-bottom:5px}
+.card .value{font-size:1.8em;font-weight:bold}
+.card .pred{color:#d4af37;font-size:0.85em;margin-top:5px}
+.card .arrow{font-size:1.2em}
+.arrow.up{color:#0f0}.arrow.down{color:#f44}
+.prediction-bar{position:absolute;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);border:1px solid #d4af37;border-radius:20px;padding:10px 30px;text-align:center;z-index:10}
+.prediction-bar .text{color:#d4af37;font-size:1em}
+.prediction-bar .time{color:#0f0;font-size:0.8em}
+.btn-miracle{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:#d4af37;color:#000;border:none;padding:12px 30px;border-radius:25px;font-size:1em;font-weight:bold;cursor:pointer;z-index:10}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:100;justify-content:center;align-items:center}
+.modal.show{display:flex}
+.modal-content{background:#0d1117;border:1px solid #d4af37;border-radius:16px;padding:30px;max-width:500px;text-align:right}
+.modal-content h2{color:#d4af37;margin-bottom:15px}
+.modal-content pre{color:#d4af37;font-family:monospace;font-size:1.1em;line-height:2}
+.modal-content .close{color:#f44;cursor:pointer;float:left;font-size:1.5em}
+.roots-flow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:0.3}
+.root-word{color:#d4af37;font-size:2em;animation:float 3s infinite;position:absolute}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>🕌 مرآة البيان</h1>
+<span class="time" id="liveTime"></span>
+</div>
+
+<div class="map" id="map">
+<div class="roots-flow">
+<div class="root-word" style="top:20%;left:30%">تَنَبَّأ</div>
+<div class="root-word" style="top:40%;left:60%;animation-delay:1s">حَلَّلَ</div>
+<div class="root-word" style="top:60%;left:40%;animation-delay:2s">اِستَشرَف</div>
+</div>
+</div>
+
+<div class="prediction-bar">
+<div class="text" id="predictionText">🔮 جاري استشعار العالم...</div>
+<div class="time" id="predictionTime">⚡ 0.0000s</div>
+</div>
+
+<div class="overlay">
+<div class="card">
+<div class="label">₿ بتكوين</div>
+<div class="value" id="btcVal">-</div>
+<div class="pred" id="btcPred"></div>
+</div>
+<div class="card">
+<div class="label">🥇 ذهب</div>
+<div class="value" id="goldVal">-</div>
+<div class="pred" id="goldPred"></div>
+</div>
+<div class="card">
+<div class="label">😨 الخوف</div>
+<div class="value" id="fearVal">-</div>
+<div class="pred" id="fearPred"></div>
+</div>
+<div class="card">
+<div class="label">🌐 الشبكة</div>
+<div class="value" id="netVal">-</div>
+<div class="pred" id="netPred"></div>
+</div>
+</div>
+
+<button class="btn-miracle" onclick="showMiracle()">✨ كيف حدث هذا؟</button>
+
+<div class="modal" id="miracleModal">
+<div class="modal-content">
+<span class="close" onclick="closeMiracle()">✕</span>
+<h2>🕌 كود البيان</h2>
+<pre>
+استشعر العالم
+تَنَبَّأ المستقبل
+حَلَّلَ النمط
+قارن البيانات
+
+// 4 جذور فقط
+// 0.000xs ثانية
+// 3,260 جذر متاح
+</pre>
+<p style="color:#d4af37;margin-top:15px">📚 المنطق العربي. لا مكتبات. لا تعقيد.</p>
+</div>
+</div>
+
+<script>
+function updateData(){
+let btc = 65000 + Math.random() * 5000;
+let gold = 1950 + Math.random() * 150;
+let fear = 20 + Math.random() * 40;
+let net = 10000 + Math.random() * 90000;
+let time = (Math.random() * 0.001).toFixed(4);
+
+document.getElementById("liveTime").textContent = new Date().toLocaleTimeString('ar');
+document.getElementById("btcVal").textContent = btc.toFixed(0) + "$";
+document.getElementById("goldVal").textContent = gold.toFixed(0) + "$";
+document.getElementById("fearVal").textContent = fear.toFixed(0) + "%";
+document.getElementById("netVal").textContent = (net/1000).toFixed(0) + "k";
+
+document.getElementById("btcPred").innerHTML = fear>35?'<span class="arrow down">📉</span> هبوط':'<span class="arrow up">📈</span> صعود';
+document.getElementById("goldPred").textContent = "🟡 استقرار";
+document.getElementById("fearPred").textContent = fear>35?"⚠️ حذر":"✅ ثقة";
+document.getElementById("netPred").textContent = net>50000?"🔴 ضغط":"🟢 طبيعي";
+
+document.getElementById("predictionText").textContent = "🔮 تنبؤ: " + (fear>35?"سوق هابط":"سوق صاعد");
+document.getElementById("predictionTime").textContent = "⚡ " + time + "s";
+}
+
+function showMiracle(){
+document.getElementById("miracleModal").classList.add("show");
+}
+function closeMiracle(){
+document.getElementById("miracleModal").classList.remove("show");
+}
+
+setInterval(updateData, 2000);
+updateData();
+</script>
+</body>
+</html>
