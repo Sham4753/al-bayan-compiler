@@ -3,3 +3,7 @@
 .DS_Store
 bayan_llvm_core/target/
 bayan_wasm/target/
+__pycache__/
+*.pyc
+*.pyo
+logs/
