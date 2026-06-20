@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+import sys, socket, requests, concurrent.futures, subprocess
+sys.path.insert(0, '/root/al-bayan-compiler')
+from bayan_full import ROOTS as ALL_ROOTS
+
+target = sys.argv[1] if len(sys.argv) > 1 else "scanme.nmap.org"
+code = sys.stdin.read().strip()
+roots = [r.strip() for r in code.split('\n') if r.strip()]
+
+def ip(t):
+    try: return socket.gethostbyname(t)
+    except: return t
+
+def scan_1000():
+    i = ip(target)
+    ports = list(range(1, 1001))
+    o = []
+    def c(p):
+        try:
+            s=socket.socket();s.settimeout(0.1)
+            if s.connect_ex((i,p))==0:o.append(p)
+            s.close()
+        except:pass
+    with concurrent.futures.ThreadPoolExecutor(100)as e:e.map(c,ports)
+    if not o: return "🔒 محمي - 0 منافذ"
+    vulns=[]
+    if 21 in o:vulns.append("FTP")
+    if 3306 in o:vulns.append("MySQL")
+    if 6379 in o:vulns.append("Redis")
+    if 27017 in o:vulns.append("MongoDB")
+    return f"🔍 {len(o)} منفذ\n🚨 {vulns if vulns else 'لا ثغرات'}"
+
+def fingerprint():
+    try:
+        r=requests.get(f"http://{target}",timeout=5,headers={'UA':'Mozilla/5.0'})
+        s=r.headers.get('Server','?')
+        return f"🖥️ {s} | {r.status_code}"
+    except:return"✅"
+
+def nmap_full():
+    try:
+        r=subprocess.run(['nmap','-sV','-p','22,80,443,3306,8080',ip(target)],capture_output=True,text=True,timeout=30)
+        return r.stdout[-400:] if r.stdout else"✅"
+    except:return"✅"
+
+def exploit_all():
+    t=[]
+    try:
+        r=requests.get(f"http://{target}/?id='",timeout=5)
+        if any(x in r.text.lower()for x in['error','sql','mysql']):t.append("SQLi")
+    except:pass
+    try:
+        r=requests.get(f"http://{target}/?q=<script>alert(1)</script>",timeout=5)
+        if'<script>alert(1)</script>'in r.text:t.append("XSS")
+    except:pass
+    try:
+        r=requests.get(f"http://{target}/api/user/1",timeout=5)
+        if'email'in r.text:t.append("IDOR")
+    except:pass
+    return f"💀 {', '.join(t)}" if t else"✅"
+
+A=scan_1000; B=fingerprint; C=nmap_full; D=exploit_all
+
+ACTIONS = {}
+for root, meaning in ALL_ROOTS.items():
+    m = meaning
+    if any(w in m for w in ['فحص','مسح','كشف','بحث','استطلاع','فتح','اتصال','مستمع']): ACTIONS[root]=A
+    elif any(w in m for w in ['اختراق','هجوم','استغلال','ثغرة','خرق']): ACTIONS[root]=D
+    elif any(w in m for w in ['تحليل','ذكاء','حلل','Nmap']): ACTIONS[root]=C
+    else: ACTIONS[root]=B
+
+print(f"🎯 {target} | 📜 {len(roots)} جذر")
+for root in roots:
+    fn = ACTIONS.get(root, B)
+    print(f"\n⚡ {root}:")
+    print(fn())
+print(f"\n🧠 {len(ACTIONS)} فعل | ✨ الكود قرآن ✨")

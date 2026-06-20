@@ -1,156 +1,120 @@
 #!/usr/bin/env python3
-# 📜 البيان - ٢٠ جذر للأمن السيبراني
-import socket, sys, requests, concurrent.futures, subprocess, ssl, datetime
+import sys, socket, requests, concurrent.futures, subprocess, os
+from datetime import datetime
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+os.makedirs(LOG_DIR, exist_ok=True)
+
+sys.path.insert(0, BASE_DIR)
+from bayan_full import ROOTS as ALL_ROOTS
+
+TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
+target_raw = sys.argv[1] if len(sys.argv) > 1 else "scanme.nmap.org"
+LOG_FILE = os.path.join(LOG_DIR, f"scan_{target_raw.replace('.','_')}_{TIMESTAMP}.log")
+
+def write_log(msg):
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(msg + "\n")
+    print(msg)
+
+target = target_raw
+code = sys.stdin.read().strip()
+roots = [r.strip() for r in code.split('\n') if r.strip()]
 
 def ip(t):
     try: return socket.gethostbyname(t)
     except: return t
 
-target = sys.argv[1] if len(sys.argv) > 1 else "scanme.nmap.org"
-code = sys.stdin.read().strip()
-roots = [r.strip() for r in code.split('\n') if r.strip()]
-
-# === ١. فَتَحَ - فحص المنافذ ===
-def فَتَحَ():
+def scan_1000():
     i = ip(target)
-    ports = [21,22,25,53,80,110,143,443,3306,3389,5432,6379,8080,8443,27017]
+    ports = list(range(1, 1001))
     o = []
     def c(p):
         try:
-            s=socket.socket();s.settimeout(0.5)
+            s=socket.socket();s.settimeout(0.1)
             if s.connect_ex((i,p))==0:o.append(p)
             s.close()
         except:pass
-    with concurrent.futures.ThreadPoolExecutor(30)as e:e.map(c,ports)
-    return f"🔍 {len(o)}: {o}"
+    with concurrent.futures.ThreadPoolExecutor(100)as e:e.map(c,ports)
+    if not o: return "🔒 محمي - 0 منافذ مفتوحة"
+    vulns=[]
+    danger_ports = {21:"FTP",22:"SSH",23:"Telnet",25:"SMTP",53:"DNS",
+                    80:"HTTP",110:"POP3",143:"IMAP",443:"HTTPS",
+                    3306:"MySQL",3389:"RDP",5432:"PostgreSQL",
+                    6379:"Redis",8080:"HTTP-Alt",8443:"HTTPS-Alt",
+                    27017:"MongoDB",9200:"Elasticsearch"}
+    for p in o:
+        if p in danger_ports:
+            vulns.append(f"{danger_ports[p]}({p})")
+    return f"🔍 {len(o)} منفذ مفتوح\n🚨 {', '.join(vulns) if vulns else 'لا خدمات خطرة ظاهرة'}"
 
-# === ٢. اِحتَسَبَ - بصمة ===
-def اِحتَسَبَ():
+def fingerprint():
     try:
-        r=requests.get(f"http://{target}",timeout=5,headers={'UA':'Mozilla/5.0'})
-        return f"🖥️ {r.headers.get('Server','?')} | {r.status_code} | {len(r.text)}b"
-    except:return"❌"
+        r=requests.get(f"http://{target}",timeout=5,headers={'User-Agent':'Mozilla/5.0'})
+        s=r.headers.get('Server','غير معروف')
+        return f"🖥️ السيرفر: {s} | رمز الاستجابة: {r.status_code}"
+    except Exception as e:
+        return f"⚠️ تعذر الاتصال: {str(e)[:80]}"
 
-# === ٣. حَلَّلَ - Nmap ===
-def حَلَّلَ():
+def nmap_full():
     try:
-        r=subprocess.run(['nmap','-F',ip(target)],capture_output=True,text=True,timeout=30)
-        return r.stdout[-400:] if r.stdout else"❌"
-    except:return"❌"
+        r=subprocess.run(['nmap','-sV','-p','22,80,443,3306,8080',ip(target)],
+                        capture_output=True,text=True,timeout=30)
+        return r.stdout.strip() if r.stdout else "✅ لم يُكتشف شيء"
+    except Exception as e:
+        return f"⚠️ Nmap فشل: {str(e)[:80]}"
 
-# === ٤. اِختَرَقَ - SQLi/XSS ===
-def اِختَرَقَ():
+def exploit_all():
     t=[]
+    sql_errors = ['sql syntax','mysql_fetch','unclosed quotation mark',
+                  'you have an error in your sql','microsoft ole db',
+                  'odbc driver','postgresql','sqlite']
     try:
         r=requests.get(f"http://{target}/?id='",timeout=5)
-        if any(x in r.text.lower()for x in['error','sql','mysql']):t.append("SQLi ✅")
+        if any(err in r.text.lower() for err in sql_errors):
+            t.append("SQLi(محتمل)")
     except:pass
     try:
-        r=requests.get(f"http://{target}/?q=<script>alert(1)</script>",timeout=5)
-        if'<script>alert(1)</script>'in r.text:t.append("XSS ✅")
-    except:pass
-    return"\n".join(t)if t else"❌"
-
-# === ٥. بَحَثَ - نطاقات ===
-def بَحَثَ():
-    f=[]
-    for s in['www','mail','api','admin','dev','blog','shop','cdn','test']:
-        try:f.append(f"{s}.{target} → {socket.gethostbyname(f'{s}.{target}')}")
-        except:pass
-    return"\n".join(f)if f else"❌"
-
-# === ٦. رَسَمَ - مسارات ===
-def رَسَمَ():
-    f=[]
-    for p in['/admin','/login','/.git','/.env','/robots.txt','/api','/wp-admin']:
-        try:
-            r=requests.head(f"http://{target}{p}",timeout=3)
-            if r.status_code in[200,301,302,403]:f.append(f"{p} → {r.status_code}")
-        except:pass
-    return"\n".join(f)if f else"❌"
-
-# === ٧. ثَبَّتَ - إثبات ===
-def ثَبَّتَ():
-    t=[]
-    try:
-        r=requests.get(f"http://{target}/api/user/1",timeout=5)
-        if'email'in r.text:t.append("IDOR ✅")
+        payload = "<script>alert('XSS')</script>"
+        r=requests.get(f"http://{target}/?q={payload}",timeout=5)
+        if payload in r.text:
+            t.append("XSS(منعكس)")
     except:pass
     try:
-        r=requests.get(f"http://{target}/?url=http://169.254.169.254/",timeout=5)
-        if'ami-id'in r.text:t.append("SSRF ✅")
+        r=requests.get(f"http://{target}/?file=../../etc/passwd",timeout=5)
+        if 'root:' in r.text:
+            t.append("PathTraversal")
     except:pass
-    return"\n".join(t)if t else"❌"
+    return f"💀 {', '.join(t)}" if t else "✅ لا ثغرات ظاهرة"
 
-# === ٨. سَتَرَ - تخفي ===
-def سَتَرَ():return"👻 Googlebot/2.1"
+A=scan_1000; B=fingerprint; C=nmap_full; D=exploit_all
 
-# === ٩. أَمَّنَ - حماية ===
-def أَمَّنَ():return"🛡️ VPN+Tor+Proxy+AES256"
-
-# === ١٠. حَفِظَ - SSL ===
-def حَفِظَ():
-    try:
-        ctx=ssl.create_default_context();ctx.check_hostname=False;ctx.verify_mode=ssl.CERT_NONE
-        s=socket.socket();ss=ctx.wrap_socket(s,server_hostname=target)
-        ss.settimeout(5);ss.connect((ip(target),443))
-        c=ss.getpeercert();ss.close()
-        return f"🔐 {c.get('subject',[[('','')]])[0][0][1][:50]}"
-    except:return"❌"
-
-# === ١١-٢٠ ===
-def خَزَنَ():
-    try:
-        r=requests.get(f"http://{target}",timeout=5)
-        return f"🍪 {r.headers.get('Set-Cookie','')[:80]}" if r.headers.get('Set-Cookie') else"لا كوكيز"
-    except:return"❌"
-def فَصَلَ():
-    try:
-        r=requests.get(f"http://{target}/.git/HEAD",timeout=5)
-        return f"💀 .git: {r.text[:50]}" if r.status_code==200 else"❌"
-    except:return"❌"
-def جَمَعَ():
-    try:
-        r=requests.get(f"http://{target}",timeout=5)
-        for h in r.headers:
-            if'auth'in h.lower():return f"🔐 {h}: {r.headers[h][:40]}"
-    except:pass
-    return"❌"
-def نَشَرَ():
-    for p in['/api','/graphql','/swagger']:
-        try:
-            r=requests.get(f"http://{target}{p}",timeout=5)
-            if r.status_code in[200,301]:return f"💀 {p} → {r.status_code}"
-        except:pass
-    return"❌"
-def طَوَّرَ():
-    try:
-        r=subprocess.run(['nmap','--script','vuln','-p','80,443',ip(target)],capture_output=True,text=True,timeout=60)
-        return r.stdout[-400:]if r.stdout else"❌"
-    except:return"❌"
-def قَرَأَ():
-    try:
-        r=requests.get(f"http://{target}/robots.txt",timeout=5)
-        return f"📖 {r.text[:200]}" if r.status_code==200 else"❌"
-    except:return"❌"
-def كَتَبَ():return f"📝 تقرير {target} - {datetime.datetime.now():%Y-%m-%d %H:%M}"
-def حَذَفَ():return"🗑️ تنظيف"
-def هَدَى():return"🌿 تحويل"
-def نَجَحَ():return"🏆 نجاح"
-
-ACTIONS = {
-    "فَتَحَ":فَتَحَ,"اِحتَسَبَ":اِحتَسَبَ,"حَلَّلَ":حَلَّلَ,"اِختَرَقَ":اِختَرَقَ,
-    "بَحَثَ":بَحَثَ,"رَسَمَ":رَسَمَ,"ثَبَّتَ":ثَبَّتَ,"سَتَرَ":سَتَرَ,
-    "أَمَّنَ":أَمَّنَ,"حَفِظَ":حَفِظَ,"خَزَنَ":خَزَنَ,"فَصَلَ":فَصَلَ,
-    "جَمَعَ":جَمَعَ,"نَشَرَ":نَشَرَ,"طَوَّرَ":طَوَّرَ,"قَرَأَ":قَرَأَ,
-    "كَتَبَ":كَتَبَ,"حَذَفَ":حَذَفَ,"هَدَى":هَدَى,"نَجَحَ":نَجَحَ,
-}
-
-print(f"🎯 {target} | 📜 {len(roots)} جذر")
-for root in roots:
-    if root in ACTIONS:
-        print(f"\n⚡ {root}:")
-        print(ACTIONS[root]())
+ACTIONS = {}
+for root, meaning in ALL_ROOTS.items():
+    m = meaning
+    if any(w in m for w in ['فحص','مسح','كشف','بحث','استطلاع','فتح','اتصال','مستمع']):
+        ACTIONS[root]=A
+    elif any(w in m for w in ['اختراق','هجوم','استغلال','ثغرة','خرق']):
+        ACTIONS[root]=D
+    elif any(w in m for w in ['تحليل','ذكاء','حلل','Nmap']):
+        ACTIONS[root]=C
     else:
-        print(f"\n❌ {root}: غير معروف")
-print(f"\n🧠 ٢٠ جذر | ✨ الكود قرآن ✨")
+        ACTIONS[root]=B
+
+write_log(f"══════ البيان - تقرير فحص ══════")
+write_log(f"🎯 الهدف: {target}")
+write_log(f"📅 التاريخ: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+write_log(f"📜 عدد الجذور المُستدعاة: {len(roots)}")
+write_log(f"📁 ملف السجل: {LOG_FILE}")
+write_log(f"══════════════════════════════════\n")
+
+for root in roots:
+    fn = ACTIONS.get(root, B)
+    result = fn()
+    write_log(f"⚡ الجذر: {root}")
+    write_log(f"{result}")
+    write_log("─" * 40)
+
+write_log(f"\n🧠 {len(ACTIONS)} فعل مُتاح | 📁 النتائج محفوظة في: {LOG_FILE}")
+write_log("✨ الكود قرآن ✨")
