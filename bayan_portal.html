@@ -107,7 +107,12 @@ body{font-family:Arial;background:#0a0a12;color:#e0e0e0;display:flex;height:100v
 </div>
 
 <script>
-// محاكاة حية
+// بيانات حقيقية من السيرفر
+fetch("http://178.105.83.75:9090/api/stats").then(r=>r.json()).then(d=>{
+    document.getElementById("rootCount").textContent = d.roots;
+    document.getElementById("opsCount").textContent = d.ops.toLocaleString();
+    document.getElementById("speed").textContent = d.speed;
+}).catch(()=>{});
 setInterval(() => {
     // تحديث العمليات
     let ops = Math.floor(Math.random() * 10000) + 50000;
